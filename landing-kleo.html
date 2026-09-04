@@ -72,6 +72,7 @@ nav,header,section,footer{position:relative;z-index:2}
 .hero__overlay h1{text-shadow:0 6px 40px rgba(0,0,0,.55)}
 .hero__overlay .sub{text-shadow:0 2px 20px rgba(0,0,0,.6)}
 .hero__overlay a,.hero__overlay .btn{pointer-events:auto}
+.hero-logo{height:clamp(58px,7.4vw,98px);display:block;margin-bottom:26px;filter:drop-shadow(0 8px 40px rgba(0,0,0,.6))}
 .hero__hint{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);z-index:3;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--txt3);display:flex;gap:9px;align-items:center;white-space:nowrap}
 .livestrip{padding:66px 0}
 .livestrip__grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:44px;align-items:center}
@@ -405,7 +406,7 @@ footer .brand{display:flex;align-items:center;gap:10px;color:var(--txt2);font-we
 
 <!-- NAV -->
 <nav class="top" id="nav"><div class="wrap row">
-  <a class="brand" href="#top" data-cur><img src="logo-blanc.png" alt="Kléo — Sécurité alimentaire" style="height:36px;display:block"></a>
+  <a class="brand" href="#top" data-cur><img src="logo-blanc.png" alt="Kléo — Sécurité alimentaire" style="height:46px;display:block"></a>
   <div class="links">
     <a href="#produit"><span class="num">01</span>Produit</a>
     <a href="#demo">Démo</a>
@@ -428,6 +429,7 @@ footer .brand{display:flex;align-items:center;gap:10px;color:var(--txt2);font-we
   <canvas id="scene3d" aria-hidden></canvas>
   <div class="hero__scrim"></div>
   <div class="hero__overlay"><div class="wrap">
+    <img class="hero-logo reveal" src="logo-blanc.png" alt="Kléo — Sécurité alimentaire">
     <div class="eyebrow reveal">PMS · HACCP · Métiers de bouche</div>
     <h1 style="margin-top:20px" id="heroTitle"><span class="ln"><span>Votre hygiène,</span></span><span class="ln"><span class="g">clé en main.</span></span></h1>
     <p class="sub reveal">Relevés, nettoyage, traçabilité et justificatifs de contrôle — saisis en quelques clics, horodatés, scellés. Prêts le jour où l'inspecteur pousse la porte.</p>
