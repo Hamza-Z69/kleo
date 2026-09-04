@@ -1,0 +1,20 @@
+{
+  "slug": "mon-client",
+  "metier": "restaurant",
+  "client": {
+    "name": "Nom de l'établissement",
+    "city": "Ville",
+    "type": "Restaurant",
+    "initials": "NE"
+  },
+  "manager": "Prénom du gérant",
+  "team": [
+    { "n": "Prénom Nom", "short": "Prénom N.", "r": "Rôle", "i": "PN", "s": 0, "t": 100, "active": true }
+  ],
+  "sites": [
+    { "n": "Nom de l'établissement", "sub": "Ville · Type", "pct": 100, "tone": "ok", "tasks": "0 tâche aujourd'hui", "active": true }
+  ],
+  "network": [],
+  "equipment": null,
+  "zones": null
+}

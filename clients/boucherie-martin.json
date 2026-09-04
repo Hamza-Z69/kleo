@@ -1,0 +1,22 @@
+{
+  "slug": "boucherie-martin",
+  "metier": "boucherie",
+  "client": {
+    "name": "Boucherie Martin",
+    "city": "Bordeaux",
+    "type": "Boucherie",
+    "initials": "BM"
+  },
+  "manager": "Julien",
+  "team": [
+    { "n": "Julien Martin", "short": "Julien M.", "r": "Gérant", "i": "JM", "s": 124, "t": 99, "active": true },
+    { "n": "Léa Dubois", "short": "Léa D.", "r": "Bouchère", "i": "LD", "s": 88, "t": 97 },
+    { "n": "Samir Aït", "short": "Samir A.", "r": "Apprenti", "i": "SA", "s": 41, "t": 95 }
+  ],
+  "sites": [
+    { "n": "Boucherie Martin", "sub": "Bordeaux · Boucherie", "pct": 97, "tone": "ok", "tasks": "4 tâches aujourd'hui", "active": true }
+  ],
+  "network": [],
+  "equipment": null,
+  "zones": null
+}

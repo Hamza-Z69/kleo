@@ -1,0 +1,14 @@
+{
+  "name": "KLÉO — Hygiène & HACCP",
+  "short_name": "KLÉO",
+  "description": "Pilotage hygiène et sécurité alimentaire pour les métiers de bouche.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#070B0A",
+  "theme_color": "#070B0A",
+  "lang": "fr",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

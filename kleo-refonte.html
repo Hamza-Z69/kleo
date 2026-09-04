@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KLÉO — Hygiène & HACCP</title>
+<meta name="theme-color" content="#06090C">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06090C; --surface:rgba(255,255,255,.03); --surface2:rgba(255,255,255,.05);
+  --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.12);
+  --txt:#EAF2F0; --txt2:rgba(234,242,240,.55); --txt3:rgba(234,242,240,.4);
+  --mint:#3CF0AC; --mint2:#4BF7B4; --teal:#0FB6A8; --mintt:#8CFFD6;
+  --warn:#F5B14C; --warnt:#F5C989; --alert:#FF6B6B; --alertt:#FF9E9E;
+  --grad:linear-gradient(135deg,#4BF7B4,#0FB6A8);
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:
+    radial-gradient(1300px 760px at 12% -8%,rgba(15,182,168,.12),transparent 58%),
+    radial-gradient(1100px 820px at 105% 6%,rgba(60,240,172,.07),transparent 55%),
+    var(--bg);
+  color:var(--txt); font-family:'Space Grotesk',system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased; overflow:hidden;
+}
+::selection{background:rgba(60,240,172,.28)}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+@keyframes floatUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes checkPop{0%{transform:scale(.3);opacity:0}55%{transform:scale(1.12);opacity:1}100%{transform:scale(1)}}
+@keyframes confFall{0%{transform:translateY(-10px) rotate(0);opacity:0}20%{opacity:1}100%{transform:translateY(140px) rotate(220deg);opacity:0}}
+@keyframes ringspin{to{transform:rotate(360deg)}}
+
+/* ---------- Shell ---------- */
+.app{display:flex;height:100vh;height:100dvh}
+.rail{
+  width:98px;flex:0 0 98px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));
+  border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;
+  padding:22px 0;gap:6px;overflow-y:auto;scrollbar-width:none;
+}
+.rail::-webkit-scrollbar{display:none}
+.rail .brand{margin-bottom:14px}
+.rail .navlist{display:flex;flex-direction:column;gap:4px;width:100%;align-items:center}
+.navitem{
+  width:74px;padding:11px 0;border-radius:15px;display:flex;flex-direction:column;align-items:center;gap:6px;
+  color:var(--txt3);transition:all .16s;position:relative;
+}
+.navitem svg{width:22px;height:22px;stroke-width:1.7}
+.navitem span{font-size:10.5px;letter-spacing:.01em;text-align:center;line-height:1.1}
+.navitem:hover{color:var(--txt2);background:rgba(255,255,255,.03)}
+.navitem.active{color:#05130F;background:var(--grad);box-shadow:0 8px 22px rgba(15,182,168,.32)}
+.navitem.active svg{stroke:#05130F}
+
+.main{flex:1;overflow-y:auto;scroll-behavior:smooth}
+.screen{min-height:100%;padding:34px 40px 60px;animation:floatUp .45s ease both;max-width:1280px}
+.head{display:flex;align-items:center;justify-content:space-between;margin-bottom:26px;gap:20px;flex-wrap:wrap}
+.head h1{font-size:29px;font-weight:600;letter-spacing:-.01em}
+.head .sub{font-size:14px;color:var(--txt2);margin-top:3px}
+
+/* ---------- Bits ---------- */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:8px 15px;border-radius:100px;font-size:13px;border:1px solid var(--line);background:var(--surface2);color:var(--txt2)}
+.dot{width:7px;height:7px;border-radius:50%;flex:0 0 7px}
+.btn{padding:14px 22px;border-radius:14px;background:var(--grad);color:#05130F;font-size:15px;font-weight:600;box-shadow:0 10px 28px rgba(15,182,168,.35);display:inline-flex;align-items:center;gap:9px;transition:transform .12s}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:var(--surface2);border:1px solid var(--line2);color:var(--txt);box-shadow:none}
+.btn:disabled{background:var(--surface2);color:var(--txt3);box-shadow:none;cursor:not-allowed}
+.grid{display:grid;gap:16px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt3)}
+.seg{display:flex;padding:4px;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-size:13px}
+.seg div{padding:7px 15px;border-radius:9px;color:var(--txt2)}
+.seg div.on{background:linear-gradient(135deg,rgba(75,247,180,.18),rgba(15,182,168,.06));color:var(--mintt);font-weight:500}
+.ring{transform:rotate(-90deg)}
+.status{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:100px;font-size:12px;font-weight:500}
+.st-ok{background:rgba(60,240,172,.12);border:1px solid rgba(60,240,172,.3);color:var(--mintt)}
+.st-warn{background:rgba(245,177,76,.12);border:1px solid rgba(245,177,76,.32);color:var(--warnt)}
+.st-alert{background:rgba(255,107,107,.12);border:1px solid rgba(255,107,107,.35);color:var(--alertt)}
+
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(30px);opacity:0;
+  background:rgba(10,15,20,.95);border:1px solid rgba(60,240,172,.4);color:var(--mintt);
+  padding:14px 22px;border-radius:14px;font-size:14px;display:flex;align-items:center;gap:10px;
+  box-shadow:0 20px 50px rgba(0,0,0,.5);z-index:200;transition:all .35s cubic-bezier(.2,1,.4,1);pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* Assistant chat */
+.chatwrap{display:flex;flex-direction:column;height:calc(100vh - 0px);max-width:860px;margin:0 auto}
+.chathead{display:flex;align-items:center;gap:14px;padding:20px 4px 18px}
+.chathead .av{width:46px;height:46px;border-radius:14px;background:var(--grad);display:flex;align-items:center;justify-content:center;flex:0 0 46px;box-shadow:0 8px 22px rgba(15,182,168,.32)}
+.chathead .on{font-size:12px;color:var(--mintt);display:flex;align-items:center;gap:6px}
+.chatlog{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:12px 4px 18px}
+.msg{max-width:76%;padding:13px 16px;border-radius:18px;font-size:15px;line-height:1.5;white-space:pre-wrap;animation:floatUp .3s ease both}
+.msg.user{align-self:flex-end;background:var(--grad);color:#05130F;border-bottom-right-radius:6px;font-weight:500}
+.msg.bot{align-self:flex-start;background:var(--surface2);border:1px solid var(--line);border-bottom-left-radius:6px}
+.msg.sys{align-self:center;background:rgba(60,240,172,.08);border:1px solid rgba(60,240,172,.25);color:var(--mintt);font-size:12.5px;padding:8px 14px;border-radius:100px}
+.msg .tm{display:block;font-size:10px;opacity:.5;margin-top:5px;font-family:var(--mono)}
+.chatquick{display:flex;gap:8px;flex-wrap:wrap;padding:0 4px 12px}
+.chatquick button{padding:9px 14px;border-radius:100px;background:var(--surface2);border:1px solid var(--line2);color:var(--txt2);font-size:13px;cursor:pointer}
+.chatquick button:hover{border-color:rgba(60,240,172,.4);color:var(--txt)}
+.chatbar{display:flex;gap:10px;padding:12px 4px 20px;align-items:flex-end}
+.chatbar textarea{flex:1;resize:none;min-height:52px;max-height:120px;padding:15px 18px;border-radius:16px;background:var(--surface2);border:1px solid var(--line);color:var(--txt);font-family:inherit;font-size:15px;outline:none}
+.chatbar textarea:focus{border-color:rgba(60,240,172,.5)}
+.chatbar .snd{width:52px;height:52px;flex:0 0 52px;border-radius:16px;background:var(--grad);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.typing{align-self:flex-start;display:flex;gap:4px;padding:14px 18px;background:var(--surface2);border:1px solid var(--line);border-radius:18px;border-bottom-left-radius:6px}
+.typing span{width:7px;height:7px;border-radius:50%;background:var(--txt3);animation:blink 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1}}
+
+@media(max-width:820px){
+  .rail{width:100%;flex:none;height:auto;flex-direction:row;border-right:none;border-top:1px solid var(--line);
+    position:fixed;bottom:0;left:0;right:0;padding:8px 6px;gap:2px;z-index:100;overflow-x:auto;background:#080C10}
+  .rail .brand{display:none}
+  .rail .navlist{flex-direction:row;gap:2px}
+  .navitem{width:auto;padding:8px 12px}.navitem span{font-size:9.5px}
+  .app{flex-direction:column-reverse}
+  .main{padding-bottom:80px}
+  .screen{padding:24px 18px 40px}
+  .head h1{font-size:23px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <nav class="rail">
+    <div class="brand" id="brand"></div>
+    <div class="navlist" id="nav"></div>
+  </nav>
+  <main class="main" id="main"></main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===================== SEAL LOGO ===================== */
+function seal(size){
+  return `<svg width="${size}" height="${size}" viewBox="0 0 100 100" style="display:block">
+    <circle cx="50" cy="50" r="34" fill="none" stroke="#0FB6A8" stroke-width="1.6" stroke-dasharray="2.5 6.5" opacity=".75" style="transform-origin:center;animation:ringspin 26s linear infinite"/>
+    <circle cx="50" cy="50" r="25" fill="url(#sg)"/>
+    <path d="M40 51 l7 7 l14-17" stroke="#05130F" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4BF7B4"/><stop offset="1" stop-color="#0FB6A8"/></linearGradient></defs>
+  </svg>`;
+}
+let _mk=0;
+function mark(size){
+  const id='mk'+(++_mk);
+  return `<svg width="${size}" height="${size}" viewBox="0 0 100 100" style="display:block">
+    <defs><linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4BF7B4"/><stop offset="1" stop-color="#0FB6A8"/></linearGradient>
+    <mask id="${id}m"><rect width="100" height="100" fill="#000"/><circle cx="50" cy="50" r="42" fill="#fff"/><g fill="#000"><rect x="33.4" y="24" width="2" height="16" rx="1"/><rect x="36.7" y="24" width="2" height="16" rx="1"/><rect x="40" y="24" width="2" height="16" rx="1"/><path d="M33.4 33 h8.6 v2 a4.3 4.3 0 0 1 -4.3 4.3 a4.3 4.3 0 0 1 -4.3 -4.3 z"/><rect x="36" y="38" width="3.4" height="38" rx="1.7"/><path d="M49.2 24 c3.4 0 3.4 6 3.4 15 v9 h-3.4 z"/><rect x="49.2" y="47" width="3.4" height="29" rx="1.7"/><ellipse cx="63.4" cy="33" rx="5.4" ry="8.4"/><rect x="61.7" y="40" width="3.4" height="36" rx="1.7"/></g></mask></defs>
+    <circle cx="50" cy="50" r="42" fill="url(#${id}g)" mask="url(#${id}m)"/>
+  </svg>`;
+}
+function ico(p){return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`}
+const ICONS={
+  accueil:'<path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9h12v-9"/>',
+  tableau:'<rect x="3.5" y="3.5" width="7" height="9" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="5" rx="1.5"/><rect x="3.5" y="15.5" width="7" height="5" rx="1.5"/><rect x="13.5" y="11.5" width="7" height="9" rx="1.5"/>',
+  temperature:'<path d="M14 13.4V5.5a2 2 0 0 0-4 0v7.9a4 4 0 1 0 4 0Z"/>',
+  nettoyage:'<path d="M12 3.5S5.5 11 5.5 15a6.5 6.5 0 0 0 13 0C18.5 11 12 3.5 12 3.5Z"/>',
+  traca:'<path d="M4 11.5 11.5 4H20v8.5L12.5 20Z"/><circle cx="15.4" cy="8.6" r="1.3"/>',
+  calendrier:'<rect x="4" y="5" width="16" height="16" rx="2.5"/><path d="M4 9h16M8 3v4M16 3v4"/>',
+  inspecteur:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/>',
+  equipe:'<circle cx="9" cy="8" r="3.2"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0"/><path d="M16 5.2a3.2 3.2 0 0 1 0 5.6M17.5 20a5.5 5.5 0 0 0-3-4.9"/>',
+  reseau:'<circle cx="12" cy="5" r="2.2"/><circle cx="5" cy="18" r="2.2"/><circle cx="19" cy="18" r="2.2"/><path d="M12 7.2v4.3M10.4 13 6.5 16M13.6 13l3.9 3"/>',
+  coffre:'<rect x="4" y="4" width="16" height="16" rx="2.5"/><circle cx="12" cy="12" r="3.5"/><path d="M12 8.5v-1M12 16.5v-1"/>',
+  controle:'<path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"/><path d="M9 13l2 2 4-4"/>',
+  bell:'<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M10.5 21a1.9 1.9 0 0 0 3 0"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>', download:'<path d="M12 3v12M8 11l4 4 4-4M4 20h16"/>',
+  back:'<path d="M15 5l-7 7 7 7"/>', next:'<path d="M9 5l7 7-7 7"/>',
+  lock:'<rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',
+  del:'<path d="M20 5H9l-6 7 6 7h11a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1Z"/><path d="M16 9l-5 6M11 9l5 6"/>',
+  alert:'<path d="M10.3 4 3 17.5a2 2 0 0 0 1.7 3h14.6a2 2 0 0 0 1.7-3L13.7 4a2 2 0 0 0-3.4 0Z"/><path d="M12 8.5V13M12 16.2v.2"/>',
+  check:'<path d="M5 12l5 5 9-11"/>',
+  assistant:'<path d="M20 4H4a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h3v3.5l4.2-3.5H20a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1Z"/><path d="M8.5 9.5h7M8.5 12.5h4"/>',
+  send:'<path d="M4 12l16-8-6 16-3-6-7-2Z"/>'
+};
+
+/* ===================== STATE ===================== */
+const TONE={ ok:{c:'#4BF7B4',t:'#8CFFD6',bg:'rgba(60,240,172,.12)',bd:'rgba(60,240,172,.3)',cls:'st-ok'},
+  warn:{c:'#F5B14C',t:'#F5C989',bg:'rgba(245,177,76,.12)',bd:'rgba(245,177,76,.32)',cls:'st-warn'},
+  alert:{c:'#FF6B6B',t:'#FF9E9E',bg:'rgba(255,107,107,.12)',bd:'rgba(255,107,107,.35)',cls:'st-alert'} };
+
+/* Profils métier — cœur standardisé + seuils/zones adaptés (personnalisation KLÉO) */
+const METIERS={
+  restaurant:{label:'Restaurant',ic:'🍽️',equip:[
+    {name:'Chambre froide',sub:'Légumes · Crèmerie',seuil:'≤ 4°C',th:4,hot:false},
+    {name:'Congélateur',sub:'Produits surgelés',seuil:'≤ -18°C',th:-18,hot:false},
+    {name:'Vitrine réfrigérée',sub:'Espace vente',seuil:'≤ 4°C',th:4,hot:false},
+    {name:'Liaison chaude',sub:'Maintien cuisson',seuil:'≥ 63°C',th:63,hot:true},
+  ],zones:[
+    {zone:'Plan de travail & découpe',freq:'Après chaque service'},{zone:'Trancheur à jambon',freq:'Quotidien'},
+    {zone:'Sol cuisine',freq:'Quotidien'},{zone:'Chambre froide',freq:'Hebdomadaire'},
+    {zone:'Hotte & filtres',freq:'Mensuel'},{zone:'Local poubelles',freq:'Quotidien'},
+  ]},
+  boucherie:{label:'Boucherie',ic:'🥩',equip:[
+    {name:'Chambre froide viande',sub:'Carcasses · Pièces',seuil:'≤ 3°C',th:3,hot:false},
+    {name:'Vitrine réfrigérée',sub:'Espace vente',seuil:'≤ 4°C',th:4,hot:false},
+    {name:'Congélateur',sub:'Surgelés',seuil:'≤ -18°C',th:-18,hot:false},
+    {name:'Labo découpe',sub:'Température ambiante',seuil:'≤ 12°C',th:12,hot:false},
+  ],zones:[
+    {zone:'Billot & plan de découpe',freq:'Après chaque service'},{zone:'Scie à os & hachoir',freq:'Quotidien'},
+    {zone:'Trancheur',freq:'Quotidien'},{zone:'Chambre froide viande',freq:'Hebdomadaire'},
+    {zone:'Vitrine',freq:'Quotidien'},{zone:'Sol labo',freq:'Quotidien'},
+  ]},
+  boulangerie:{label:'Boulangerie',ic:'🥖',equip:[
+    {name:'Chambre froide',sub:'Beurre · Crèmes',seuil:'≤ 4°C',th:4,hot:false},
+    {name:'Vitrine pâtisserie',sub:'Produits frais',seuil:'≤ 4°C',th:4,hot:false},
+    {name:'Congélateur',sub:'Pâtons surgelés',seuil:'≤ -18°C',th:-18,hot:false},
+    {name:'Chambre de pousse',sub:'Fermentation',seuil:'≥ 24°C',th:24,hot:true},
+  ],zones:[
+    {zone:'Plan de tournage',freq:'Après chaque service'},{zone:'Batteur & pétrin',freq:'Quotidien'},
+    {zone:'Vitrine pâtisserie',freq:'Quotidien'},{zone:'Four & abords',freq:'Quotidien'},
+    {zone:'Chambre de pousse',freq:'Hebdomadaire'},{zone:'Sol fournil',freq:'Quotidien'},
+  ]},
+  poissonnerie:{label:'Poissonnerie',ic:'🐟',equip:[
+    {name:'Banc à glace',sub:'Étal poissons',seuil:'≤ 2°C',th:2,hot:false},
+    {name:'Chambre froide',sub:'Réserve',seuil:'≤ 2°C',th:2,hot:false},
+    {name:'Congélateur',sub:'Surgelés',seuil:'≤ -18°C',th:-18,hot:false},
+    {name:'Vivier crustacés',sub:'Eau de mer',seuil:'≤ 8°C',th:8,hot:false},
+  ],zones:[
+    {zone:'Étal & banc à glace',freq:'Après chaque service'},{zone:'Plan de préparation',freq:'Après chaque service'},
+    {zone:'Bacs & caisses',freq:'Quotidien'},{zone:'Chambre froide',freq:'Hebdomadaire'},
+    {zone:'Évacuation & siphons',freq:'Quotidien'},{zone:'Sol & murs',freq:'Quotidien'},
+  ]},
+  traiteur:{label:'Traiteur',ic:'🥗',equip:[
+    {name:'Chambre froide',sub:'Préparations',seuil:'≤ 3°C',th:3,hot:false},
+    {name:'Cellule refroidissement',sub:'Refroidissement rapide',seuil:'≤ 10°C',th:10,hot:false},
+    {name:'Congélateur',sub:'Surgelés',seuil:'≤ -18°C',th:-18,hot:false},
+    {name:'Maintien au chaud',sub:'Bain-marie',seuil:'≥ 63°C',th:63,hot:true},
+  ],zones:[
+    {zone:'Plans de dressage',freq:'Après chaque service'},{zone:'Cellule de refroidissement',freq:'Quotidien'},
+    {zone:'Bacs gastronormes',freq:'Après chaque service'},{zone:'Chambre froide',freq:'Hebdomadaire'},
+    {zone:'Véhicule de livraison',freq:'Quotidien'},{zone:'Sol laboratoire',freq:'Quotidien'},
+  ]},
+  fromagerie:{label:'Fromagerie',ic:'🧀',equip:[
+    {name:'Cave d\'affinage',sub:'Affinage lent',seuil:'≤ 12°C',th:12,hot:false},
+    {name:'Chambre froide',sub:'Stockage frais',seuil:'≤ 4°C',th:4,hot:false},
+    {name:'Vitrine réfrigérée',sub:'Espace vente',seuil:'≤ 6°C',th:6,hot:false},
+    {name:'Réserve crémerie',sub:'Beurre · Lait',seuil:'≤ 4°C',th:4,hot:false},
+  ],zones:[
+    {zone:'Plan de coupe',freq:'Après chaque service'},{zone:'Vitrine & étagères',freq:'Quotidien'},
+    {zone:'Trancheur à fil',freq:'Quotidien'},{zone:'Cave d\'affinage',freq:'Hebdomadaire'},
+    {zone:'Chambre froide',freq:'Hebdomadaire'},{zone:'Sol boutique',freq:'Quotidien'},
+  ]},
+  primeur:{label:'Primeur',ic:'🥦',equip:[
+    {name:'Chambre froide fruits',sub:'Fruits sensibles',seuil:'≤ 8°C',th:8,hot:false},
+    {name:'Chambre froide légumes',sub:'Légumes frais',seuil:'≤ 8°C',th:8,hot:false},
+    {name:'Vitrine réfrigérée',sub:'Produits coupés',seuil:'≤ 4°C',th:4,hot:false},
+    {name:'Réserve sèche',sub:'Ambiante',seuil:'≤ 18°C',th:18,hot:false},
+  ],zones:[
+    {zone:'Étals & présentoirs',freq:'Quotidien'},{zone:'Plan de préparation',freq:'Après chaque service'},
+    {zone:'Balance & outils',freq:'Quotidien'},{zone:'Chambres froides',freq:'Hebdomadaire'},
+    {zone:'Réserve sèche',freq:'Hebdomadaire'},{zone:'Sol boutique',freq:'Quotidien'},
+  ]},
+  foodtruck:{label:'Food-truck',ic:'🚚',equip:[
+    {name:'Réfrigérateur',sub:'Ingrédients frais',seuil:'≤ 4°C',th:4,hot:false},
+    {name:'Congélateur',sub:'Surgelés',seuil:'≤ -18°C',th:-18,hot:false},
+    {name:'Bac de maintien chaud',sub:'Cuisson prête',seuil:'≥ 63°C',th:63,hot:true},
+    {name:'Glacière transport',sub:'Approvisionnement',seuil:'≤ 4°C',th:4,hot:false},
+  ],zones:[
+    {zone:'Plan de préparation',freq:'Après chaque service'},{zone:'Plancha & friteuse',freq:'Après chaque service'},
+    {zone:'Réfrigérateur',freq:'Quotidien'},{zone:'Bacs & ustensiles',freq:'Quotidien'},
+    {zone:'Point d\'eau',freq:'Quotidien'},{zone:'Sol & abords',freq:'Quotidien'},
+  ]},
+};
+const METIER_KEYS=Object.keys(METIERS);
+let CONFIG={};
+function M(){return METIERS[S.metier]||METIERS.restaurant}
+function EQ(){return (CONFIG.equipment&&CONFIG.equipment.length)?CONFIG.equipment:M().equip}
+function ZN(){return (CONFIG.zones&&CONFIG.zones.length)?CONFIG.zones:M().zones}
+function C(p,f){return (CONFIG.client&&CONFIG.client[p])||f}
+function clientLine(){return C('name','Le Comptoir Central')+' · '+C('city','Lyon 2ᵉ')}
+const DEFAULT={
+  metier:'restaurant',
+  chat:null, chatPending:null,
+  equip:0, temp:'', action:null,
+  checks:{0:true,1:true,5:true}, signed:false, generated:false,
+  log:[
+    {t:'11:40',label:'Relevé chambre froide · 3,2 °C',who:'Marie L.',tone:'ok'},
+    {t:'10:18',label:'Action corrective · groupe froid contrôlé',who:'Karim B.',tone:'ok'},
+    {t:'10:15',label:'Écart vitrine réfrigérée · 8,2 °C',who:'Karim B.',tone:'alert'},
+    {t:'08:30',label:'Nettoyage local poubelles',who:'Marie L.',tone:'ok'},
+    {t:'08:02',label:'Relevé congélateur · −19,4 °C',who:'Sofia R.',tone:'ok'},
+  ]
+};
+let S;
+function skey(){return 'kleo-'+(CONFIG.slug||'demo')}
+function load(){const base=Object.assign({},DEFAULT,{metier:CONFIG.metier||DEFAULT.metier});try{const r=JSON.parse(localStorage.getItem(skey()));return Object.assign(base,r||{})}catch(e){return base}}
+function save(){localStorage.setItem(skey(),JSON.stringify(S))}
+
+/* ===================== CONFIG CLIENT (par défaut = démo) ===================== */
+const DEMO_CONFIG={
+  slug:'demo', metier:'restaurant',
+  client:{name:'Le Comptoir Central',city:'Lyon 2ᵉ',type:'Restaurant',initials:'LC'},
+  manager:'Marie',
+  team:[
+    {n:'Marie Lefèvre',short:'Marie L.',r:'Responsable',i:'ML',s:142,t:99,active:true},
+    {n:'Karim Benali',short:'Karim B.',r:'Cuisinier',i:'KB',s:98,t:96},
+    {n:'Sofia Rossi',short:'Sofia R.',r:'Commis de cuisine',i:'SR',s:76,t:94},
+    {n:'Thomas Girard',short:'Thomas G.',r:'Plongeur',i:'TG',s:34,t:100},
+  ],
+  sites:[
+    {n:'Le Comptoir Central',sub:'Lyon 2ᵉ · Restaurant',pct:98,tone:'ok',tasks:'3 tâches aujourd\'hui',active:true},
+    {n:'Boulangerie Saint-Ex',sub:'Villeurbanne · Boulangerie',pct:91,tone:'warn',tasks:'6 tâches aujourd\'hui'},
+    {n:'Traiteur des Halles',sub:'Lyon 7ᵉ · Traiteur',pct:84,tone:'alert',tasks:'2 écarts · 9 tâches'},
+  ],
+  network:[
+    {n:'Le Comptoir Central',c:'Lyon 2ᵉ',conf:98,r:44,e:0,tone:'ok'},
+    {n:'Le Kiosque',c:'Lyon 6ᵉ',conf:95,r:29,e:0,tone:'ok'},
+    {n:'Boulangerie Saint-Ex',c:'Villeurbanne',conf:91,r:38,e:1,tone:'warn'},
+    {n:'Traiteur des Halles',c:'Lyon 7ᵉ',conf:84,r:52,e:2,tone:'alert'},
+  ],
+  equipment:null, zones:null // surcharges optionnelles ; sinon = profil métier
+};
+async function loadConfig(){
+  let cfg=window.KLEO_CONFIG||null;
+  const slug=new URLSearchParams(location.search).get('client');
+  if(!cfg && slug){ try{const r=await fetch('clients/'+slug+'.json');if(r.ok)cfg=await r.json();}catch(e){} }
+  CONFIG=Object.assign({},DEMO_CONFIG,cfg||{});
+  if(cfg&&cfg.client)CONFIG.client=Object.assign({},DEMO_CONFIG.client,cfg.client);
+  const mono=(CONFIG.sites||[]).length<=1;
+  if(mono){NAV=NAV.filter(([k])=>k!=='reseau');} // masque l'écran Réseau pour un mono-site
+}
+function ops(){return (CONFIG.team||[]).map(t=>({n:t.short||t.n,i:t.i}))}
+
+/* ===================== NAV ===================== */
+let NAV=[
+  ['accueil','Accueil'],['assistant','Assistant'],['tableau','Tableau'],['temperature','Température'],['nettoyage','Nettoyage'],
+  ['traca','Traçabilité'],['calendrier','Calendrier'],['controle','Contrôle'],['inspecteur','Inspecteur'],
+  ['equipe','Équipe'],['reseau','Réseau'],['coffre','Coffre-fort']
+];
+let route='accueil';
+document.getElementById('brand').innerHTML='<img src="logo-mark-blanc.png" alt="Kléo" style="width:46px;height:46px;object-fit:contain;display:block">';
+function renderNav(){
+  document.getElementById('nav').innerHTML=NAV.map(([k,l])=>
+    `<button class="navitem ${k===route?'active':''}" data-go="${k}">${ico(ICONS[k])}<span>${l}</span></button>`
+  ).join('');
+}
+function go(k){route=k;renderNav();render();document.getElementById('main').scrollTop=0}
+
+/* ===================== HELPERS ===================== */
+function donut(pct,color,size,sw){
+  const r=(size-sw)/2, c=2*Math.PI*r, off=c*(1-pct/100);
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}"><circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="${sw}"/><circle class="ring" style="transform-origin:center;transition:stroke-dashoffset .5s ease" cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${color}" stroke-width="${sw}" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/></svg>`;
+}
+function toast(msg){const t=document.getElementById('toast');t.innerHTML=`<span style="width:20px;height:20px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center">${ico(ICONS.check).replace('stroke="currentColor"','stroke="#05130F"').replace('<svg','<svg width=11 height=11 style="stroke-width:3.5"')}</span>${msg}`;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2600)}
+function parseNum(t){if(t===''||t==='-')return null;const n=parseFloat(t.replace(',','.'));return isNaN(n)?null:n}
+function pushLog(entry){S.log.unshift(entry);S.log=S.log.slice(0,8)}
+
+/* ===================== SCREENS ===================== */
+const V={};
+
+V.accueil=()=>{
+  const sites=CONFIG.sites||[];
+  const multi=sites.length>1;
+  const quick=[
+    {k:'temperature',t:'Relevé température',s:'6 points à relever',ic:ICONS.temperature},
+    {k:'nettoyage',t:'Plan de nettoyage',s:'3 zones en attente',ic:ICONS.nettoyage},
+    {k:'traca',t:'Étiquette DLC',s:'Traçabilité produit',ic:ICONS.traca},
+    {k:'controle',t:'Alertes',s:'2 écarts ouverts',ic:ICONS.alert,alert:true},
+  ];
+  return `<div class="screen">
+    <div class="head">
+      <div><h1>Bonjour, ${CONFIG.manager||'vous'} 👋</h1><div class="sub">Dimanche 12 juillet 2026 · 08:24</div></div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <button class="pill" id="metierpick" style="padding:9px 16px;cursor:pointer;color:var(--txt)"><span style="font-size:16px">${M().ic}</span><span>${M().label}</span><span style="color:var(--txt3);font-size:11px;margin-left:2px">▾</span></button>
+        <div class="card" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;position:relative;color:var(--txt2)">${ico(ICONS.bell).replace('<svg','<svg width=20 height=20')}<span style="position:absolute;top:11px;right:12px;width:8px;height:8px;border-radius:50%;background:var(--alert);box-shadow:0 0 0 2px #0A0F14"></span></div>
+        <div class="pill" style="padding:8px 8px 8px 16px"><span style="color:var(--txt)">${C('name','Le Comptoir Central')}</span><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#2A3138,#151A1F);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#B8C4C0">${C('initials','LC')}</div></div>
+      </div>
+    </div>
+    <button id="kioskgo" style="width:100%;margin-bottom:26px;padding:22px 26px;border-radius:20px;background:linear-gradient(120deg,rgba(75,247,180,.14),rgba(15,182,168,.05));border:1px solid rgba(60,240,172,.35);display:flex;align-items:center;gap:18px;cursor:pointer;text-align:left;transition:transform .12s">
+      <div style="width:54px;height:54px;border-radius:16px;background:var(--grad);display:flex;align-items:center;justify-content:center;flex:0 0 54px;box-shadow:0 8px 24px rgba(15,182,168,.35)">${ico(ICONS.temperature).replace('stroke="currentColor"','stroke="#05130F"').replace('<svg','<svg width=28 height=28 style="stroke-width:1.9"')}</div>
+      <div style="flex:1"><div style="font-size:18px;font-weight:600;color:var(--mintt)">Mode saisie employé — « 3 clics »</div><div class="sub" style="margin-top:2px">Interface simplifiée pour l'équipe : qui es-tu → quelle tâche → c'est fait.</div></div>
+      <div style="color:var(--mintt)">${ico(ICONS.next).replace('<svg','<svg width=22 height=22')}</div>
+    </button>
+    <div class="eyebrow" style="margin-bottom:14px">${multi?'Vos établissements':'Votre établissement'}</div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+      ${sites.map(s=>{const c=TONE[s.tone];return `<div class="card" data-go="${s.active?'tableau':''}" style="padding:22px;cursor:pointer;${s.active?'background:linear-gradient(180deg,rgba(60,240,172,.12),rgba(15,182,168,.03));border-color:rgba(60,240,172,.4);box-shadow:0 14px 40px rgba(15,182,168,.12)':''}">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div><div style="font-size:18px;font-weight:600">${s.n}</div><div class="sub">${s.sub}</div></div>${donut(s.pct,c.c,44,4)}
+        </div>
+        <div style="display:flex;align-items:baseline;gap:10px;margin-top:14px"><div class="mono" style="font-size:34px;font-weight:700;color:${c.t}">${s.pct}%</div><div class="sub">conformité</div></div>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line);display:flex;align-items:center;gap:8px;font-size:13px;color:${c.t}"><span class="dot" style="background:${c.c}"></span>${s.tasks}</div>
+      </div>`}).join('')}
+    </div>
+    <div class="eyebrow" style="margin:26px 0 14px">Accès rapides</div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(210px,1fr))">
+      ${quick.map(q=>`<div class="card" data-go="${q.k}" style="padding:24px 22px;display:flex;flex-direction:column;gap:16px;cursor:pointer;${q.alert?'background:rgba(255,107,107,.07);border-color:rgba(255,107,107,.28)':''}">
+        <div style="width:52px;height:52px;border-radius:15px;display:flex;align-items:center;justify-content:center;background:${q.alert?'rgba(255,107,107,.16)':'linear-gradient(135deg,rgba(75,247,180,.2),rgba(15,182,168,.08))'};color:${q.alert?'var(--alertt)':'var(--mint2)'}">${ico(q.ic).replace('<svg','<svg width=26 height=26 style="stroke-width:1.8"')}</div>
+        <div><div style="font-size:16px;font-weight:600;${q.alert?'color:#FFC9C9':''}">${q.t}</div><div class="sub" style="${q.alert?'color:var(--alertt)':''}">${q.s}</div></div>
+      </div>`).join('')}
+    </div>
+  </div>`;
+};
+
+V.assistant=()=>{
+  if(!S.chat){S.chat=[{r:'bot',t:'Bonjour '+(CONFIG.manager||'')+' 👋 Je suis votre assistant KLÉO, dédié à '+C('name','votre établissement')+'.\n\nEnvoyez-moi vos relevés en langage naturel — par exemple « chambre froide 3 degrés » — je mets tout à jour automatiquement : tableau de bord, journal, dossier de contrôle. Vous pouvez aussi me poser une question réglementaire.',tm:nowLabel()}];save();}
+  const quicks=['Chambre froide 3°','Vitrine à 8 degrés','J’ai nettoyé le plan de travail','Quelle température pour la vitrine ?','Combien d’allergènes ?'];
+  return `<div class="screen" style="max-width:none;padding:20px 40px 0;height:calc(100vh - 0px)">
+    <div class="chatwrap">
+      <div class="chathead">
+        <div class="av">${ico(ICONS.assistant).replace('stroke="currentColor"','stroke="#05130F"').replace('<svg','<svg width=24 height=24 style="stroke-width:1.8"')}</div>
+        <div><div style="font-size:19px;font-weight:600">Assistant KLÉO</div><div class="on"><span class="dot" style="background:var(--mint)"></span>En ligne · dédié à ${C('name','votre établissement')}</div></div>
+        <div class="pill" style="margin-left:auto;gap:8px"><span style="font-size:15px">💬</span>WhatsApp · démo</div>
+      </div>
+      <div class="chatlog" id="chatlog"></div>
+      <div class="chatquick" id="chatquick">${quicks.map(q=>`<button data-quick="${q.replace(/"/g,'&quot;')}">${q}</button>`).join('')}</div>
+      <div class="chatbar">
+        <textarea id="chatinput" rows="1" placeholder="Écrivez un relevé, une tâche, une question…"></textarea>
+        <button class="snd" id="chatsend" title="Envoyer">${ico(ICONS.send).replace('stroke="currentColor"','stroke="#05130F"').replace('<svg','<svg width=24 height=24 style="stroke-width:1.6"')}</button>
+      </div>
+    </div>
+  </div>`;
+};
+
+V.tableau=()=>{
+  const alerts=[
+    {tone:'alert',t:'Écart · Vitrine réfrigérée',s:'8,2 °C · seuil 4 °C · il y a 2 h'},
+    {tone:'warn',t:'DLC proche · Saumon fumé',s:'Expire demain · 3 unités'},
+  ];
+  return `<div class="screen">
+    <div class="head">
+      <div><h1>Tableau de bord</h1><div class="sub">${clientLine()}</div></div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <div class="seg"><div>Jour</div><div class="on">Semaine</div><div>Mois</div></div>
+        <button class="btn ghost" data-go="controle" style="padding:11px 18px;font-size:13px">${ico(ICONS.download).replace('<svg','<svg width=15 height=15')}Exporter</button>
+      </div>
+    </div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+      <div class="card" style="padding:20px;display:flex;align-items:center;gap:16px;background:linear-gradient(180deg,rgba(60,240,172,.1),rgba(15,182,168,.02));border-color:rgba(60,240,172,.28)">${donut(96,'#3CF0AC',58,5)}<div><div class="mono" style="font-size:30px;font-weight:700;color:var(--mint2);line-height:1">96%</div><div style="font-size:12px;color:var(--txt2);margin-top:5px">Conformité globale</div></div></div>
+      <div class="card" style="padding:20px"><div style="font-size:12px;color:var(--txt2)">Tâches du jour</div><div style="display:flex;align-items:baseline;gap:6px;margin-top:8px"><span class="mono" style="font-size:30px;font-weight:700">14</span><span style="font-size:16px;color:var(--txt3)">/ 18</span></div><div style="height:6px;border-radius:100px;background:rgba(255,255,255,.08);margin-top:12px;overflow:hidden"><div style="width:78%;height:100%;background:var(--grad)"></div></div></div>
+      <div class="card" style="padding:20px"><div style="font-size:12px;color:var(--txt2)">Relevés conformes</div><div style="display:flex;align-items:baseline;gap:6px;margin-top:8px"><span class="mono" style="font-size:30px;font-weight:700;color:var(--mint2)">42</span><span style="font-size:16px;color:var(--txt3)">/ 44</span></div><div class="sub" style="margin-top:12px">Sur les 7 derniers jours</div></div>
+      <div class="card" style="padding:20px;background:rgba(255,107,107,.07);border-color:rgba(255,107,107,.28)"><div style="font-size:12px;color:var(--alertt)">Écarts ouverts</div><div style="display:flex;align-items:baseline;gap:8px;margin-top:8px"><span class="mono" style="font-size:30px;font-weight:700;color:var(--alertt)">2</span><span style="font-size:13px;color:rgba(255,158,158,.7)">action requise</span></div><div style="font-size:12px;color:rgba(255,158,158,.7);margin-top:12px">Dernier · il y a 2 h</div></div>
+    </div>
+    <div class="grid" style="grid-template-columns:1.7fr 1fr;margin-top:16px" id="tbgrid">
+      <div class="card" style="padding:24px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div><div style="font-size:16px;font-weight:600">Courbe de température</div><div class="sub">Chambre froide · seuil ≤ 4 °C</div></div><div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mintt)"><span style="width:16px;height:2px;background:var(--mint);border-radius:2px"></span>relevé<span style="width:16px;border-top:2px dashed var(--warn);margin-left:8px"></span>seuil</div></div>
+        <svg viewBox="0 0 640 220" preserveAspectRatio="none" style="width:100%;height:220px;display:block;margin-top:8px">
+          <defs><linearGradient id="tf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0FB6A8" stop-opacity=".32"/><stop offset="1" stop-color="#0FB6A8" stop-opacity="0"/></linearGradient></defs>
+          <line x1="0" y1="74" x2="640" y2="74" stroke="#F5B14C" stroke-width="1.6" stroke-dasharray="7 7" opacity=".7"/>
+          <path d="M0 150 C60 140 92 130 140 132 C188 134 214 100 262 106 C310 112 340 148 392 136 C444 124 470 82 522 90 C566 97 604 120 640 112 L640 220 L0 220 Z" fill="url(#tf)"/>
+          <path d="M0 150 C60 140 92 130 140 132 C188 134 214 100 262 106 C310 112 340 148 392 136 C444 124 470 82 522 90 C566 97 604 120 640 112" fill="none" stroke="#3CF0AC" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="262" cy="106" r="4.5" fill="#0A0F14" stroke="#3CF0AC" stroke-width="2.5"/><circle cx="522" cy="90" r="4.5" fill="#0A0F14" stroke="#3CF0AC" stroke-width="2.5"/>
+        </svg>
+        <div class="mono" style="display:flex;justify-content:space-between;font-size:11px;color:var(--txt3);margin-top:10px"><span>Lun</span><span>Mar</span><span>Mer</span><span>Jeu</span><span>Ven</span><span>Sam</span><span>Dim</span></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="card" style="padding:22px;flex:1"><div style="font-size:16px;font-weight:600;margin-bottom:14px">Alertes actives</div>
+          ${alerts.map(a=>{const c=TONE[a.tone];return `<div style="display:flex;gap:12px;padding:13px 14px;border-radius:13px;background:${c.bg};border:1px solid ${c.bd};margin-bottom:10px"><span class="dot" style="background:${c.c};margin-top:5px"></span><div><div style="font-size:14px;font-weight:500;color:${c.t}">${a.t}</div><div class="mono" style="font-size:12px;color:${c.t};opacity:.85;margin-top:2px">${a.s}</div></div></div>`}).join('')}
+        </div>
+        <div class="card" style="padding:22px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div style="font-size:16px;font-weight:600">Tâches en retard</div><div class="mono" style="color:var(--warnt)">2</div></div>
+          <div style="display:flex;justify-content:space-between;font-size:14px;color:var(--txt);margin-bottom:12px"><span>Nettoyage sol cuisine</span><span class="mono" style="color:var(--txt3)">hier</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:14px;color:var(--txt)"><span>Relevé congélateur</span><span class="mono" style="color:var(--txt3)">08:00</span></div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+};
+
+V.temperature=()=>{
+  const EQP=EQ(), e=EQP[S.equip]||EQP[0], num=parseNum(S.temp), has=num!=null;
+  const conf=has&&(e.hot?num>=e.th:num<=e.th), ecart=has&&!conf;
+  const disp=S.temp===''?'——':S.temp;
+  const col=conf?'#4BF7B4':ecart?'#FF8C8C':'#EAF2F0';
+  const canVal=has&&(conf||S.action);
+  const keys=['1','2','3','4','5','6','7','8','9','-','0',','];
+  const acts=['Produit transféré en froid positif','Produit retiré du service','Contrôle du groupe froid demandé'];
+  return `<div class="screen" style="max-width:1280px">
+    <div class="head"><div style="display:flex;align-items:center;gap:14px"><button class="card" data-go="accueil" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:var(--txt)">${ico(ICONS.back).replace('<svg','<svg width=20 height=20')}</button><h1>Relevé de température</h1></div>
+      <div style="display:flex;align-items:center;gap:16px;font-size:13px">
+        <span style="color:var(--mintt)">① Équipement</span><span style="color:${has?'var(--mintt)':'var(--txt3)'}">② Température</span><span style="color:${canVal?'var(--mintt)':'var(--txt3)'}">③ Valider</span>
+      </div>
+    </div>
+    <div class="grid" style="grid-template-columns:280px 1fr 340px;gap:0" id="tempgrid">
+      <div style="padding-right:24px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:12px">
+        <div class="eyebrow">Équipement</div>
+        ${EQP.map((q,i)=>`<div data-eq="${i}" class="card" style="padding:16px 18px;cursor:pointer;${i===S.equip?'background:linear-gradient(180deg,rgba(60,240,172,.14),rgba(15,182,168,.03));border-color:rgba(60,240,172,.45);box-shadow:0 10px 30px rgba(15,182,168,.12)':''}"><div style="font-size:16px;font-weight:600">${q.name}</div><div class="sub" style="font-size:12px">${q.sub}</div><div class="mono" style="font-size:13px;color:var(--mintt);margin-top:6px">Seuil ${q.seuil}</div></div>`).join('')}
+      </div>
+      <div style="padding:0 36px;display:flex;flex-direction:column;justify-content:center;gap:24px;min-width:0">
+        <div style="text-align:center"><div class="eyebrow" style="margin-bottom:14px">Température relevée — ${e.name}</div>
+          <div style="display:flex;align-items:baseline;justify-content:center;gap:6px"><span class="mono" style="font-size:96px;font-weight:700;line-height:1;letter-spacing:-.02em;color:${col}">${disp}</span><span class="mono" style="font-size:40px;font-weight:600;color:var(--txt3)">°C</span></div>
+        </div>
+        ${!has?`<div class="card" style="padding:20px;text-align:center;color:var(--txt2);font-size:16px">Saisissez la température au pavé numérique</div>`:''}
+        ${conf?`<div style="display:flex;align-items:center;justify-content:center;gap:14px;padding:22px;border-radius:18px;background:linear-gradient(135deg,rgba(75,247,180,.14),rgba(15,182,168,.05));border:1px solid rgba(60,240,172,.45);box-shadow:0 0 40px rgba(15,182,168,.15)">${seal(44)}<div><div style="font-size:19px;font-weight:600;color:var(--mintt)">Conforme</div><div class="mono" style="font-size:13px;color:rgba(140,255,214,.75)">Seuil ${e.seuil} respecté</div></div></div>`:''}
+        ${ecart?`<div style="display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:center;gap:14px;padding:20px 22px;border-radius:18px;background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.45);box-shadow:0 0 40px rgba(255,107,107,.12)"><div style="width:44px;height:44px;border-radius:50%;background:rgba(255,107,107,.18);display:flex;align-items:center;justify-content:center;flex:0 0 44px;color:var(--alert)">${ico('<circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5v.2"/>').replace('<svg','<svg width=24 height=24 style="stroke-width:2.2"')}</div><div><div style="font-size:19px;font-weight:600;color:#FFC9C9">Écart détecté · action requise</div><div class="mono" style="font-size:13px;color:rgba(255,158,158,.85)">Hors seuil ${e.seuil}</div></div></div>
+          <div class="eyebrow">Action corrective</div>
+          <div style="display:flex;flex-direction:column;gap:10px">${acts.map(a=>`<div data-act="${a}" style="display:flex;align-items:center;gap:12px;padding:15px 16px;border-radius:14px;cursor:pointer;font-size:15px;${S.action===a?'background:rgba(255,107,107,.12);border:1px solid rgba(255,107,107,.5);color:#FFD9D9':'background:var(--surface);border:1px solid var(--line2);color:var(--txt)'}">${S.action===a?`<span style="width:18px;height:18px;border-radius:50%;background:var(--alert);display:flex;align-items:center;justify-content:center;flex:0 0 18px">${ico(ICONS.check).replace('stroke="currentColor"','stroke="#fff"').replace('<svg','<svg width=11 height=11 style="stroke-width:3.5"')}</span>`:'<span style="width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,.25);flex:0 0 18px"></span>'}${a}</div>`).join('')}</div>
+        </div>`:''}
+      </div>
+      <div style="padding-left:28px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:14px">
+        <div class="grid" style="grid-template-columns:repeat(3,1fr);gap:12px;flex:1">
+          ${keys.map(k=>`<button data-key="${k}" class="card" style="font-family:var(--mono);font-size:30px;font-weight:600;padding:20px 0;transition:transform .1s">${k}</button>`).join('')}
+        </div>
+        <div style="display:flex;gap:12px">
+          <button id="del" class="card" style="flex:0 0 90px;display:flex;align-items:center;justify-content:center;padding:18px;color:var(--txt2)">${ico(ICONS.del).replace('<svg','<svg width=26 height=26')}</button>
+          <button id="valider" class="btn" ${canVal?'':'disabled'} style="flex:1;justify-content:center;padding:18px;font-size:17px;font-weight:700">Valider le relevé</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+};
+
+V.nettoyage=()=>{
+  const ZONES=ZN();
+  const done=ZONES.filter((z,i)=>S.checks[i]).length;
+  const pct=Math.round(done/ZONES.length*100);
+  return `<div class="screen">
+    <div class="head"><div><h1>Plan de nettoyage</h1><div class="sub">Dimanche 12 juillet · service du midi</div></div>
+      <div class="pill mono" style="font-size:15px;color:var(--mintt)"><span style="font-weight:700">${done}</span><span style="color:var(--txt3)">/ ${ZONES.length} zones</span></div></div>
+    <div class="grid" style="grid-template-columns:1fr 360px;gap:0" id="netgrid">
+      <div style="padding-right:32px;display:flex;flex-direction:column;gap:12px">
+        ${ZONES.map((z,i)=>{const d=S.checks[i];return `<div data-zone="${i}" style="display:flex;align-items:center;gap:18px;padding:17px 20px;border-radius:16px;cursor:pointer;${d?'background:linear-gradient(90deg,rgba(60,240,172,.08),rgba(255,255,255,.015));border:1px solid rgba(60,240,172,.28)':'background:rgba(255,255,255,.025);border:1px solid var(--line)'}">
+          <div style="width:34px;height:34px;flex:0 0 34px;border-radius:10px;display:flex;align-items:center;justify-content:center;${d?'background:var(--grad);box-shadow:0 4px 14px rgba(15,182,168,.4)':'border:2px solid rgba(255,255,255,.22)'}">${d?ico(ICONS.check).replace('stroke="currentColor"','stroke="#05130F"').replace('<svg','<svg width=18 height=18 style="stroke-width:3.4"'):''}</div>
+          <div style="flex:1"><div style="font-size:17px;font-weight:500">${z.zone}</div><div class="sub" style="font-size:13px">${z.freq}</div></div>
+          ${d?`<div style="text-align:right"><div style="font-size:13px;color:var(--mintt)">Marie L.</div><div class="mono" style="font-size:12px;color:var(--txt3)">11:40</div></div>`:`<div style="font-size:13px;color:var(--txt3);padding:5px 12px;border-radius:100px;border:1px solid var(--line2)">À faire</div>`}
+        </div>`}).join('')}
+      </div>
+      <div style="padding-left:32px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:26px">
+        <div style="text-align:center"><div class="eyebrow" style="margin-bottom:20px">Progression du jour</div>
+          <div style="position:relative;width:170px;height:170px;margin:0 auto">${donut(pct,'url(#cg)',170,12)}<svg width="0" height="0"><defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4BF7B4"/><stop offset="1" stop-color="#0FB6A8"/></linearGradient></defs></svg><div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center"><div class="mono" style="font-size:40px;font-weight:700">${pct}%</div><div style="font-size:12px;color:var(--txt3)">complété</div></div></div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:14px">
+          <div class="eyebrow">Signature opérateur</div>
+          ${S.signed?`<div style="padding:24px;border-radius:16px;background:linear-gradient(135deg,rgba(75,247,180,.12),rgba(15,182,168,.04));border:1px solid rgba(60,240,172,.4);display:flex;align-items:center;gap:16px">${seal(46)}<div><div class="mono" style="font-size:22px;color:var(--mintt);transform:rotate(-4deg)">Marie L.</div><div style="font-size:12px;color:rgba(140,255,214,.7);margin-top:4px">Validé · 12/07 à 12:04</div></div></div>`
+          :`<div style="height:96px;border-radius:16px;border:1.5px dashed rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;color:var(--txt3);font-size:14px">Signez ici du doigt</div><button id="sign" class="btn" style="justify-content:center;padding:20px;font-size:17px;font-weight:700">Signer & valider</button>`}
+        </div>
+      </div>
+    </div>
+  </div>`;
+};
+
+V.traca=()=>{
+  const S2={ok:['ok','Conforme'],soon:['warn','Expire bientôt'],expired:['alert','Expiré']};
+  const items=[
+    {n:'Saumon fumé',lot:'L-2607',fab:'10/07',dlc:'13/07',by:'Karim B.',s:'soon'},
+    {n:'Terrine maison',lot:'L-2591',fab:'09/07',dlc:'16/07',by:'Marie L.',s:'ok'},
+    {n:'Crème pâtissière',lot:'L-2610',fab:'11/07',dlc:'12/07',by:'Marie L.',s:'expired'},
+    {n:'Poulet rôti',lot:'L-2603',fab:'11/07',dlc:'14/07',by:'Sofia R.',s:'ok'},
+    {n:'Sauce blanche',lot:'L-2612',fab:'12/07',dlc:'15/07',by:'Karim B.',s:'ok'},
+    {n:'Tartare de bœuf',lot:'L-2609',fab:'11/07',dlc:'12/07',by:'Sofia R.',s:'soon'},
+  ];
+  return `<div class="screen">
+    <div class="head"><div><h1>Traçabilité & DLC</h1><div class="sub">${C('name','Le Comptoir Central')} · 6 étiquettes actives</div></div>
+      <button class="btn">${ico(ICONS.plus).replace('<svg','<svg width=18 height=18 style="stroke-width:2.2"')}Nouvelle étiquette</button></div>
+    <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+      <div class="status st-ok" style="padding:8px 16px">Tous · 6</div>
+      <div class="pill">Conformes · 3</div><div class="status st-warn" style="padding:8px 16px">Expire bientôt · 2</div><div class="status st-alert" style="padding:8px 16px">Expiré · 1</div>
+    </div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">
+      ${items.map(d=>{const c=TONE[S2[d.s][0]];return `<div class="card" style="position:relative;padding:22px 22px 22px 26px;overflow:hidden">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:5px;background:${c.c}"></div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px"><div style="font-size:18px;font-weight:600">${d.n}</div><div class="status ${c.cls}"><span class="dot" style="background:${c.c}"></span>${S2[d.s][1]}</div></div>
+        <div class="mono" style="font-size:12px;color:var(--txt3);margin-top:4px">Lot ${d.lot}</div>
+        <div style="margin-top:18px;display:flex;justify-content:space-between;align-items:flex-end"><div><div style="font-size:11px;color:var(--txt3);text-transform:uppercase;letter-spacing:.1em">À consommer avant</div><div class="mono" style="font-size:22px;font-weight:700;color:${c.t}">${d.dlc}</div></div><div style="text-align:right;font-size:12px;color:var(--txt2)">Fab. ${d.fab}<br>${d.by}</div></div>
+      </div>`}).join('')}
+    </div>
+  </div>`;
+};
+
+V.calendrier=()=>{
+  const st={1:'done',2:'done',3:'done',4:'done',5:'done',6:'partial',7:'done',8:'done',9:'missed',10:'done',11:'done'};
+  const cells=[{d:29,m:1},{d:30,m:1}];
+  for(let d=1;d<=31;d++)cells.push({d,today:d===12,s:d<12?(st[d]||'done'):null});
+  cells.push({d:1,m:1},{d:2,m:1});
+  const wd=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+  const dc={done:'#3CF0AC',partial:'#F5B14C',missed:'#FF6B6B'};
+  return `<div class="screen">
+    <div class="head"><div><h1>Calendrier & historique</h1><div class="sub">Vue mois · journal horodaté inviolable</div></div></div>
+    <div class="grid" style="grid-template-columns:1fr 400px;gap:0" id="calgrid">
+      <div style="padding-right:32px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div style="font-size:24px;font-weight:600">Juillet 2026</div><div style="display:flex;gap:8px"><div class="card" style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--txt2)">${ico(ICONS.back).replace('<svg','<svg width=18 height=18')}</div><div class="card" style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--txt2)">${ico(ICONS.next).replace('<svg','<svg width=18 height=18')}</div></div></div>
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px">
+          ${wd.map(w=>`<div style="text-align:center;font-size:12px;color:var(--txt3);padding-bottom:2px">${w}</div>`).join('')}
+          ${cells.map(c=>`<div style="position:relative;aspect-ratio:1;border-radius:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;font-size:15px;${c.m?'opacity:.28;border:1px solid rgba(255,255,255,.05)':c.today?'background:linear-gradient(180deg,rgba(60,240,172,.16),rgba(15,182,168,.05));border:1px solid rgba(60,240,172,.45);color:var(--mintt);font-weight:600':'border:1px solid rgba(255,255,255,.05)'}"><span>${c.d}</span>${c.s?`<span class="dot" style="background:${dc[c.s]}"></span>`:''}</div>`).join('')}
+        </div>
+        <div style="display:flex;gap:20px;font-size:12px;color:var(--txt2);margin-top:20px">
+          <div style="display:flex;align-items:center;gap:7px"><span class="dot" style="background:#3CF0AC"></span>Complet</div>
+          <div style="display:flex;align-items:center;gap:7px"><span class="dot" style="background:#F5B14C"></span>Partiel</div>
+          <div style="display:flex;align-items:center;gap:7px"><span class="dot" style="background:#FF6B6B"></span>Manqué</div>
+        </div>
+      </div>
+      <div style="padding-left:32px;border-left:1px solid var(--line);display:flex;flex-direction:column">
+        <div class="eyebrow">Journal horodaté</div>
+        <div style="font-size:20px;font-weight:600;margin:6px 0 20px">Samedi 12 juillet</div>
+        <div style="flex:1">${S.log.map((j,i)=>{const c=TONE[j.tone];return `<div style="display:flex;gap:14px"><div style="display:flex;flex-direction:column;align-items:center"><span style="width:12px;height:12px;border-radius:50%;background:${c.c};box-shadow:0 0 0 4px rgba(255,255,255,.04)"></span>${i<S.log.length-1?'<span style="width:2px;flex:1;background:rgba(255,255,255,.08)"></span>':''}</div><div style="padding-bottom:18px"><div class="mono" style="font-size:12px;color:var(--txt3)">${j.t}</div><div style="font-size:14px;margin-top:2px">${j.label}</div><div style="font-size:12px;color:var(--txt3);margin-top:2px">${j.who}</div></div></div>`}).join('')}</div>
+        <div style="display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:14px;background:rgba(60,240,172,.06);border:1px solid rgba(60,240,172,.22);font-size:12px;color:var(--mintt)">${ico(ICONS.lock).replace('<svg','<svg width=16 height=16')}Journal inviolable · horodatage certifié</div>
+      </div>
+    </div>
+  </div>`;
+};
+
+V.controle=()=>{
+  const pieces=[['Relevés de température',312],['Plans de nettoyage signés',88],['Traçabilité & DLC',204],['Actions correctives',7]];
+  return `<div class="screen">
+    <div class="head"><div><h1>Dossier de contrôle</h1><div class="sub">Génération PDF · empreinte d'intégrité · prêt DDPP</div></div></div>
+    <div class="grid" style="grid-template-columns:420px 1fr;gap:0" id="ctlgrid">
+      <div style="padding-right:34px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:22px">
+        <div class="eyebrow">Période</div>
+        <div class="seg"><div style="flex:1;text-align:center">30 j</div><div class="on" style="flex:1;text-align:center">3 mois</div><div style="flex:1;text-align:center">12 mois</div></div>
+        <div class="eyebrow">Pièces incluses</div>
+        <div style="display:flex;flex-direction:column;gap:9px">${pieces.map(p=>`<div style="display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:13px;background:var(--surface);border:1px solid var(--line)"><span style="width:20px;height:20px;border-radius:6px;background:var(--grad);display:flex;align-items:center;justify-content:center;flex:0 0 20px">${ico(ICONS.check).replace('stroke="currentColor"','stroke="#05130F"').replace('<svg','<svg width=12 height=12 style="stroke-width:3.5"')}</span><span style="flex:1;font-size:14px">${p[0]}</span><span class="mono" style="font-size:13px;color:var(--txt3)">${p[1]}</span></div>`).join('')}</div>
+        <div style="margin-top:auto">
+          ${S.generated?`<div style="padding:16px 18px;border-radius:14px;background:linear-gradient(135deg,rgba(75,247,180,.14),rgba(15,182,168,.04));border:1px solid rgba(60,240,172,.4);display:flex;align-items:center;gap:12px;margin-bottom:12px">${seal(34)}<div><div style="font-size:14px;font-weight:600;color:var(--mintt)">Dossier généré</div><div style="font-size:12px;color:rgba(140,255,214,.7)">KLEO_controle_2026-07.pdf · 4,2 Mo</div></div></div>`:''}
+          <button id="generer" class="btn" style="width:100%;justify-content:center;padding:20px;font-size:17px;font-weight:700">${ico(ICONS.download).replace('stroke="currentColor"','stroke="#05130F"').replace('<svg','<svg width=20 height=20 style="stroke-width:2"')}${S.generated?'Régénérer le PDF':'Générer le PDF'}</button>
+        </div>
+      </div>
+      <div style="padding-left:48px;display:flex;align-items:center;justify-content:center;min-width:0">
+        <div style="width:100%;max-width:520px;aspect-ratio:1/1.32;background:linear-gradient(180deg,#F6F9F7,#EAF0EC);border-radius:14px;box-shadow:0 40px 90px rgba(0,0,0,.5);padding:38px 40px;display:flex;flex-direction:column;color:#0A1512;overflow:hidden">
+          <div style="display:flex;align-items:center;gap:14px;padding-bottom:20px;border-bottom:2px solid rgba(15,182,168,.25)">${seal(46)}<div><div style="font-size:20px;font-weight:700">KLÉO</div><div style="font-size:11px;color:rgba(10,21,18,.5)">Plan de Maîtrise Sanitaire</div></div><div style="margin-left:auto;text-align:right"><div style="font-size:11px;color:rgba(10,21,18,.5)">Réf.</div><div class="mono" style="font-size:12px;font-weight:600">CTL-2026-0712</div></div></div>
+          <div style="margin-top:22px"><div style="font-size:22px;font-weight:700;letter-spacing:-.02em">Dossier de contrôle sanitaire</div><div style="font-size:13px;color:rgba(10,21,18,.55);margin-top:4px">${clientLine()} · période 12/04 → 12/07/2026</div></div>
+          <div style="margin-top:24px;display:flex;flex-direction:column;gap:11px">
+            ${['312 relevés de température · 99,4% conformes','88 plans de nettoyage signés','7 actions correctives tracées & clôturées'].map(t=>`<div style="display:flex;align-items:center;gap:10px;font-size:13px"><span style="width:18px;height:18px;border-radius:5px;background:#0FB6A8;display:flex;align-items:center;justify-content:center;flex:0 0 18px">${ico(ICONS.check).replace('stroke="currentColor"','stroke="#fff"').replace('<svg','<svg width=11 height=11 style="stroke-width:3.5"')}</span>${t}</div>`).join('')}
+          </div>
+          <div style="flex:1"></div>
+          <div style="margin-top:20px;padding:16px;border-radius:12px;background:rgba(15,182,168,.08);border:1px solid rgba(15,182,168,.25)"><div style="display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;color:#0A7A70;letter-spacing:.08em;text-transform:uppercase">${ico(ICONS.lock).replace('stroke="currentColor"','stroke="#0A7A70"').replace('<svg','<svg width=14 height=14 style="stroke-width:2"')}Empreinte d'intégrité · journal inviolable</div><div class="mono" style="font-size:12px;color:rgba(10,21,18,.7);margin-top:8px;word-break:break-all">SHA-256 · 9f2c4e8a b17d0f36 c4a9e215 7b3d8c60 e5a1f4d2 803bc79e</div><div class="mono" style="font-size:11px;color:rgba(10,21,18,.45);margin-top:6px">Scellé le 12/07/2026 à 12:04 · horodatage certifié</div></div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+};
+
+V.inspecteur=()=>{
+  const feats=['Relevés à jour','Nettoyage signé','DLC maîtrisées','Journal inviolable'];
+  return `<div class="screen" style="max-width:none;padding:0">
+    <div style="min-height:100%;background:radial-gradient(900px 600px at 50% 15%,rgba(15,182,168,.12),transparent 60%);display:flex;flex-direction:column;padding:26px 40px 60px">
+      <div style="display:flex;align-items:center;justify-content:space-between"><div style="display:flex;align-items:center;gap:12px">${seal(34)}<div style="font-size:20px;font-weight:700">KLÉO</div></div><div style="display:flex;gap:16px;align-items:center"><div class="pill" style="text-transform:uppercase;letter-spacing:.1em">Mode inspecteur</div><button class="btn ghost" data-go="tableau" style="padding:9px 18px">Quitter</button></div></div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding-top:20px">
+        ${seal(140)}
+        <div class="mono" style="font-size:88px;font-weight:700;line-height:1;letter-spacing:-.03em;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-top:14px">98%</div>
+        <div style="font-size:30px;font-weight:600;margin-top:6px">Établissement conforme</div>
+        <div class="sub" style="font-size:16px">${clientLine()} · au 12 juillet 2026</div>
+        <div style="display:flex;gap:14px;margin-top:34px;flex-wrap:wrap;justify-content:center">
+          ${feats.map(f=>`<div style="display:flex;align-items:center;gap:11px;padding:16px 22px;border-radius:16px;background:rgba(60,240,172,.07);border:1px solid rgba(60,240,172,.25)"><span style="width:26px;height:26px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;flex:0 0 26px">${ico(ICONS.check).replace('stroke="currentColor"','stroke="#05130F"').replace('<svg','<svg width=15 height=15 style="stroke-width:3.4"')}</span><div style="font-size:15px;font-weight:500">${f}</div></div>`).join('')}
+        </div>
+        <button class="btn ghost" data-go="controle" style="margin-top:38px;padding:18px 34px;font-size:16px">${ico(ICONS.controle).replace('<svg','<svg width=19 height=19')}Présenter les justificatifs</button>
+      </div>
+    </div>
+  </div>`;
+};
+
+V.equipe=()=>{
+  const team=CONFIG.team||[];
+  const repvals=[40,28,22,10];
+  const rep=team.slice(0,4).map((m,i)=>[m.short||m.n,repvals[i]||0]);
+  return `<div class="screen">
+    <div class="head"><div><h1>Équipe</h1><div class="sub">${C('name','Le Comptoir Central')} · ${team.length} opérateurs actifs</div></div><button class="btn">${ico(ICONS.plus).replace('<svg','<svg width=18 height=18 style="stroke-width:2.2"')}Inviter</button></div>
+    <div class="grid" style="grid-template-columns:1fr 340px;gap:0" id="eqgrid">
+      <div style="padding-right:32px;display:flex;flex-direction:column;gap:12px">
+        ${team.map(m=>`<div class="card" style="display:flex;align-items:center;gap:16px;padding:18px 20px;${m.active?'background:linear-gradient(180deg,rgba(60,240,172,.1),rgba(15,182,168,.02));border-color:rgba(60,240,172,.3)':''}">
+          <div style="width:52px;height:52px;border-radius:15px;flex:0 0 52px;background:linear-gradient(135deg,#2A3138,#151A1F);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:600;color:#B8C4C0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)">${m.i}</div>
+          <div style="flex:1;min-width:0"><div style="font-size:17px;font-weight:600">${m.n}</div><div class="sub" style="font-size:13px">${m.r}</div></div>
+          <div style="width:180px;flex:0 0 180px"><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--txt2);margin-bottom:6px"><span>Fiabilité</span><span class="mono" style="color:var(--mintt)">${m.t}%</span></div><div style="height:7px;border-radius:100px;background:rgba(255,255,255,.08);overflow:hidden"><div style="width:${m.t}%;height:100%;background:var(--grad)"></div></div></div>
+          <div style="text-align:right;width:96px;flex:0 0 96px"><div class="mono" style="font-size:22px;font-weight:700">${m.s}</div><div style="font-size:11px;color:var(--txt3)">saisies · 30 j</div></div>
+        </div>`).join('')}
+      </div>
+      <div style="padding-left:30px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:24px">
+        <div class="eyebrow">Attribution des saisies</div>
+        <div class="card" style="padding:24px;text-align:center"><div class="mono" style="font-size:44px;font-weight:700;color:var(--mint2)">350</div><div class="sub">saisies ce mois-ci</div></div>
+        <div style="display:flex;flex-direction:column;gap:14px">${rep.map(r=>`<div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span>${r[0]}</span><span style="color:var(--txt2)">${r[1]}%</span></div><div style="height:8px;border-radius:100px;background:rgba(255,255,255,.08)"><div style="width:${r[1]}%;height:100%;border-radius:100px;background:var(--grad)"></div></div></div>`).join('')}</div>
+      </div>
+    </div>
+  </div>`;
+};
+
+V.reseau=()=>{
+  const net=CONFIG.network||[];
+  const nb=net.length;
+  const avg=nb?Math.round(net.reduce((a,n)=>a+n.conf,0)/nb):0;
+  const conf=net.filter(n=>n.conf>=90).length;
+  const rel=net.reduce((a,n)=>a+(n.r||0),0);
+  const ec=net.reduce((a,n)=>a+(n.e||0),0);
+  return `<div class="screen">
+    <div class="head"><div><h1>Réseau</h1><div class="sub">${nb} établissements · vue responsable réseau</div></div><div class="seg"><div>Jour</div><div class="on">30 jours</div><div>Trimestre</div></div></div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:16px">
+      <div class="card" style="padding:20px;background:linear-gradient(180deg,rgba(60,240,172,.1),rgba(15,182,168,.02));border-color:rgba(60,240,172,.28)"><div style="font-size:12px;color:var(--txt2)">Conformité moyenne</div><div class="mono" style="font-size:30px;font-weight:700;color:var(--mint2);margin-top:6px">${avg}%</div></div>
+      <div class="card" style="padding:20px"><div style="font-size:12px;color:var(--txt2)">Sites conformes</div><div style="margin-top:6px"><span class="mono" style="font-size:30px;font-weight:700">${conf}</span><span style="font-size:16px;color:var(--txt3)"> / ${nb}</span></div></div>
+      <div class="card" style="padding:20px"><div style="font-size:12px;color:var(--txt2)">Relevés · 30 j</div><div class="mono" style="font-size:30px;font-weight:700;margin-top:6px">${rel}</div></div>
+      <div class="card" style="padding:20px;background:rgba(255,107,107,.07);border-color:rgba(255,107,107,.28)"><div style="font-size:12px;color:var(--alertt)">Écarts réseau</div><div class="mono" style="font-size:30px;font-weight:700;color:var(--alertt);margin-top:6px">${ec}</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:2fr 2.2fr .8fr .8fr;gap:16px;padding:0 22px;margin-bottom:12px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--txt3)"><div>Établissement</div><div>Conformité</div><div style="text-align:center">Relevés</div><div style="text-align:center">Écarts</div></div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      ${net.map(n=>{const c=TONE[n.tone];return `<div class="card" style="display:grid;grid-template-columns:2fr 2.2fr .8fr .8fr;gap:16px;align-items:center;padding:20px 22px">
+        <div style="display:flex;align-items:center;gap:12px"><span class="dot" style="width:9px;height:9px;flex:0 0 9px;background:${c.c}"></span><div><div style="font-size:16px;font-weight:600">${n.n}</div><div style="font-size:12px;color:var(--txt3)">${n.c}</div></div></div>
+        <div style="display:flex;align-items:center;gap:14px"><div style="flex:1;height:8px;border-radius:100px;background:rgba(255,255,255,.08);overflow:hidden"><div style="width:${n.conf}%;height:100%;background:${c.c}"></div></div><span class="mono" style="font-size:26px;font-weight:700;color:${c.t}">${n.conf}%</span></div>
+        <div style="text-align:center" class="mono">${n.r}</div><div style="text-align:center" class="mono" style="font-weight:600">${n.e}</div>
+      </div>`}).join('')}
+    </div>
+  </div>`;
+};
+
+V.coffre=()=>{
+  const S2={ok:'ok',soon:'warn',expired:'alert'};
+  const docs=[
+    {n:'Agrément sanitaire',cat:'Réglementaire',date:'À jour',s:'ok'},
+    {n:'Plan de Maîtrise Sanitaire',cat:'Réglementaire',date:'v3 · 2026',s:'ok'},
+    {n:'Analyses microbiologiques',cat:'Analyses',date:'Q2 2026',s:'ok'},
+    {n:'Formation HACCP · équipe',cat:'Formations',date:'2 exp. < 60 j',s:'soon'},
+    {n:'Contrat dératisation',cat:'Prestataires',date:'Renouv. 09/26',s:'ok'},
+    {n:'Attestation froid · T. Girard',cat:'Formations',date:'Expiré',s:'expired'},
+  ];
+  return `<div class="screen">
+    <div class="head"><div><h1>Coffre-fort documentaire</h1><div class="sub">6 documents · chiffrés & horodatés</div></div><button class="btn">${ico(ICONS.plus).replace('<svg','<svg width=18 height=18 style="stroke-width:2.2"')}Ajouter</button></div>
+    <div style="display:flex;align-items:center;gap:12px;padding:15px 18px;border-radius:14px;background:rgba(245,177,76,.08);border:1px solid rgba(245,177,76,.28);margin-bottom:20px;color:var(--warnt);font-size:14px">${ico(ICONS.alert).replace('stroke="currentColor"','stroke="#F5C989"').replace('<svg','<svg width=20 height=20')}2 documents à renouveler dans les 60 jours — formations HACCP & attestation froid</div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr))">
+      ${docs.map(v=>{const c=TONE[S2[v.s]];return `<div class="card" style="padding:22px;display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between"><div style="width:52px;height:52px;border-radius:15px;flex:0 0 52px;display:flex;align-items:center;justify-content:center;background:${c.bg};color:${c.c}">${ico(ICONS.controle).replace('<svg','<svg width=24 height=24 style="stroke-width:1.7"')}</div><div class="status ${c.cls}">${v.date}</div></div>
+        <div><div style="font-size:16px;font-weight:600;line-height:1.3">${v.n}</div><div class="sub" style="font-size:12px;margin-top:4px">${v.cat}</div></div>
+      </div>`}).join('')}
+    </div>
+  </div>`;
+};
+
+/* ===================== RENDER + EVENTS ===================== */
+function render(){document.getElementById('main').innerHTML=(V[route]||V.accueil)();if(route==='assistant')afterAssistant()}
+
+document.addEventListener('click',e=>{
+  const go_=e.target.closest('[data-go]'); if(go_ && go_.dataset.go){return go(go_.dataset.go)}
+  const eq=e.target.closest('[data-eq]'); if(eq){S.equip=+eq.dataset.eq;S.temp='';S.action=null;save();return render()}
+  const key=e.target.closest('[data-key]'); if(key){tapKey(key.dataset.key);return}
+  if(e.target.closest('#del')){S.temp=S.temp.slice(0,-1);save();return render()}
+  if(e.target.closest('#valider')){return validateTemp()}
+  const act=e.target.closest('[data-act]'); if(act){S.action=act.dataset.act;save();return render()}
+  const zone=e.target.closest('[data-zone]'); if(zone){const i=zone.dataset.zone;S.checks[i]=!S.checks[i];save();return render()}
+  if(e.target.closest('#sign')){S.signed=true;pushLog({t:'12:04',label:'Plan de nettoyage signé',who:'Marie L.',tone:'ok'});save();render();toast('Nettoyage signé & horodaté')}
+  if(e.target.closest('#generer')){S.generated=true;save();render();toast('Dossier PDF généré · empreinte scellée')}
+  if(e.target.closest('#metierpick')){return openMetierPicker()}
+  if(e.target.closest('#kioskgo')){return openKiosk()}
+  if(e.target.closest('#chatsend')){const i=document.getElementById('chatinput');return sendChat(i?i.value:'')}
+  const qk=e.target.closest('[data-quick]'); if(qk){return sendChat(qk.getAttribute('data-quick'))}
+});
+function selectMetier(k){S.metier=k;S.temp='';S.action=null;save();closeModal();render();toast('Profil « '+M().label+' » activé')}
+
+function closeModal(){const m=document.getElementById('kleomodal');if(m)m.remove()}
+function openMetierPicker(){
+  closeModal();
+  const o=document.createElement('div');o.id='kleomodal';
+  o.style.cssText='position:fixed;inset:0;background:rgba(6,9,12,.72);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;z-index:150;padding:24px;animation:floatUp .25s ease both';
+  o.innerHTML=`<div class="card" style="width:100%;max-width:640px;padding:30px;background:#0A0F14">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><div style="font-size:22px;font-weight:600">Profil métier</div><button id="mclose" style="width:34px;height:34px;border-radius:10px;background:var(--surface2);border:1px solid var(--line);color:var(--txt2);font-size:18px">✕</button></div>
+    <div class="sub" style="margin-bottom:20px">Le cœur reste standardisé — seuls les seuils et zones s'adaptent au métier.</div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr))">
+      ${METIER_KEYS.map(k=>{const m=METIERS[k],on=k===S.metier;return `<button data-metier="${k}" style="padding:18px 14px;border-radius:16px;text-align:left;cursor:pointer;background:${on?'linear-gradient(180deg,rgba(60,240,172,.14),rgba(15,182,168,.03))':'var(--surface)'};border:1px solid ${on?'rgba(60,240,172,.45)':'var(--line)'}">
+        <div style="font-size:26px">${m.ic}</div><div style="font-size:15px;font-weight:600;margin-top:8px;color:${on?'var(--mintt)':'var(--txt)'}">${m.label}</div><div style="font-size:11px;color:var(--txt3);margin-top:2px">${m.equip.length} points · ${m.zones.length} zones</div>
+      </button>`}).join('')}
+    </div>
+  </div>`;
+  o.addEventListener('click',ev=>{
+    const mp=ev.target.closest('[data-metier]'); if(mp)return selectMetier(mp.dataset.metier);
+    if(ev.target===o||ev.target.closest('#mclose'))closeModal();
+  });
+  document.body.appendChild(o);
+}
+
+function tapKey(k){
+  let t=S.temp;
+  if(k==='-'){t=t.startsWith('-')?t.slice(1):'-'+t}
+  else if(k===','){if(t.includes(','))return;t=(t===''||t==='-')?t+'0,':t+','}
+  else{if(t.replace('-','').replace(',','').length>=4)return;t=t+k}
+  S.temp=t;save();render();
+}
+function validateTemp(){
+  const e=EQ()[S.equip]||EQ()[0],num=parseNum(S.temp);if(num==null)return;
+  const conf=e.hot?num>=e.th:num<=e.th;if(!conf&&!S.action)return;
+  const val=S.temp.replace('.',',');
+  pushLog({t:'12:0'+(Math.floor(Math.random()*9)),label:`Relevé ${e.name.toLowerCase()} · ${val} °C`,who:'Marie L.',tone:conf?'ok':'alert'});
+  S.temp='';S.action=null;save();render();
+  overlay(conf);
+}
+function overlay(conf){
+  const o=document.createElement('div');
+  o.style.cssText='position:fixed;inset:0;background:rgba(6,9,12,.82);backdrop-filter:blur(14px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;z-index:150';
+  o.innerHTML=`<div style="animation:checkPop .5s cubic-bezier(.2,1.3,.5,1) both">${seal(140)}</div>
+    <div style="text-align:center;animation:floatUp .5s .15s ease both"><div style="font-size:30px;font-weight:700">Relevé enregistré</div><div class="sub" style="font-size:15px;margin-top:6px">Horodaté & signé · journal inviolable</div></div>
+    ${[['24%','32%',9,'#4BF7B4',1.4,0],['20%','52%',7,'#0FB6A8',1.6,.1],['26%','66%',8,'#8CFFD6',1.5,.2],['22%','44%',6,'#4BF7B4',1.7,.05]].map(c=>`<div style="position:absolute;top:${c[0]};left:${c[1]};width:${c[2]}px;height:${c[2]}px;background:${c[3]};border-radius:2px;animation:confFall ${c[4]}s ${c[5]}s ease-out both"></div>`).join('')}`;
+  document.body.appendChild(o);
+  setTimeout(()=>{o.style.transition='opacity .3s';o.style.opacity='0';setTimeout(()=>o.remove(),300)},2000);
+}
+
+/* ===================== MODE SAISIE « 3 CLICS » ===================== */
+let KS=null;
+function openKiosk(){KS={step:'who',op:null,task:null,eq:0,temp:'',action:null};renderKiosk()}
+function closeKiosk(){KS=null;const k=document.getElementById('kiosk');if(k)k.remove()}
+function renderKiosk(){
+  let el=document.getElementById('kiosk');
+  if(!el){el=document.createElement('div');el.id='kiosk';el.addEventListener('click',kioskClick);document.body.appendChild(el)}
+  el.style.cssText='position:fixed;inset:0;z-index:180;background:radial-gradient(900px 600px at 50% 12%,rgba(15,182,168,.12),transparent 60%),linear-gradient(160deg,#0A0F14,#060809);display:flex;flex-direction:column;animation:floatUp .3s ease both';
+  el.innerHTML=kioskView();
+}
+function kBtn(attr,inner,extra){return `<button ${attr} style="border-radius:22px;background:var(--surface);border:1px solid var(--line);color:var(--txt);padding:26px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;cursor:pointer;transition:transform .1s;${extra||''}">${inner}</button>`}
+function kioskView(){
+  const steps=['who','task','do'];
+  const cur = KS.step==='who'?0 : KS.step==='task'?1 : 2;
+  const bar = steps.map((s,i)=>`<span style="width:${i===cur?'28px':'8px'};height:8px;border-radius:100px;background:${i<=cur?'var(--mint)':'rgba(255,255,255,.14)'};transition:all .2s"></span>`).join('');
+  const header=`<div style="display:flex;align-items:center;justify-content:space-between;padding:26px 34px">
+    <div style="display:flex;align-items:center;gap:12px">${seal(38)}<div style="font-size:20px;font-weight:700">KLÉO</div><div class="pill" style="margin-left:6px;text-transform:uppercase;letter-spacing:.1em;font-size:11px">Saisie · ${M().label}</div></div>
+    <div style="display:flex;align-items:center;gap:18px"><div style="display:flex;gap:6px;align-items:center">${bar}</div><button data-kquit style="padding:11px 20px;border-radius:12px;background:var(--surface2);border:1px solid var(--line2);color:var(--txt2);font-size:14px;cursor:pointer">Quitter</button></div>
+  </div>`;
+  let body='';
+  if(KS.step==='who'){
+    body=`<div style="text-align:center;margin-bottom:34px"><div class="eyebrow" style="margin-bottom:8px">Étape 1</div><div style="font-size:40px;font-weight:700;letter-spacing:-.02em">Qui es-tu&nbsp;?</div></div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,220px));justify-content:center;width:100%;max-width:960px">
+      ${ops().map(o=>kBtn(`data-kop="${o.n}"`,`<div style="width:80px;height:80px;border-radius:24px;background:linear-gradient(135deg,#2A3138,#151A1F);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:600;color:#B8C4C0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)">${o.i}</div><div style="font-size:20px;font-weight:600">${o.n}</div>`,'padding:34px 26px')).join('')}
+    </div>`;
+  } else if(KS.step==='task'){
+    const tasks=[['temp','Température',ICONS.temperature],['nett','Nettoyage',ICONS.nettoyage],['dlc','Étiquette DLC',ICONS.traca]];
+    body=`<div style="text-align:center;margin-bottom:34px"><div class="eyebrow" style="margin-bottom:8px">Étape 2 · ${KS.op}</div><div style="font-size:40px;font-weight:700;letter-spacing:-.02em">Quelle tâche&nbsp;?</div></div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,240px));justify-content:center;width:100%;max-width:960px">
+      ${tasks.map(t=>kBtn(`data-ktask="${t[0]}"`,`<div style="width:78px;height:78px;border-radius:22px;background:linear-gradient(135deg,rgba(75,247,180,.2),rgba(15,182,168,.08));display:flex;align-items:center;justify-content:center;color:var(--mint2)">${ico(t[2]).replace('<svg','<svg width=38 height=38 style="stroke-width:1.7"')}</div><div style="font-size:20px;font-weight:600">${t[1]}</div>`,'padding:36px 26px')).join('')}
+    </div>`;
+  } else {
+    body=kioskDo();
+  }
+  return header+`<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 40px 40px;min-height:0">${body}</div>`;
+}
+function kioskDo(){
+  if(KS.task==='temp'){
+    const EQP=EQ(), e=EQP[KS.eq]||EQP[0], num=parseNum(KS.temp), has=num!=null;
+    const conf=has&&(e.hot?num>=e.th:num<=e.th), ecart=has&&!conf;
+    const col=conf?'#4BF7B4':ecart?'#FF8C8C':'#EAF2F0';
+    const canVal=has&&(conf||KS.action);
+    const keys=['1','2','3','4','5','6','7','8','9','-','0',','];
+    const acts=['Produit transféré en froid positif','Produit retiré du service','Contrôle du groupe froid demandé'];
+    return `<div style="display:grid;grid-template-columns:260px 1fr 320px;gap:34px;width:100%;max-width:1100px;align-items:center">
+      <div style="display:flex;flex-direction:column;gap:10px"><div class="eyebrow" style="margin-bottom:4px">Équipement</div>
+        ${EQP.map((q,i)=>`<button data-keq="${i}" style="text-align:left;padding:14px 16px;border-radius:14px;cursor:pointer;background:${i===KS.eq?'linear-gradient(180deg,rgba(60,240,172,.14),rgba(15,182,168,.03))':'var(--surface)'};border:1px solid ${i===KS.eq?'rgba(60,240,172,.45)':'var(--line)'};color:var(--txt)"><div style="font-size:16px;font-weight:600">${q.name}</div><div class="mono" style="font-size:12px;color:var(--mintt);margin-top:3px">Seuil ${q.seuil}</div></button>`).join('')}
+      </div>
+      <div style="text-align:center">
+        <div class="eyebrow" style="margin-bottom:12px">${e.name}</div>
+        <div style="display:flex;align-items:baseline;justify-content:center;gap:6px"><span class="mono" style="font-size:88px;font-weight:700;line-height:1;color:${col}">${KS.temp===''?'——':KS.temp}</span><span class="mono" style="font-size:36px;color:var(--txt3)">°C</span></div>
+        ${conf?`<div style="margin-top:16px;display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border-radius:14px;background:rgba(60,240,172,.12);border:1px solid rgba(60,240,172,.4);color:var(--mintt);font-weight:600">${ico(ICONS.check).replace('<svg','<svg width=18 height=18 style="stroke-width:3"')}Conforme</div>`:''}
+        ${ecart?`<div style="margin-top:16px;text-align:left"><div style="display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:14px;background:rgba(255,107,107,.12);border:1px solid rgba(255,107,107,.45);color:#FFC9C9;font-weight:600;margin-bottom:12px">${ico(ICONS.alert).replace('<svg','<svg width=18 height=18 style="stroke-width:2"')}Écart · choisis une action</div>${acts.map(a=>`<button data-kact="${a}" style="display:flex;width:100%;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;margin-bottom:8px;cursor:pointer;font-size:14px;background:${KS.action===a?'rgba(255,107,107,.12)':'var(--surface)'};border:1px solid ${KS.action===a?'rgba(255,107,107,.5)':'var(--line2)'};color:${KS.action===a?'#FFD9D9':'var(--txt)'}">${KS.action===a?'●':'○'} ${a}</button>`).join('')}</div>`:''}
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="grid" style="grid-template-columns:repeat(3,1fr);gap:10px">${keys.map(k=>`<button data-kkey="${k}" style="padding:18px 0;border-radius:14px;background:var(--surface);border:1px solid var(--line);color:var(--txt);font-family:var(--mono);font-size:28px;font-weight:600;cursor:pointer">${k}</button>`).join('')}</div>
+        <div style="display:flex;gap:10px"><button data-kdel style="flex:0 0 80px;padding:16px;border-radius:14px;background:var(--surface);border:1px solid var(--line);color:var(--txt2);display:flex;align-items:center;justify-content:center;cursor:pointer">${ico(ICONS.del).replace('<svg','<svg width=24 height=24')}</button><button data-kvalidate ${canVal?'':'disabled'} style="flex:1;padding:16px;border-radius:14px;border:none;font-size:16px;font-weight:700;cursor:${canVal?'pointer':'not-allowed'};background:${canVal?'var(--grad)':'var(--surface2)'};color:${canVal?'#05130F':'var(--txt3)'}">Valider</button></div>
+      </div>
+    </div>`;
+  }
+  if(KS.task==='nett'){
+    const Z=ZN(); const done=Z.filter((z,i)=>KS['z'+i]).length;
+    return `<div style="width:100%;max-width:720px">
+      <div style="text-align:center;margin-bottom:24px"><div class="eyebrow">${KS.op} · nettoyage</div><div style="font-size:30px;font-weight:700;margin-top:6px">${done}/${Z.length} zones faites</div></div>
+      <div style="display:flex;flex-direction:column;gap:10px">${Z.map((z,i)=>`<button data-kzone="${i}" style="display:flex;align-items:center;gap:16px;padding:16px 20px;border-radius:16px;cursor:pointer;text-align:left;background:${KS['z'+i]?'linear-gradient(90deg,rgba(60,240,172,.08),rgba(255,255,255,.015))':'var(--surface)'};border:1px solid ${KS['z'+i]?'rgba(60,240,172,.28)':'var(--line)'};color:var(--txt)"><span style="width:32px;height:32px;flex:0 0 32px;border-radius:9px;display:flex;align-items:center;justify-content:center;${KS['z'+i]?'background:var(--grad)':'border:2px solid rgba(255,255,255,.22)'}">${KS['z'+i]?ico(ICONS.check).replace('stroke="currentColor"','stroke="#05130F"').replace('<svg','<svg width=17 height=17 style="stroke-width:3.4"'):''}</span><div style="flex:1"><div style="font-size:16px;font-weight:500">${z.zone}</div><div class="sub" style="font-size:12px">${z.freq}</div></div></button>`).join('')}</div>
+      <button data-kvalidate style="width:100%;margin-top:18px;padding:18px;border-radius:16px;border:none;background:var(--grad);color:#05130F;font-size:17px;font-weight:700;cursor:pointer">Signer &amp; valider</button>
+    </div>`;
+  }
+  // dlc
+  return `<div style="width:100%;max-width:520px;text-align:center">
+    <div class="eyebrow">${KS.op} · nouvelle étiquette</div>
+    <div style="font-size:30px;font-weight:700;margin:6px 0 24px">Étiquette DLC</div>
+    <div class="card" style="padding:26px;text-align:left;display:flex;flex-direction:column;gap:14px">
+      <div><div class="sub" style="font-size:12px;margin-bottom:6px">Produit</div><div style="padding:14px 16px;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-size:16px">Saumon fumé</div></div>
+      <div style="display:flex;gap:12px"><div style="flex:1"><div class="sub" style="font-size:12px;margin-bottom:6px">Fabriqué le</div><div class="mono" style="padding:14px 16px;border-radius:12px;background:var(--surface2);border:1px solid var(--line);font-size:16px">12/07/2026</div></div><div style="flex:1"><div class="sub" style="font-size:12px;margin-bottom:6px">DLC (auto +3j)</div><div class="mono" style="padding:14px 16px;border-radius:12px;background:rgba(60,240,172,.08);border:1px solid rgba(60,240,172,.3);font-size:16px;color:var(--mintt)">15/07/2026</div></div></div>
+    </div>
+    <button data-kvalidate style="width:100%;margin-top:18px;padding:18px;border-radius:16px;border:none;background:var(--grad);color:#05130F;font-size:17px;font-weight:700;cursor:pointer">Imprimer &amp; enregistrer</button>
+  </div>`;
+}
+function kioskClick(e){
+  if(e.target.closest('[data-kquit]'))return closeKiosk();
+  const op=e.target.closest('[data-kop]'); if(op){KS.op=op.dataset.kop;KS.step='task';return renderKiosk()}
+  const tk=e.target.closest('[data-ktask]'); if(tk){KS.task=tk.dataset.ktask;KS.step='do';KS.eq=0;KS.temp='';KS.action=null;return renderKiosk()}
+  const eq=e.target.closest('[data-keq]'); if(eq){KS.eq=+eq.dataset.keq;KS.temp='';KS.action=null;return renderKiosk()}
+  const key=e.target.closest('[data-kkey]'); if(key){kioskTap(key.dataset.kkey);return}
+  if(e.target.closest('[data-kdel]')){KS.temp=KS.temp.slice(0,-1);return renderKiosk()}
+  const act=e.target.closest('[data-kact]'); if(act){KS.action=act.dataset.kact;return renderKiosk()}
+  const zn=e.target.closest('[data-kzone]'); if(zn){KS['z'+zn.dataset.kzone]=!KS['z'+zn.dataset.kzone];return renderKiosk()}
+  if(e.target.closest('[data-kvalidate]'))return kioskValidate();
+}
+function kioskTap(k){
+  let t=KS.temp;
+  if(k==='-'){t=t.startsWith('-')?t.slice(1):'-'+t}
+  else if(k===','){if(t.includes(','))return;t=(t===''||t==='-')?t+'0,':t+','}
+  else{if(t.replace('-','').replace(',','').length>=4)return;t=t+k}
+  KS.temp=t;renderKiosk();
+}
+function kioskValidate(){
+  if(KS.task==='temp'){
+    const e=EQ()[KS.eq]||EQ()[0],num=parseNum(KS.temp);if(num==null)return;
+    const conf=e.hot?num>=e.th:num<=e.th;if(!conf&&!KS.action)return;
+    pushLog({t:'12:0'+(Math.floor(Math.random()*9)),label:`Relevé ${e.name.toLowerCase()} · ${KS.temp.replace('.',',')} °C`,who:KS.op,tone:conf?'ok':'alert'});
+  } else if(KS.task==='nett'){
+    pushLog({t:'12:0'+(Math.floor(Math.random()*9)),label:'Plan de nettoyage signé',who:KS.op,tone:'ok'});
+    S.signed=true;
+  } else {
+    pushLog({t:'12:0'+(Math.floor(Math.random()*9)),label:'Étiquette DLC créée · Saumon fumé',who:KS.op,tone:'ok'});
+  }
+  save();
+  kioskSuccess();
+}
+function kioskSuccess(){
+  const el=document.getElementById('kiosk'); if(!el)return;
+  el.innerHTML=`<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;position:relative">
+    <div style="animation:checkPop .5s cubic-bezier(.2,1.3,.5,1) both">${seal(150)}</div>
+    <div style="text-align:center;animation:floatUp .5s .15s ease both"><div style="font-size:34px;font-weight:700">C'est enregistré, merci&nbsp;!</div><div class="sub" style="font-size:16px;margin-top:6px">${KS.op} · horodaté &amp; signé · journal inviolable</div></div>
+    ${[['26%','34%',9,'#4BF7B4',1.4,0],['22%','54%',7,'#0FB6A8',1.6,.1],['28%','64%',8,'#8CFFD6',1.5,.2]].map(c=>`<div style="position:absolute;top:${c[0]};left:${c[1]};width:${c[2]}px;height:${c[2]}px;background:${c[3]};border-radius:2px;animation:confFall ${c[4]}s ${c[5]}s ease-out both"></div>`).join('')}</div>`;
+  setTimeout(()=>{ if(KS){KS.step='task';KS.temp='';KS.action=null;for(let i=0;i<8;i++)delete KS['z'+i];renderKiosk()} if(route==='accueil'||route==='calendrier'||route==='nettoyage')render();},2100);
+}
+
+/* ===================== ASSISTANT IA (démo, sans backend) ===================== */
+function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')}
+function nowLabel(){try{const d=new Date();return (''+d.getHours()).padStart(2,'0')+':'+(''+d.getMinutes()).padStart(2,'0')}catch(e){return ''}}
+function escapeHtml(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function findTemp(t){const m=norm(t).replace(/moins\s+/g,'-').match(/-?\d+(?:[.,]\d+)?/);return m?parseFloat(m[0].replace(',','.')):null}
+function matchList(t,arr,key){const n=norm(t);let best=null,sc=0;arr.forEach((it,i)=>{const words=norm(it[key]).split(/[^a-z]+/).filter(w=>w.length>3);let s=0;words.forEach(w=>{if(n.includes(w.slice(0,Math.min(6,w.length))))s++});if(/congel/.test(n)&&/congel/.test(norm(it[key])))s+=2;if(/frigo/.test(n)&&/chambre froide/.test(norm(it[key])))s+=2;if(s>sc){sc=s;best={it,i}}});return sc>0?best:null}
+function findEquip(t){const r=matchList(t,EQ(),'name');return r?{e:r.it,i:r.i}:null}
+function findZone(t){const r=matchList(t,ZN(),'zone');return r?{z:r.it,i:r.i}:null}
+
+function renderChatLog(){
+  const el=document.getElementById('chatlog');if(!el)return;
+  el.innerHTML=(S.chat||[]).map(m=>{
+    if(m.r==='sys')return `<div class="msg sys">✓ ${escapeHtml(m.t)}</div>`;
+    return `<div class="msg ${m.r==='user'?'user':'bot'}">${escapeHtml(m.t)}<span class="tm">${m.tm||''}</span></div>`;
+  }).join('');
+  el.scrollTop=el.scrollHeight;
+}
+function afterAssistant(){renderChatLog();const i=document.getElementById('chatinput');if(i)i.focus()}
+function showTyping(){const el=document.getElementById('chatlog');if(!el)return;const d=document.createElement('div');d.className='typing';d.id='typing';d.innerHTML='<span></span><span></span><span></span>';el.appendChild(d);el.scrollTop=el.scrollHeight}
+function hideTyping(){const d=document.getElementById('typing');if(d)d.remove()}
+function botSay(t){S.chat.push({r:'bot',t,tm:nowLabel()})}
+function botSys(t){S.chat.push({r:'sys',t})}
+function finishBot(){save();renderChatLog()}
+
+function sendChat(text){
+  text=(text||'').trim();if(!text||!S.chat)return;
+  const i=document.getElementById('chatinput');if(i)i.value='';
+  S.chat.push({r:'user',t:text,tm:nowLabel()});renderChatLog();save();
+  showTyping();
+  setTimeout(()=>{hideTyping();botRespond(text)},680);
+}
+function botRespond(text){
+  const p=S.chatPending, low=norm(text);
+  if(p&&p.type==='need-action'){
+    pushLog({t:nowLabel(),label:'Action corrective · '+text+' ('+p.eqName+')',who:CONFIG.manager||'Vous',tone:'ok'});
+    botSay('✅ Action enregistrée : « '+text+' ». L’écart est clôturé et tracé dans le journal inviolable.');
+    S.chatPending=null;return finishBot();
+  }
+  if(p&&p.type==='need-temp'){
+    const tv=findTemp(text);
+    if(tv==null){botSay('Je n’ai pas saisi la température 🤔 Donnez-moi juste le chiffre, par ex. « 3 » ou « -18 ».');return finishBot();}
+    S.chatPending=null;return processReading(p.eq,tv);
+  }
+  const temp=findTemp(text), eq=findEquip(text);
+  if(eq&&temp!=null)return processReading(eq.e,temp);
+  if(eq&&temp==null){S.chatPending={type:'need-temp',eq:eq.e};botSay('Bien reçu pour '+eq.e.name+'. Quelle température avez-vous relevée ?');return finishBot();}
+  if(/nettoy|nettoie|propre|\blav/.test(low)){
+    const z=findZone(text);
+    if(z){S.checks[z.i]=true;pushLog({t:nowLabel(),label:'Nettoyage · '+z.z.zone,who:CONFIG.manager||'Vous',tone:'ok'});botSay('✅ « '+z.z.zone+' » marqué comme nettoyé. Bien joué !');botSys('Plan de nettoyage & journal mis à jour');return finishBot();}
+    botSay('Quelle zone avez-vous nettoyée ? (ex. plan de travail, sol cuisine, chambre froide…)');return finishBot();
+  }
+  if(/etiquet|dlc|perim|expir/.test(low)){
+    botSay('📋 C’est noté. Dans la vraie version, je génère l’étiquette avec la DLC calculée automatiquement (ex. +3 j pour un produit entamé) et je vous alerte avant expiration.');botSys('Traçabilité DLC mise à jour');return finishBot();
+  }
+  const q=answerQuestion(low);
+  if(q){botSay(q);return finishBot();}
+  botSay('Je peux enregistrer vos relevés de température, vos nettoyages, vos étiquettes DLC, et répondre à vos questions réglementaires 😊\nEssayez par exemple : « chambre froide 3 degrés ».');
+  return finishBot();
+}
+function processReading(e,temp){
+  const conf=e.hot?temp>=e.th:temp<=e.th, disp=(''+temp).replace('.',',');
+  pushLog({t:nowLabel(),label:'Relevé '+e.name.toLowerCase()+' · '+disp+' °C',who:CONFIG.manager||'Vous',tone:conf?'ok':'alert'});
+  if(conf){botSay('✅ '+e.name+' : '+disp+' °C — conforme (seuil '+e.seuil+'). C’est enregistré.');botSys('Tableau de bord & journal mis à jour');S.chatPending=null;}
+  else{botSay('⚠️ '+e.name+' : '+disp+' °C — hors seuil ('+e.seuil+'). Une action corrective est nécessaire : qu’avez-vous fait ? (produit transféré au froid, retiré du service, contrôle du groupe demandé…)');botSys('Écart détecté · tableau de bord mis à jour');S.chatPending={type:'need-action',eqName:e.name};}
+  return finishBot();
+}
+function answerQuestion(low){
+  if(/allergen/.test(low))return 'Il y a 14 allergènes à déclaration obligatoire (INCO 1169/2011) : gluten, crustacés, œufs, poissons, arachides, soja, lait, fruits à coque, céleri, moutarde, graines de sésame, sulfites, lupin, mollusques. Ils doivent être indiqués pour chaque préparation.';
+  if(/vitrine/.test(low))return 'Une vitrine réfrigérée se tient à ≤ 4 °C. Au-delà, il faut agir et tracer une action corrective — je m’en occupe si vous me signalez l’écart.';
+  if(/congel/.test(low))return 'Un congélateur doit être maintenu à ≤ -18 °C.';
+  if((/chambre froide|frigo/.test(low)))return 'Une chambre froide positive se tient à ≤ 4 °C (≤ 3 °C pour les viandes). Le congélateur, lui, à ≤ -18 °C.';
+  if(/dlc/.test(low))return 'La DLC (« à consommer jusqu’au ») concerne les produits périssables. Un produit entamé reçoit souvent une durée plus courte. KLÉO génère l’étiquette et vous alerte avant expiration.';
+  if(/controle|ddpp|inspect/.test(low))return 'Lors d’un contrôle DDPP, présentez le Mode Inspecteur : conformité, relevés, nettoyages et dossier PDF scellé sont prêts. Tout est horodaté et inviolable.';
+  if(/temp/.test(low)&&/(seuil|combien|quelle|quel)/.test(low))return 'Seuils usuels : chambre froide ≤ 4 °C, congélateur ≤ -18 °C, vitrine ≤ 4 °C, maintien au chaud ≥ 63 °C. Je les adapte à votre établissement.';
+  return null;
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&!e.shiftKey&&e.target&&e.target.id==='chatinput'){e.preventDefault();sendChat(e.target.value);}
+});
+
+(async function init(){
+  await loadConfig();
+  S=load();
+  if(!METIERS[S.metier])S.metier=CONFIG.metier||'restaurant';
+  if(document.title.indexOf('KLÉO')===0 && CONFIG.client&&CONFIG.client.name)document.title='KLÉO — '+CONFIG.client.name;
+  renderNav();render();
+})();
+if('serviceWorker' in navigator && window.top===window.self){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+</script>
+</body>
+</html>

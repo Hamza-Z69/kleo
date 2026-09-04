@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KLÉO — Hygiène & HACCP</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='64' y2='64'><stop stop-color='%233CF0AC'/><stop offset='1' stop-color='%230FB6A8'/></linearGradient></defs><circle cx='32' cy='32' r='30' fill='url(%23g)'/><path d='M22 33l7 7 14-15' stroke='%2306241A' stroke-width='7' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#070B0A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070B0A;--panel:rgba(255,255,255,.035);--panel-strong:rgba(255,255,255,.055);
+    --stroke:rgba(255,255,255,.08);--stroke-soft:rgba(255,255,255,.05);
+    --txt:#EAF2EF;--txt-dim:#8A9A95;--txt-faint:#5A6B66;
+    --mint:#34E0A1;--teal:#14C8C8;--amber:#FFB547;--red:#FF5C6C;
+    --grad:linear-gradient(135deg,#34E0A1 0%,#10B981 55%,#0FB6A8 100%);
+    --grad-soft:linear-gradient(135deg,rgba(52,224,161,.16),rgba(16,185,129,.06));
+    --r:22px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:'Inter',system-ui,sans-serif;background:radial-gradient(1200px 700px at 85% -10%,rgba(16,185,129,.13),transparent 60%),radial-gradient(900px 600px at -5% 110%,rgba(20,200,200,.09),transparent 55%),var(--bg);color:var(--txt);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,.brand-name,.kpi-num,.score-num,.big-num{font-family:'Sora',sans-serif}
+  .app{display:grid;grid-template-columns:264px 1fr;min-height:100vh}
+
+  /* SIDEBAR */
+  .side{border-right:1px solid var(--stroke-soft);background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);padding:26px 18px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh;overflow-y:auto}
+  .brand{display:flex;align-items:center;gap:12px;padding:4px 8px 22px}
+  .logo-mark{width:42px;height:42px;flex-shrink:0;filter:drop-shadow(0 6px 14px rgba(52,224,161,.35))}
+  .brand-name{font-size:23px;font-weight:800;letter-spacing:.5px;line-height:1}
+  .brand-sub{font-size:10px;color:var(--txt-faint);letter-spacing:2.5px;text-transform:uppercase;margin-top:3px}
+  .nav-label{font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:var(--txt-faint);padding:14px 12px 6px}
+  .nav-item{display:flex;align-items:center;gap:13px;padding:11px 14px;border-radius:13px;color:var(--txt-dim);font-size:14px;font-weight:500;cursor:pointer;transition:.2s;border:1px solid transparent;position:relative}
+  .nav-item svg{width:18px;height:18px;flex-shrink:0;opacity:.85}
+  .nav-item:hover{background:var(--panel);color:var(--txt)}
+  .nav-item.active{background:var(--grad-soft);color:#fff;border-color:rgba(52,224,161,.22)}
+  .nav-item.active::before{content:"";position:absolute;left:-18px;top:50%;transform:translateY(-50%);width:3px;height:22px;background:var(--grad);border-radius:0 4px 4px 0}
+  .nav-item .badge{margin-left:auto;background:var(--red);color:#fff;font-size:10.5px;font-weight:700;min-width:19px;height:19px;border-radius:10px;display:grid;place-items:center;padding:0 6px}
+  .nav-item .star{margin-left:auto;font-size:10px;color:var(--amber)}
+  .side-foot{margin-top:auto;padding:13px;border-radius:16px;background:var(--panel);border:1px solid var(--stroke-soft);display:flex;align-items:center;gap:11px}
+  .av{width:38px;height:38px;border-radius:12px;background:var(--grad);display:grid;place-items:center;font-weight:700;color:#04140E;font-family:'Sora';flex-shrink:0;font-size:14px}
+  .side-foot .nm{font-size:13.5px;font-weight:600}.side-foot .rl{font-size:11px;color:var(--txt-faint)}
+
+  /* MAIN */
+  .main{padding:28px 38px 60px;max-width:1340px}
+  .topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:16px;flex-wrap:wrap}
+  .topbar-left{display:flex;align-items:center;gap:18px}
+  .client-logo{width:60px;height:60px;border-radius:16px;flex-shrink:0;cursor:pointer;position:relative;overflow:hidden;border:1px solid var(--stroke);background:var(--panel-strong);display:grid;place-items:center;transition:.2s}
+  .client-logo:hover{border-color:rgba(52,224,161,.4)}
+  .client-logo img{width:100%;height:100%;object-fit:cover}
+  .client-logo .initials{font-family:'Sora';font-weight:800;font-size:21px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .client-logo .edit{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.7);font-size:8px;text-align:center;padding:2px 0;color:var(--mint);letter-spacing:.5px;opacity:0;transition:.2s}
+  .client-logo:hover .edit{opacity:1}
+  .hello{font-size:13px;color:var(--txt-dim);display:flex;align-items:center;gap:9px}
+  .live-dot{width:8px;height:8px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 4px rgba(52,224,161,.18);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(52,224,161,.18)}50%{box-shadow:0 0 0 8px rgba(52,224,161,.05)}}
+  .topbar h1{font-size:26px;font-weight:700;margin-top:6px;letter-spacing:-.5px;display:flex;align-items:center;gap:12px}
+  .topbar h1 b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .trade-chip{display:inline-flex;align-items:center;gap:7px;font-family:'Inter';font-size:12.5px;font-weight:600;color:var(--txt-dim);background:var(--panel-strong);border:1px solid var(--stroke);padding:6px 12px;border-radius:30px}
+  .trade-chip svg{width:15px;height:15px;color:var(--mint)}
+  .top-right{display:flex;align-items:center;gap:12px}
+  .clock{text-align:right}.clock .t{font-family:'Sora';font-size:21px;font-weight:600}.clock .d{font-size:12px;color:var(--txt-faint);text-transform:capitalize}
+  .btn-export{display:flex;align-items:center;gap:10px;background:var(--grad);color:#04140E;border:none;padding:14px 22px;border-radius:15px;font-family:'Sora';font-weight:700;font-size:14px;cursor:pointer;box-shadow:0 14px 34px -10px rgba(52,224,161,.55);transition:.25s}
+  .btn-export:hover{transform:translateY(-2px);box-shadow:0 20px 44px -10px rgba(52,224,161,.7)}
+  .btn-export svg{width:18px;height:18px}
+
+  /* CONFIG BAR */
+  .config{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:linear-gradient(135deg,rgba(52,224,161,.06),rgba(255,255,255,.02));border:1px dashed rgba(52,224,161,.28);border-radius:18px;padding:13px 18px;margin-bottom:24px}
+  .config .lab{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mint);font-weight:700;display:flex;align-items:center;gap:7px}
+  .config .lab svg{width:15px;height:15px}
+  .config .sep{width:1px;height:26px;background:var(--stroke)}
+  .trades{display:flex;gap:8px;flex-wrap:wrap}
+  .t-btn{display:flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--stroke);color:var(--txt-dim);padding:8px 13px;border-radius:12px;font-size:12.5px;font-weight:600;cursor:pointer;transition:.2s;font-family:'Inter'}
+  .t-btn svg{width:15px;height:15px}
+  .t-btn:hover{color:var(--txt);border-color:rgba(52,224,161,.3)}
+  .t-btn.active{background:var(--grad-soft);color:#fff;border-color:rgba(52,224,161,.45)}
+  .t-btn.active svg{color:var(--mint)}
+  .name-in{background:var(--panel);border:1px solid var(--stroke);color:var(--txt);padding:9px 13px;border-radius:12px;font-size:13px;font-family:'Inter';font-weight:500;min-width:180px;outline:none;transition:.2s}
+  .name-in:focus{border-color:rgba(52,224,161,.45)}
+  .logo-btn{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--stroke);color:var(--txt-dim);padding:9px 14px;border-radius:12px;font-size:12.5px;font-weight:600;cursor:pointer;transition:.2s}
+  .logo-btn:hover{color:var(--mint);border-color:rgba(52,224,161,.3)}.logo-btn svg{width:15px;height:15px}
+
+  /* shared */
+  .card{background:var(--panel);border:1px solid var(--stroke);border-radius:var(--r);backdrop-filter:blur(14px);position:relative;overflow:hidden}
+  .panel{padding:24px}
+  .view-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+  .view-head h2{font-size:23px;font-weight:700;letter-spacing:-.4px}
+  .view-head .sub{font-size:13.5px;color:var(--txt-dim);margin-top:5px;max-width:600px;line-height:1.5}
+  .btn{display:inline-flex;align-items:center;gap:9px;border-radius:13px;font-weight:600;font-size:13.5px;cursor:pointer;transition:.2s;border:1px solid var(--stroke);background:var(--panel);color:var(--txt);padding:11px 17px;font-family:'Inter'}
+  .btn:hover{border-color:rgba(52,224,161,.4);color:#fff}.btn svg{width:16px;height:16px}
+  .btn.primary{background:var(--grad);color:#04140E;border:none;box-shadow:0 12px 30px -12px rgba(52,224,161,.6)}
+  .btn.primary:hover{transform:translateY(-1px);color:#04140E}
+  .panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+  .panel-head h3{font-size:16px;font-weight:600;letter-spacing:-.2px;display:flex;align-items:center;gap:10px}
+  .panel-head h3 .dot{width:8px;height:8px;border-radius:50%;background:var(--mint)}
+  .panel-head .more{font-size:12.5px;color:var(--txt-dim);cursor:pointer;display:flex;align-items:center;gap:5px}
+  .panel-head .more:hover{color:var(--mint)}
+  .pill{font-size:11px;font-weight:700;padding:5px 11px;border-radius:30px;letter-spacing:.3px;white-space:nowrap}
+  .pill.ok{background:rgba(52,224,161,.13);color:var(--mint)}.pill.warn{background:rgba(255,181,71,.14);color:var(--amber)}.pill.bad{background:rgba(255,92,108,.14);color:var(--red)}
+  .pill.info{background:rgba(20,200,200,.13);color:var(--teal)}
+  .v.ok{color:var(--mint)}.v.warn{color:var(--amber)}.v.bad{color:var(--red)}
+  .grid-2{display:grid;grid-template-columns:1.25fr 1fr;gap:18px;margin-top:18px}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .fade{animation:fade .45s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  /* dashboard */
+  .hero{display:grid;grid-template-columns:1.05fr 1.4fr;gap:18px;margin-bottom:18px}
+  .score-card{padding:30px;display:flex;align-items:center;gap:30px}
+  .score-card::after{content:"";position:absolute;inset:0;background:var(--grad-soft);opacity:.6;pointer-events:none}
+  .ring{position:relative;width:172px;height:172px;flex-shrink:0;z-index:1}.ring svg{transform:rotate(-90deg)}
+  .ring .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .score-num{font-size:46px;font-weight:800;line-height:1;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .score-num span{font-size:20px}
+  .score-lbl{font-size:11px;color:var(--txt-dim);letter-spacing:1.5px;text-transform:uppercase;margin-top:5px}
+  .score-info{z-index:1}
+  .score-info .tag{display:inline-flex;align-items:center;gap:7px;background:rgba(52,224,161,.14);color:var(--mint);font-size:12.5px;font-weight:600;padding:7px 13px;border-radius:30px;border:1px solid rgba(52,224,161,.25)}
+  .score-info h2{font-size:22px;font-weight:700;margin:14px 0 8px;letter-spacing:-.3px}
+  .score-info p{font-size:13.5px;color:var(--txt-dim);line-height:1.6;max-width:330px}
+  .score-meta{display:flex;gap:22px;margin-top:18px}
+  .score-meta div{font-size:12px;color:var(--txt-faint)}
+  .score-meta b{display:block;font-family:'Sora';font-size:17px;color:var(--txt);font-weight:600;margin-bottom:2px}
+  .kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  .kpi{padding:20px 22px;display:flex;flex-direction:column;gap:2px;position:relative}
+  .kpi .ico{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;margin-bottom:12px}
+  .kpi .ico svg{width:20px;height:20px}
+  .ico.g{background:rgba(52,224,161,.12);color:var(--mint)}.ico.b{background:rgba(20,200,200,.12);color:var(--teal)}.ico.a{background:rgba(255,181,71,.12);color:var(--amber)}.ico.r{background:rgba(255,92,108,.12);color:var(--red)}
+  .kpi-num{font-size:30px;font-weight:700;line-height:1}.kpi-num small{font-size:15px;color:var(--txt-faint);font-weight:500}
+  .kpi-lbl{font-size:12.5px;color:var(--txt-dim);margin-top:5px}
+  .kpi-trend{position:absolute;top:20px;right:22px;font-size:11.5px;font-weight:600}.kpi-trend.up{color:var(--mint)}.kpi-trend.warn{color:var(--amber)}
+
+  /* temp rows */
+  .temp-row{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid var(--stroke-soft)}
+  .temp-row:last-child{border-bottom:none}
+  .temp-ico{width:42px;height:42px;border-radius:13px;background:var(--panel-strong);display:grid;place-items:center;flex-shrink:0;border:1px solid var(--stroke-soft)}
+  .temp-ico svg{width:21px;height:21px;color:var(--teal)}
+  .temp-name{font-size:14.5px;font-weight:600}.temp-sub{font-size:11.5px;color:var(--txt-faint);margin-top:2px}
+  .temp-val{margin-left:auto;text-align:right}.temp-val .v{font-family:'Sora';font-size:19px;font-weight:700}.temp-val .range{font-size:11px;color:var(--txt-faint)}
+
+  /* checklist */
+  .check{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--stroke-soft);cursor:pointer;transition:.18s}
+  .check:last-child{border-bottom:none}.check:hover{padding-left:4px}
+  .box{width:24px;height:24px;border-radius:8px;border:2px solid var(--stroke);flex-shrink:0;display:grid;place-items:center;transition:.2s}
+  .box svg{width:14px;height:14px;color:#04140E;opacity:0;transform:scale(.4);transition:.2s}
+  .check.done .box{background:var(--grad);border-color:transparent}.check.done .box svg{opacity:1;transform:scale(1)}
+  .check.done .ck-name{color:var(--txt-faint);text-decoration:line-through}
+  .ck-name{font-size:14px;font-weight:500;transition:.2s}.ck-sub{font-size:11px;color:var(--txt-faint);margin-top:2px}
+  .ck-time{margin-left:auto;font-size:11.5px;color:var(--txt-faint)}
+  .progress-bar{height:8px;background:var(--panel-strong);border-radius:10px;overflow:hidden;margin-top:4px;margin-bottom:18px}
+  .progress-fill{height:100%;background:var(--grad);border-radius:10px;width:0;transition:width 1s cubic-bezier(.16,1,.3,1)}
+  .progress-meta{display:flex;justify-content:space-between;font-size:12.5px;color:var(--txt-dim);margin-bottom:6px}
+
+  /* alerts */
+  .alert{display:flex;gap:13px;padding:14px;border-radius:15px;background:var(--panel-strong);border:1px solid var(--stroke-soft);margin-bottom:11px;align-items:flex-start}
+  .alert:last-child{margin-bottom:0}.alert .bar{width:3px;align-self:stretch;border-radius:4px;flex-shrink:0}
+  .alert.a .bar{background:var(--amber)}.alert.r .bar{background:var(--red)}.alert.i .bar{background:var(--teal)}
+  .alert .ttl{font-size:13.5px;font-weight:600}.alert .desc{font-size:12px;color:var(--txt-dim);margin-top:3px;line-height:1.5}.alert .when{font-size:11px;color:var(--txt-faint);margin-top:6px}
+
+  /* tabs */
+  .tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+  .tab{padding:9px 16px;border-radius:11px;background:var(--panel);border:1px solid var(--stroke);color:var(--txt-dim);font-size:13px;font-weight:600;cursor:pointer;transition:.2s}
+  .tab:hover{color:var(--txt)}.tab.active{background:var(--grad-soft);color:#fff;border-color:rgba(52,224,161,.4)}
+
+  /* doc cards / coffre */
+  .doc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .doc{padding:20px;display:flex;flex-direction:column;gap:10px}
+  .doc .dico{width:44px;height:44px;border-radius:13px;background:var(--panel-strong);border:1px solid var(--stroke-soft);display:grid;place-items:center}
+  .doc .dico svg{width:21px;height:21px;color:var(--mint)}
+  .doc .dn{font-size:14.5px;font-weight:600}.doc .dd{font-size:11.5px;color:var(--txt-faint);line-height:1.4}
+  .doc .foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:8px}
+
+  /* inspection */
+  .insp-chapter{margin-bottom:14px}
+  .insp-head{display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--panel-strong);border:1px solid var(--stroke-soft);border-radius:14px;cursor:pointer}
+  .insp-head .cn{font-size:14.5px;font-weight:600}.insp-head .cs{margin-left:auto;font-family:'Sora';font-weight:700;font-size:14px}
+  .insp-item{display:flex;align-items:center;gap:13px;padding:11px 16px;border-bottom:1px solid var(--stroke-soft)}
+  .insp-item:last-child{border-bottom:none}
+  .insp-item .iname{font-size:13.5px;font-weight:500}
+  .toggle{margin-left:auto;display:flex;gap:6px}
+  .tg{padding:5px 11px;border-radius:9px;font-size:11.5px;font-weight:700;cursor:pointer;border:1px solid var(--stroke);color:var(--txt-faint);transition:.15s}
+  .tg.ok.on{background:rgba(52,224,161,.16);color:var(--mint);border-color:rgba(52,224,161,.4)}
+  .tg.no.on{background:rgba(255,92,108,.16);color:var(--red);border-color:rgba(255,92,108,.4)}
+
+  /* sites */
+  .site-row{display:flex;align-items:center;gap:16px;padding:16px;border-radius:15px;background:var(--panel-strong);border:1px solid var(--stroke-soft);margin-bottom:12px}
+  .site-row .sav{width:44px;height:44px;border-radius:12px;background:var(--grad);display:grid;place-items:center;font-family:'Sora';font-weight:700;color:#04140E;flex-shrink:0}
+  .site-mini{width:90px;height:8px;background:var(--panel);border-radius:8px;overflow:hidden}
+  .site-mini > div{height:100%;background:var(--grad);border-radius:8px}
+
+  /* table */
+  .tbl{width:100%;border-collapse:collapse}
+  .tbl th{text-align:left;font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--txt-faint);font-weight:600;padding:0 14px 12px}
+  .tbl td{padding:13px 14px;border-top:1px solid var(--stroke-soft);font-size:13.5px}
+  .tbl tr:hover td{background:var(--panel-strong)}
+
+  /* big action */
+  .dossier-hero{padding:34px;display:flex;align-items:center;gap:30px;flex-wrap:wrap}
+  .dossier-hero::after{content:"";position:absolute;inset:0;background:var(--grad-soft);opacity:.5;pointer-events:none}
+  .big-num{font-size:52px;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+  .incl{display:flex;align-items:center;gap:10px;font-size:13.5px;padding:8px 0}
+  .incl svg{width:18px;height:18px;color:var(--mint);flex-shrink:0}
+
+  /* ===== PORTAIL / ACCUEIL ===== */
+  .portal-hero{padding:36px 40px;display:flex;align-items:center;justify-content:space-between;gap:36px;flex-wrap:wrap;margin-bottom:8px}
+  .portal-hero::after{content:"";position:absolute;inset:0;background:var(--grad-soft);opacity:.55;pointer-events:none}
+  .ph-left{z-index:1;max-width:580px;flex:1;min-width:280px}
+  .ph-greet{font-size:12.5px;color:var(--txt-dim);display:flex;align-items:center;gap:9px;text-transform:capitalize}
+  .ph-title{font-family:'Sora';font-size:34px;font-weight:800;letter-spacing:-.7px;margin:10px 0 12px;line-height:1.12}
+  .ph-title b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .ph-sub{font-size:14.5px;color:var(--txt-dim);line-height:1.6}
+  .ph-cta{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}
+  .cta{display:flex;align-items:center;gap:11px;padding:15px 20px;border-radius:15px;font-weight:700;font-size:14px;cursor:pointer;font-family:'Sora';transition:.2s}
+  .cta svg{width:18px;height:18px}
+  .cta.primary{background:var(--grad);color:#04140E;box-shadow:0 14px 34px -12px rgba(52,224,161,.55)}
+  .cta.primary:hover{transform:translateY(-2px)}
+  .cta.ghost{background:var(--panel-strong);border:1px solid var(--stroke);color:var(--txt)}
+  .cta.ghost:hover{border-color:rgba(52,224,161,.4);color:#fff}
+  .ph-ring{position:relative;width:158px;height:158px;flex-shrink:0;z-index:1}
+  .ph-ring svg{transform:rotate(-90deg)}.ph-ring .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .sec-title{font-family:'Sora';font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt-faint);font-weight:700;margin:28px 0 14px}
+  .todo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .todo{display:flex;align-items:center;gap:15px;padding:18px 20px;cursor:pointer;transition:.2s}
+  .todo:hover{transform:translateY(-2px);border-color:rgba(52,224,161,.4)}
+  .todo .ti{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;flex-shrink:0}.todo .ti svg{width:22px;height:22px}
+  .todo .tt{font-size:14.5px;font-weight:600}.todo .td{font-size:12px;color:var(--txt-dim);margin-top:3px}
+  .todo .ta{margin-left:auto;color:var(--txt-faint)}
+  .mod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .mod-card{padding:24px;cursor:pointer;transition:.22s;display:flex;flex-direction:column;gap:12px;min-height:158px}
+  .mod-card:hover{transform:translateY(-3px);border-color:rgba(52,224,161,.4);box-shadow:0 24px 50px -24px rgba(0,0,0,.7)}
+  .mod-ico{width:54px;height:54px;border-radius:16px;background:var(--grad-soft);border:1px solid rgba(52,224,161,.2);display:grid;place-items:center}
+  .mod-ico svg{width:25px;height:25px;color:var(--mint)}
+  .mod-card .mt{font-size:16.5px;font-weight:600;letter-spacing:-.2px}
+  .mod-card .md{font-size:12.5px;color:var(--txt-dim);line-height:1.5;margin-top:2px}
+  .mod-card .mf{margin-top:auto;display:flex;align-items:center;justify-content:space-between}
+  .mod-star{position:absolute;top:16px;right:18px;color:var(--amber);font-size:13px}
+  @media(max-width:1080px){.todo-grid,.mod-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:860px){.todo-grid,.mod-grid{grid-template-columns:1fr}.ph-title{font-size:27px}.portal-hero{padding:26px 22px}}
+
+  /* date nav + calendrier */
+  .datenav{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--stroke);border-radius:14px;padding:9px 14px;margin-bottom:18px;flex-wrap:wrap}
+  .datenav .nv{width:32px;height:32px;border-radius:9px;background:var(--panel-strong);border:1px solid var(--stroke);color:var(--txt);cursor:pointer;display:grid;place-items:center}
+  .datenav .nv:hover{border-color:rgba(52,224,161,.4)}
+  .datenav .lbl{font-family:'Sora';font-weight:600;font-size:14px;text-transform:capitalize;min-width:230px;text-align:center}
+  .cal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .cal-nav{display:flex;gap:8px}
+  .cal-nav button{width:34px;height:34px;border-radius:10px;background:var(--panel-strong);border:1px solid var(--stroke);color:var(--txt);cursor:pointer;display:grid;place-items:center}
+  .cal-nav button:hover{border-color:rgba(52,224,161,.4)}
+  .cal-week{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-bottom:7px}
+  .cal-week span{text-align:center;font-size:11px;color:var(--txt-faint);font-weight:700}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}
+  .cal-cell{aspect-ratio:1;border-radius:12px;background:var(--panel-strong);border:1px solid var(--stroke-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;transition:.15s}
+  .cal-cell:hover{border-color:rgba(52,224,161,.45);transform:translateY(-1px)}
+  .cal-cell.empty{background:transparent;border:none;cursor:default}.cal-cell.empty:hover{transform:none}
+  .cal-cell .cd{font-size:13.5px;font-weight:600}
+  .cal-cell.future{opacity:.3;cursor:default}.cal-cell.future:hover{transform:none;border-color:var(--stroke-soft)}
+  .cal-cell.today{border-color:var(--mint)!important;box-shadow:0 0 0 1px var(--mint) inset}
+  .cal-cell.sel{background:var(--grad-soft);border-color:rgba(52,224,161,.5)}
+  .cdot{width:6px;height:6px;border-radius:50%}
+  .cdot.ok,.cdot.today{background:var(--mint)}.cdot.warn{background:var(--amber)}.cdot.bad{background:var(--red)}
+  /* ===== MODAL SAISIE + JOURNAL ===== */
+  .modal{position:fixed;inset:0;background:rgba(4,8,7,.72);backdrop-filter:blur(6px);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto}
+  .modal.on{display:flex;animation:fade .25s ease}
+  .modal-card{background:#0C1311;border:1px solid var(--stroke);border-radius:24px;width:100%;max-width:440px;padding:24px;box-shadow:0 40px 100px -30px #000;height:fit-content}
+  .modal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+  .modal-h h3{font-family:'Sora';font-size:18px;font-weight:700}
+  .mx{background:var(--panel-strong);border:1px solid var(--stroke);color:var(--txt);width:34px;height:34px;border-radius:10px;cursor:pointer;font-size:14px}
+  .mlabel{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--txt-faint);font-weight:700;margin:16px 0 9px}
+  .enc-list{display:flex;flex-direction:column;gap:8px;max-height:148px;overflow-y:auto}
+  .enc-opt{padding:11px 14px;border-radius:12px;background:var(--panel);border:1px solid var(--stroke);cursor:pointer;font-size:13.5px;font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:10px;transition:.15s}
+  .enc-opt span{font-size:11px;color:var(--txt-faint);font-weight:500;white-space:nowrap}
+  .enc-opt.on{background:var(--grad-soft);border-color:rgba(52,224,161,.5)}
+  .num-disp{font-family:'Sora';font-size:40px;font-weight:800;text-align:center;padding:12px;background:var(--panel);border:1px solid var(--stroke);border-radius:16px;letter-spacing:1px}
+  .num-disp small{font-size:18px;color:var(--txt-faint)}
+  .numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+  .numpad button{padding:15px;border-radius:13px;background:var(--panel-strong);border:1px solid var(--stroke);color:var(--txt);font-family:'Sora';font-size:19px;font-weight:600;cursor:pointer;transition:.12s}
+  .numpad button:hover{border-color:rgba(52,224,161,.4)}
+  .numpad button:active{background:var(--grad-soft)}
+  .numpad .del{color:var(--amber)}
+  .prev{margin-top:12px;padding:11px 14px;border-radius:12px;font-size:13.5px;font-weight:600;text-align:center}
+  .prev.ok{background:rgba(52,224,161,.13);color:var(--mint)}
+  .prev.warn{background:rgba(255,181,71,.14);color:var(--amber)}
+  #actionWrap textarea,.msel,.mfield{width:100%;background:var(--panel);border:1px solid var(--stroke);color:var(--txt);border-radius:12px;padding:12px;font-family:'Inter';font-size:13.5px;outline:none;color-scheme:dark}
+  .mfield:focus{border-color:rgba(52,224,161,.45)}
+  .mrow2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .temoin-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--stroke-soft)}
+  .temoin-row:last-child{border-bottom:none}
+  #actionWrap textarea{min-height:68px;resize:vertical}
+  .msel{cursor:pointer}
+  .journal-item{display:flex;align-items:center;gap:13px;padding:12px 0;border-bottom:1px solid var(--stroke-soft)}
+  .journal-item:last-child{border-bottom:none}
+  .journal-item .jt{font-size:12px;color:var(--txt-faint);min-width:42px;font-family:'Sora';font-weight:600}
+  .jlock{font-size:10.5px;color:var(--txt-faint);display:flex;align-items:center;gap:5px;margin-top:3px}
+  .jlock svg{width:11px;height:11px}
+  .foot-note{margin-top:26px;text-align:center;font-size:11.5px;color:var(--txt-faint)}.foot-note b{color:var(--txt-dim)}
+
+  @media(max-width:1080px){.hero{grid-template-columns:1fr}.grid-2{grid-template-columns:1fr}.grid-3,.doc-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:860px){.app{grid-template-columns:1fr}.side{display:none}.main{padding:22px 18px 50px}.score-card{flex-direction:column;text-align:center}.score-meta{justify-content:center}.kpis{grid-template-columns:1fr}.grid-3,.doc-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand" style="cursor:pointer" onclick="go('accueil')">
+      <svg class="logo-mark" viewBox="0 0 48 48" fill="none">
+        <defs><linearGradient id="lg" x1="4" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse"><stop stop-color="#3CF0AC"/><stop offset="1" stop-color="#0FB6A8"/></linearGradient></defs>
+        <circle cx="24" cy="24" r="20" stroke="url(#lg)" stroke-width="3" stroke-linecap="round" stroke-dasharray="1.9 4.65"/>
+        <circle cx="24" cy="24" r="15" fill="url(#lg)"/>
+        <path d="M17.3 24l4.8 4.8L31.5 19.5" stroke="#06241A" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div><div class="brand-name">KLÉO</div><div class="brand-sub">Hygiène · HACCP</div></div>
+    </div>
+    <div class="nav-label">Pilotage</div>
+    <div id="nav"></div>
+    <div class="side-foot">
+      <div class="av" id="sideAv">LC</div>
+      <div><div class="nm" id="sideName">Le Comptoir</div><div class="rl" id="sideLoc">Restaurant · Lyon 2e</div></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="client-logo" id="clientLogo" onclick="document.getElementById('logoInput').click()">
+          <span class="initials" id="logoInitials">LC</span><span class="edit">CHANGER</span>
+        </div>
+        <input type="file" id="logoInput" accept="image/*" hidden>
+        <div>
+          <div class="hello"><span class="live-dot"></span> Établissement conforme · données synchronisées</div>
+          <h1>Bonjour, <b id="estName">Le Comptoir des Saveurs</b> <span class="trade-chip" id="tradeChip"></span></h1>
+        </div>
+      </div>
+      <div class="top-right">
+        <div class="clock"><div class="t" id="clock">--:--</div><div class="d" id="date">—</div></div>
+        <button class="btn-export" onclick="go('dossier')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg>
+          Dossier contrôle
+        </button>
+      </div>
+    </div>
+
+    <div class="config">
+      <span class="lab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3"/></svg>Personnalisation</span>
+      <div class="sep"></div>
+      <div class="trades" id="trades"></div>
+      <div class="sep"></div>
+      <input class="name-in" id="nameInput" value="Le Comptoir des Saveurs" placeholder="Nom de l'établissement">
+      <button class="logo-btn" onclick="document.getElementById('logoInput').click()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg> Logo client
+      </button>
+    </div>
+
+    <div id="content"></div>
+    <div class="foot-note"><b>KLÉO</b> — Votre hygiène, clé en main. · Données hébergées en France 🇫🇷 · Prototype de démonstration</div>
+  </main>
+</div>
+
+<div class="modal" id="modal"><div class="modal-card"></div></div>
+
+<script>
+// ===== ICÔNES =====
+const I={
+  fridge:'<rect x="5" y="2" width="14" height="20" rx="3"/><path d="M5 9h14M9 5h0M9 13h0"/>',
+  snow:'<path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19"/>',
+  heat:'<path d="M3 12h4l3-9 4 18 3-9h4"/>',
+  box:'<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>',
+  drop:'<path d="M14 4v10.5a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z"/>'
+};
+function ic(k){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'+(I[k]||I.fridge)+'</svg>'}
+const CHK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><path d="M20 6L9 17l-5-5"/></svg>';
+
+// ===== NAV =====
+const NAV=[
+  {section:'Pilotage'},
+  {v:'accueil',    t:'Accueil',             i:'<path d="M3 11l9-8 9 8M5 9v11a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9"/>'},
+  {v:'dashboard',  t:'Tableau de bord',     i:'<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>'},
+  {v:'calendrier', t:'Calendrier & historique', i:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h0M12 14h0M16 14h0M8 18h0M12 18h0"/>'},
+  {v:'temperatures',t:'Relevés température', i:'<path d="M14 4v10.5a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z"/><path d="M10 9h4"/>'},
+  {v:'nettoyage',  t:'Plans de nettoyage',  i:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>'},
+  {v:'tracabilite',t:'Traçabilité & DLC',   i:'<path d="M20 7l-8-4-8 4 8 4 8-4z"/><path d="M4 7v6l8 4 8-4V7"/><path d="M4 13v4l8 4 8-4v-4"/>', badge:'dlc'},
+  {section:'Conformité'},
+  {v:'pms',        t:'Mon PMS',             i:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>'},
+  {v:'coffre',     t:'Coffre-fort docs',    i:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M12 9v0M14 14l1 1"/>'},
+  {v:'inspecteur', t:'Mode Inspecteur',     i:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>', star:true},
+  {v:'equipe',     t:'Équipe & formations', i:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>'},
+  {section:'Réseau'},
+  {v:'multisites', t:'Multi-sites',         i:'<path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h0M9 13h0M15 9h0M15 13h0"/>', star:true},
+];
+
+// ===== PROFILS MÉTIERS =====
+const TRADES={
+  resto:{label:'Restaurant',icon:'<path d="M3 2v7c0 1.1.9 2 2 2a2 2 0 0 0 2-2V2M5 2v20M16 2c-1.5 0-3 2-3 5s1.5 4 3 4v11"/>',est:'Le Comptoir des Saveurs',loc:'Restaurant · Lyon 2e',score:98,
+    text:'Vos relevés, plans de nettoyage et traçabilité sont à jour. Votre dossier de contrôle peut être généré à tout instant.',
+    temps:[['fridge','Chambre froide positive','Réception · sonde auto','+3,2°C','0 → +4°C','ok'],['snow','Congélateur principal','Cuisine · sonde auto','−19,4°C','≤ −18°C','ok'],['fridge','Vitrine réfrigérée bar','Salle · relevé 11:00','+6,1°C','0 → +4°C','warn'],['heat','Liaison chaude · service','Maintien plats chauds','+64°C','≥ +63°C','ok'],['box','Réception marchandises','Metro · 08:14','+2,8°C','contrôle livraison','ok']],
+    checks:['Plan de travail & planches','Sols cuisine','Trancheuse & matériel','Hotte & filtres','Poubelles & local déchets','Sanitaires clients'],
+    alerts:[['r','DLC dépassée demain · Saumon fumé','Lot #SF-2231 — à retirer ou transformer avant ce soir.','Échéance : 10 juin'],['a','Vitrine bar au-dessus de la cible','+6,1°C relevé à 11:00 — vérifier la fermeture / dégivrage.','il y a 23 min'],['i','Formation hygiène à renouveler','Karim B. — attestation valable jusqu’au 30 juin.','dans 21 jours']]},
+  boucherie:{label:'Boucherie',icon:'<path d="M5 11a7 7 0 0 1 14 0a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4z"/><path d="M12 15v7"/>',est:'Boucherie Tradition',loc:'Boucherie-Charcuterie · Lyon 7e',score:96,
+    text:'Chaîne du froid viande, traçabilité des lots et estampilles sanitaires à jour. Dossier de contrôle disponible à tout instant.',
+    temps:[['fridge','Chambre froide viande','Réserve · sonde auto','+1,6°C','0 → +2°C','ok'],['fridge','Labo de découpe','Ambiance · sonde','+10,2°C','≤ +12°C','ok'],['snow','Congélateur','Réserve · sonde auto','−20,1°C','≤ −18°C','ok'],['fridge','Vitrine viande','Magasin · relevé 10:30','+2,4°C','0 → +4°C','ok'],['fridge','Chambre charcuterie','Réserve · sonde','+5,8°C','+2 → +4°C','warn'],['box','Réception carcasses','Livraison · 07:50','+4,5°C','≤ +7°C','ok']],
+    checks:['Billot & planches à découper','Scie à os & hachoir','Trancheuse jambon','Chambre froide viande','Vitrine & plonge','Sols & siphons'],
+    alerts:[['r','Viande hachée — DLC du jour','Haché préparé ce matin : à écouler aujourd’hui (DLC J).','Échéance : ce soir'],['a','Chambre charcuterie au-dessus de la cible','+5,8°C — contrôler le groupe froid.','il y a 18 min'],['i','Traçabilité lot bovin #BV-118','Estampille & origine à valider sur le registre.','à compléter']]},
+  boulangerie:{label:'Boulangerie',icon:'<path d="M4 13c0-4 3.5-7 8-7s8 3 8 7c0 2-1 3-2 3H6c-1 0-2-1-2-3z"/><path d="M9 16v3M12 16v3M15 16v3"/>',est:'Maison Dorée',loc:'Boulangerie-Pâtisserie · Lyon 3e',score:99,
+    text:'Chambre de pousse, chaîne du froid pâtisserie et gestion des allergènes maîtrisées. Dossier de contrôle prêt à tout instant.',
+    temps:[['fridge','Chambre froide pâtisserie','Labo · sonde auto','+3,4°C','0 → +4°C','ok'],['snow','Congélateur surgelés','Réserve · sonde auto','−19,0°C','≤ −18°C','ok'],['fridge','Vitrine pâtisseries','Magasin · relevé 09:30','+4,2°C','0 → +4°C','ok'],['heat','Chambre de pousse','Fournil · sonde','+27,5°C','+25 → +28°C','ok'],['box','Réserve sèche (farines)','Ambiance · contrôle','+18°C','< +25°C · sec','ok']],
+    checks:['Pétrin & batteur','Plans de façonnage farinés','Four & sole','Chambre de pousse','Vitrines réfrigérées','Sols fournil'],
+    alerts:[['r','Crème pâtissière — DLC J+3','Lot du 7 juin : à écouler avant le 10 juin.','Échéance : 10 juin'],['a','Allergènes — étiquetage à vérifier','Gamme « fruits à coque » : contrôler l’affichage vitrine.','à vérifier'],['i','Formation hygiène à renouveler','Sofiane M. — attestation valable jusqu’au 30 juin.','dans 21 jours']]},
+  poissonnerie:{label:'Poissonnerie',icon:'<path d="M3 12c3-5 9-5 13 0-4 5-10 5-13 0z"/><path d="M16 12l5-3v6l-5-3z"/><circle cx="8" cy="11" r="1"/>',est:'La Marée du Jour',loc:'Poissonnerie · Lyon 6e',score:95,
+    text:'Étal sous glace, chaîne du froid et traçabilité pêche (zone, engin, salubrité) maîtrisés. Dossier de contrôle disponible à tout instant.',
+    temps:[['fridge','Étal réfrigéré / glace','Magasin · sonde auto','+1,8°C','0 → +2°C','ok'],['fridge','Chambre froide poisson','Réserve · sonde auto','+1,2°C','0 → +2°C','ok'],['snow','Congélateur','Réserve · sonde auto','−20,5°C','≤ −18°C','ok'],['fridge','Vivier crustacés','Magasin · sonde','+7,5°C','+5 → +8°C','ok'],['fridge','Bac coquillages','Magasin · relevé 10:00','+6,2°C','+4 → +6°C','warn'],['box','Réception arrivage','Livraison · 06:30','+1,5°C','sous glace','ok']],
+    checks:['Étal & bacs à glace','Billot & couteaux','Chambre froide poisson','Vivier & filtration','Sols & évacuations','Local déchets'],
+    alerts:[['r','Arrivage poisson — DLC J+1','Lot du 8 juin : à écouler avant demain.','Échéance : 10 juin'],['a','Bac coquillages au-dessus de la cible','+6,2°C — vérifier la glace / le froid.','il y a 12 min'],['i','Coquillages — bon de salubrité','Lot #MO-44 : joindre le document de traçabilité.','à compléter']]},
+  traiteur:{label:'Traiteur',icon:'<path d="M3 11h18a9 9 0 0 0-18 0z"/><path d="M12 5V3M2 16h20"/>',est:'Saveurs & Réceptions',loc:'Traiteur · Villeurbanne',score:97,
+    text:'Refroidissement rapide, liaisons chaude/froide et plats témoins conformes. Dossier de contrôle générable à tout instant.',
+    temps:[['snow','Cellule de refroidissement','Labo · sonde auto','+8,5°C','+63→+10 en <2h','ok'],['fridge','Chambre froide plats','Labo · sonde auto','+2,9°C','0 → +3°C','ok'],['snow','Congélateur','Réserve · sonde auto','−19,2°C','≤ −18°C','ok'],['heat','Liaison chaude transport','Véhicule · sonde','+64°C','≥ +63°C','ok'],['fridge','Liaison froide transport','Véhicule · sonde','+3,2°C','≤ +3°C','warn'],['fridge','Plats témoins','Conservation 5 j','+2,5°C','échantillons','ok']],
+    checks:['Cellule de refroidissement','Plans labo & matériel','Bacs gastro & transport','Chambre froide plats','Véhicules de livraison','Sols labo'],
+    alerts:[['r','Liaison froide transport limite','+3,2°C relevé départ — surveiller pendant la tournée.','il y a 9 min'],['a','Plats témoins · réception du 7 juin','Conserver jusqu’au 12 juin (5 jours réglementaires).','échéance 12 juin'],['i','Refroidissement lot « buffet »','Vérifier +63→+10°C en moins de 2 h.','en cours']]}
+};
+
+let current='resto', currentView='dashboard', logoData=null;
+let calRef={y:2026,m:5}, calSel=9, tempOffset=0;
+const T=()=>TRADES[current];
+const estName=()=>document.getElementById('nameInput').value||T().est;
+function initials(n){return n.trim().split(/\s+/).filter(w=>w.length>2).slice(0,2).map(w=>w[0]).join('').toUpperCase()||n.slice(0,2).toUpperCase()}
+function pillTxt(s){return s==='ok'?'Conforme':s==='warn'?'À surveiller':'Non conforme'}
+
+/* ===== MVP : persistance + saisie + audit (localStorage) ===== */
+const TEAM=['Marie L.','Karim B.','Sofiane M.','Léa P.'];
+let author=localStorage.getItem('kleo:author')||TEAM[0];
+const STORE={
+  k:t=>'kleo:'+t,
+  load(t){try{return JSON.parse(localStorage.getItem(this.k(t)))||{}}catch(e){return{}}},
+  save(t,d){try{localStorage.setItem(this.k(t),JSON.stringify(d))}catch(e){}},
+  releves(t){return this.load(t).releves||[]},
+  addReleve(t,r){const d=this.load(t);d.releves=d.releves||[];d.releves.unshift(r);this.save(t,d)},
+  latest(t,enc){return this.releves(t).find(r=>r.enc===enc)},
+  nett(t){return this.load(t).nett||{}},
+  setNett(t,n){const d=this.load(t);d.nett=n;this.save(t,d)},
+  lots(t){return this.load(t).lots||[]},
+  addLot(t,l){const d=this.load(t);d.lots=d.lots||[];d.lots.unshift(l);this.save(t,d)},
+  temoins(t){return this.load(t).temoins||[]},
+  addTemoin(t,x){const d=this.load(t);d.temoins=d.temoins||[];d.temoins.unshift(x);this.save(t,d)},
+  updTemoin(t,id,patch){const d=this.load(t);(d.temoins||[]).forEach(x=>{if(x.id===id)Object.assign(x,patch)});this.save(t,d)}
+};
+function refDate(){return new Date(2026,5,9)}
+function dDays(iso){return Math.round((new Date(iso+'T00:00:00')-refDate())/864e5)}
+function addDays(iso,n){const d=new Date(iso+'T00:00:00');d.setDate(d.getDate()+n);return d.toISOString().slice(0,10)}
+function fmtDate2(iso){return new Date(iso+'T00:00:00').toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'2-digit'})}
+function newId(){return 'x'+Date.now()+Math.floor(Math.random()*1000)}
+function printHTML(html){let f=document.getElementById('printFrame');if(!f){f=document.createElement('iframe');f.id='printFrame';f.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0;opacity:0';document.body.appendChild(f);}const doc=f.contentWindow.document;doc.open();doc.write(html);doc.close();setTimeout(()=>{try{f.contentWindow.focus();f.contentWindow.print();}catch(e){}},450);}
+function todayISO(){return new Date().toISOString().slice(0,10)}
+function fmtT(iso){return new Date(iso).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}
+function parseTarget(r){
+  if(/en\s|<2h|glace|sec|échantillon|contrôle|livraison/i.test(r))return null;
+  let s=r.replace('°C','').replace(/[−–]/g,'-').replace(/\s/g,'').replace(/\+/g,'');
+  if(s.includes('→')){const p=s.split('→').map(parseFloat);if(p.every(x=>!isNaN(x)))return{min:Math.min(...p),max:Math.max(...p)};return null;}
+  if(s[0]==='≤'||s[0]==='<'){const v=parseFloat(s.slice(1));return isNaN(v)?null:{max:v}}
+  if(s[0]==='≥'||s[0]==='>'){const v=parseFloat(s.slice(1));return isNaN(v)?null:{min:v}}
+  return null;
+}
+function judge(val,range){const t=parseTarget(range);if(!t)return 'ok';if(t.min!=null&&val<t.min)return 'warn';if(t.max!=null&&val>t.max)return 'warn';return 'ok';}
+function fmtVal(v){return (v>0?'+':'')+String(v).replace('.',',')+'°C'}
+function effTemp(row){const last=STORE.latest(current,row[1]);if(last)return{display:last.display,status:last.status,sub:'saisi '+fmtT(last.ts)+' · '+last.author.split(' ')[0]};return{display:row[3],status:row[5],sub:row[2]};}
+function okCount(){return T().temps.filter(r=>effTemp(r).status==='ok').length}
+function nettDoneSet(seedDone){const n=STORE.nett(current);if(n.date===todayISO())return new Set(n.done||[]);return new Set(Array.from({length:seedDone},(_,i)=>i));}
+function saveNett(){const done=[...document.querySelectorAll('.check.done')].map(c=>+c.dataset.i).filter(x=>!isNaN(x));STORE.setNett(current,{date:todayISO(),done:done,author:author,ts:new Date().toISOString()});}
+
+/* --- modal de saisie d'un relevé --- */
+let modalSel=0, modalVal='';
+function openReleve(){
+  const t=T();modalSel=0;modalVal='';
+  const opts=t.temps.map((r,i)=>`<div class="enc-opt${i===0?' on':''}" data-i="${i}" onclick="selEnc(${i})">${r[1]}<span>cible ${r[4]}</span></div>`).join('');
+  document.querySelector('.modal-card').innerHTML=
+   `<div class="modal-h"><h3>Nouveau relevé de température</h3><button class="mx" onclick="closeModal()">✕</button></div>`
+   +`<div class="mlabel">Enceinte</div><div class="enc-list">${opts}</div>`
+   +`<div class="mlabel">Température relevée</div><div class="num-disp" id="numDisp">-- <small>°C</small></div><div id="statusPrev"></div>`
+   +`<div class="numpad">`+['7','8','9','4','5','6','1','2','3','-','0',','].map(k=>`<button onclick="numKey('${k}')">${k}</button>`).join('')+`<button class="del" onclick="numKey('del')">⌫</button></div>`
+   +`<div id="actionWrap" style="display:none"><div class="mlabel" style="color:var(--amber)">Action corrective (obligatoire)</div><textarea id="actionTxt" placeholder="Ex : produit transféré, groupe froid vérifié, marchandise écartée…"></textarea></div>`
+   +`<div class="mlabel">Opérateur</div><select id="authSel" class="msel">`+TEAM.map(n=>`<option ${n===author?'selected':''}>${n}</option>`).join('')+`</select>`
+   +`<button class="btn primary" style="width:100%;justify-content:center;margin-top:18px" onclick="saveReleve()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Enregistrer le relevé</button>`;
+  document.getElementById('modal').classList.add('on');updateNum();
+}
+function selEnc(i){modalSel=i;document.querySelectorAll('.enc-opt').forEach(o=>o.classList.toggle('on',+o.dataset.i===i));updateNum();}
+function numKey(k){if(k==='del')modalVal=modalVal.slice(0,-1);else if(k===','){if(!modalVal.includes(','))modalVal+=(modalVal===''||modalVal==='-')?'0,':',';}else if(k==='-'){modalVal=modalVal.startsWith('-')?modalVal.slice(1):'-'+modalVal;}else modalVal+=k;updateNum();}
+function curVal(){return parseFloat((modalVal||'').replace(',','.'))}
+function updateNum(){
+  const t=T();const disp=document.getElementById('numDisp');if(!disp)return;
+  disp.innerHTML=((modalVal===''||modalVal==='-')?'--':modalVal)+' <small>°C</small>';
+  const v=curVal();const range=t.temps[modalSel][4];
+  const prev=document.getElementById('statusPrev'),aw=document.getElementById('actionWrap');
+  if(isNaN(v)){prev.innerHTML='';aw.style.display='none';return;}
+  const st=judge(v,range);
+  prev.innerHTML=`<div class="prev ${st}">${st==='ok'?'✓ Conforme à la cible ('+range+')':'⚠ Écart — hors cible ('+range+')'}</div>`;
+  aw.style.display=st==='warn'?'block':'none';
+}
+function saveReleve(){
+  const t=T();const v=curVal();if(isNaN(v)){toast('Saisis une température');return;}
+  const range=t.temps[modalSel][4],st=judge(v,range);
+  const action=st==='warn'?document.getElementById('actionTxt').value.trim():'';
+  if(st==='warn'&&!action){toast('Action corrective obligatoire sur un écart ⚠');return;}
+  author=document.getElementById('authSel').value;localStorage.setItem('kleo:author',author);
+  STORE.addReleve(current,{enc:t.temps[modalSel][1],value:v,display:fmtVal(v),status:st,author:author,ts:new Date().toISOString(),action:action});
+  closeModal();go('temperatures');toast(st==='ok'?'Relevé conforme enregistré ✓':'Écart enregistré + action corrective tracée ✓');
+}
+function closeModal(){document.getElementById('modal').classList.remove('on');}
+
+/* --- dossier de contrôle PDF réel (impression) --- */
+function generateDossier(){
+  const t=T(),name=estName(),rel=STORE.releves(current);
+  const dStr=new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+  const src=rel.length?rel:t.temps.map(r=>({ts:new Date().toISOString(),enc:r[1],display:r[3],status:r[5],author:'sonde auto',action:''}));
+  const rows=src.slice(0,60).map(r=>`<tr><td>${new Date(r.ts).toLocaleString('fr-FR')}</td><td>${r.enc}</td><td>${r.display}</td><td class="${r.status}">${r.status==='ok'?'Conforme':'Écart'}</td><td>${r.author||'—'}</td><td>${r.action||''}</td></tr>`).join('');
+  const seedN=Math.round(t.checks.length*.6),ds=nettDoneSet(seedN);
+  const nett=t.checks.map((c,i)=>`<tr><td>${c}</td><td class="${ds.has(i)?'ok':''}">${ds.has(i)?'Réalisé ✓':'—'}</td></tr>`).join('');
+  const hash='KLEO-'+btoa(encodeURIComponent(name+dStr+rel.length)).replace(/[^A-Z0-9]/gi,'').slice(0,18).toUpperCase();
+  const html=('<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Dossier de contrôle — '+name+'</title><style>'
+   +'*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}body{color:#0B1A15;padding:32px 38px}'
+   +'.hd{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #10B981;padding-bottom:16px;margin-bottom:22px}'
+   +'.lg{font-size:26px;font-weight:800;color:#0FB6A8;letter-spacing:1px}.lg small{display:block;font-size:10px;letter-spacing:3px;color:#789;font-weight:400}'
+   +'h1{font-size:17px;margin:0 0 4px}.meta{font-size:12px;color:#567;text-align:right}'
+   +'h2{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:#0B1A15;margin:24px 0 10px;border-left:4px solid #10B981;padding-left:9px}'
+   +'table{width:100%;border-collapse:collapse;font-size:11px}th{background:#F0FAF6;text-align:left;padding:7px 9px;border-bottom:2px solid #cfe9df;color:#345}td{padding:7px 9px;border-bottom:1px solid #eef3f1}'
+   +'td.ok{color:#0a7d54;font-weight:700}td.warn{color:#c0392b;font-weight:700}'
+   +'.score{display:inline-block;background:#0FB6A8;color:#fff;font-size:22px;font-weight:800;padding:8px 16px;border-radius:10px}'
+   +'.ft{margin-top:26px;border-top:1px solid #ddd;padding-top:12px;font-size:10px;color:#789;display:flex;justify-content:space-between}'
+   +'.seal{font-family:monospace;background:#F0FAF6;padding:4px 8px;border-radius:6px;color:#0a7d54}'
+   +'@media print{body{padding:0}}</style></head><body>'
+   +'<div class="hd"><div class="lg">KLÉO<small>HYGIÈNE · HACCP</small></div><div class="meta"><h1>Dossier de contrôle sanitaire</h1>'+name+' · '+t.label+'<br>Édité le '+dStr+'</div></div>'
+   +'<h2>Synthèse de conformité</h2><p><span class="score">'+t.score+'% conforme</span> &nbsp; Établissement à jour de ses obligations (PMS, relevés, nettoyage, traçabilité).</p>'
+   +'<h2>Registre des relevés de température (horodatés)</h2><table><tr><th>Date / heure</th><th>Enceinte</th><th>Valeur</th><th>Statut</th><th>Opérateur</th><th>Action corrective</th></tr>'+rows+'</table>'
+   +'<h2>Plan de nettoyage & désinfection</h2><table><tr><th>Tâche</th><th>Statut du jour</th></tr>'+nett+'</table>'
+   +'<div class="ft"><span>Document généré par KLÉO — données hébergées en France. Registre append-only, horodaté.</span><span>Empreinte d\'intégrité : <span class="seal">'+hash+'</span></span></div>'
+   +'</body></html>');
+  printHTML(html);toast('Dossier de contrôle prêt — Imprimer / Enregistrer en PDF 📄');
+}
+
+/* --- traçabilité : réceptions, plats témoins, étiquettes --- */
+function openReception(){
+  document.querySelector('.modal-card').innerHTML=
+   `<div class="modal-h"><h3>Nouvelle réception</h3><button class="mx" onclick="closeModal()">✕</button></div>`
+   +`<div class="mlabel">Produit</div><input class="mfield" id="rProd" placeholder="Ex : Filet de bœuf">`
+   +`<div class="mrow2"><div><div class="mlabel">N° de lot</div><input class="mfield" id="rLot" placeholder="#BV-118"></div><div><div class="mlabel">Fournisseur</div><input class="mfield" id="rFour" placeholder="Metro"></div></div>`
+   +`<div class="mrow2"><div><div class="mlabel">Température à réception</div><input class="mfield" id="rTemp" type="number" step="0.1" placeholder="+2,8"></div><div><div class="mlabel">DLC</div><input class="mfield" id="rDlc" type="date" value="${addDays(todayISO(),3)}"></div></div>`
+   +`<div class="mlabel">Opérateur</div><select id="authSel" class="msel">`+TEAM.map(n=>`<option ${n===author?'selected':''}>${n}</option>`).join('')+`</select>`
+   +`<button class="btn primary" style="width:100%;justify-content:center;margin-top:18px" onclick="saveReception()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Enregistrer la réception</button>`;
+  document.getElementById('modal').classList.add('on');
+}
+function saveReception(){
+  const prod=document.getElementById('rProd').value.trim(),lot=document.getElementById('rLot').value.trim();
+  if(!prod||!lot){toast('Produit et n° de lot obligatoires');return;}
+  const tempRaw=document.getElementById('rTemp').value,temp=tempRaw!==''?fmtVal(parseFloat(tempRaw)):'—';
+  author=document.getElementById('authSel').value;localStorage.setItem('kleo:author',author);
+  STORE.addLot(current,{id:newId(),produit:prod,lot:lot,fournisseur:document.getElementById('rFour').value.trim()||'—',temp:temp,dlc:document.getElementById('rDlc').value,ts:new Date().toISOString(),author:author});
+  closeModal();go('tracabilite');toast('Réception enregistrée & tracée ✓');
+}
+function openTemoin(){
+  document.querySelector('.modal-card').innerHTML=
+   `<div class="modal-h"><h3>Nouveau plat témoin</h3><button class="mx" onclick="closeModal()">✕</button></div>`
+   +`<div class="mlabel">Plat / préparation</div><input class="mfield" id="tLib" placeholder="Ex : Bœuf bourguignon — service midi">`
+   +`<div class="mlabel">Date de prélèvement</div><input class="mfield" id="tDate" type="date" value="${todayISO()}">`
+   +`<div class="prev info" style="background:rgba(20,200,200,.13);color:var(--teal);margin-top:12px">Conservation obligatoire 5 jours à +3°C (Arrêté 21 déc. 2009)</div>`
+   +`<div class="mlabel">Opérateur</div><select id="authSel" class="msel">`+TEAM.map(n=>`<option ${n===author?'selected':''}>${n}</option>`).join('')+`</select>`
+   +`<button class="btn primary" style="width:100%;justify-content:center;margin-top:18px" onclick="saveTemoin()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Enregistrer le plat témoin</button>`;
+  document.getElementById('modal').classList.add('on');
+}
+function saveTemoin(){
+  const lib=document.getElementById('tLib').value.trim();if(!lib){toast('Indique le plat');return;}
+  const pl=document.getElementById('tDate').value;author=document.getElementById('authSel').value;localStorage.setItem('kleo:author',author);
+  STORE.addTemoin(current,{id:newId(),libelle:lib,preleve:pl,detruire:addDays(pl,5),ts:new Date().toISOString(),author:author,statut:'actif'});
+  closeModal();go('tracabilite');toast('Plat témoin enregistré · à conserver 5 jours ✓');
+}
+function destroyTemoin(id){STORE.updTemoin(current,id,{statut:'détruit',detruitLe:new Date().toISOString()});go('tracabilite');toast('Plat témoin marqué détruit ✓');}
+function openLabel(){
+  document.querySelector('.modal-card').innerHTML=
+   `<div class="modal-h"><h3>Étiquette de seconde vie</h3><button class="mx" onclick="closeModal()">✕</button></div>`
+   +`<div class="mlabel">Produit</div><input class="mfield" id="lProd" placeholder="Ex : Sauce tomate maison">`
+   +`<div class="mrow2"><div><div class="mlabel">Date d'ouverture / fabrication</div><input class="mfield" id="lOuv" type="date" value="${todayISO()}"></div><div><div class="mlabel">DLC secondaire</div><input class="mfield" id="lDlc" type="date" value="${addDays(todayISO(),3)}"></div></div>`
+   +`<div class="mlabel">Date de décongélation (optionnel)</div><input class="mfield" id="lDecong" type="date">`
+   +`<button class="btn primary" style="width:100%;justify-content:center;margin-top:18px" onclick="printLabel()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>Imprimer l'étiquette</button>`;
+  document.getElementById('modal').classList.add('on');
+}
+function printLabel(){
+  const prod=document.getElementById('lProd').value.trim()||'Produit';
+  const ouv=document.getElementById('lOuv').value,dlc=document.getElementById('lDlc').value,dec=document.getElementById('lDecong').value;
+  const html='<!doctype html><html><head><meta charset="utf-8"><title>Étiquette</title><style>*{margin:0;box-sizing:border-box;font-family:Arial}@page{size:70mm 45mm;margin:0}body{width:70mm;height:45mm;padding:5mm;border:2px solid #0B1A15}.b{font-size:9px;letter-spacing:2px;color:#0FB6A8;font-weight:800}.p{font-size:15px;font-weight:800;margin:3px 0 6px}.r{font-size:11px;display:flex;justify-content:space-between;padding:2px 0;border-top:1px dashed #bbb}.r b{font-weight:700}.dlc{color:#c0392b}</style></head><body>'
+   +'<div class="b">KLÉO · '+estName().toUpperCase()+'</div><div class="p">'+prod+'</div>'
+   +'<div class="r"><span>Ouverture / fab.</span><b>'+fmtDate2(ouv)+'</b></div>'
+   +(dec?'<div class="r"><span>Décongélation</span><b>'+fmtDate2(dec)+'</b></div>':'')
+   +'<div class="r dlc"><span>À CONSOMMER AVANT</span><b>'+fmtDate2(dlc)+'</b></div>'
+   +'</body></html>';
+  closeModal();printHTML(html);toast('Étiquette envoyée à l\'impression 🏷️');
+}
+
+/* ============ VUES ============ */
+function navIcon(v){const n=NAV.find(x=>x.v===v);return n?n.i:''}
+function vAccueil(){
+  const t=T();
+  const ckTot=t.checks.length,ckDone=nettDoneSet(Math.round(ckTot*.6)).size,ckLeft=ckTot-ckDone;
+  const okT=okCount(), warn=t.temps.length-okT;
+  const dlc=t.alerts.filter(a=>a[0]==='r').length;
+  const dateStr=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+  const tcol={g:['rgba(52,224,161,.12)','var(--mint)'],a:['rgba(255,181,71,.12)','var(--amber)'],r:['rgba(255,92,108,.12)','var(--red)']};
+  let todos=[];
+  if(ckLeft>0)todos.push(['nettoyage','a','Terminer le nettoyage',ckLeft+' tâche'+(ckLeft>1?'s':'')+' restante'+(ckLeft>1?'s':'')]);
+  if(warn>0)todos.push(['temperatures','a','Vérifier une enceinte',warn+' relevé hors cible']);
+  if(dlc>0)todos.push(['tracabilite','r','Surveiller une DLC',dlc+' produit à écouler']);
+  if(todos.length<3)todos.push(['calendrier','g','Tout est à jour ✓','Aucune autre action aujourd’hui']);
+
+  const tempI='<path d="M14 4v10.5a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z"/>';
+  const chkI='<path d="M20 6L9 17l-5-5"/>';
+  const docI='<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/>';
+
+  const groups={
+    'Au quotidien':[
+      ['temperatures','Relevés de température','Chaîne du froid & du chaud',okT+'/'+t.temps.length+' conformes',okT===t.temps.length?'ok':'warn'],
+      ['nettoyage','Plans de nettoyage','Vos check-lists du jour',ckDone+'/'+ckTot+' fait','ok'],
+      ['tracabilite','Traçabilité & DLC','Lots, étiquettes, plats témoins',dlc>0?dlc+' alerte'+(dlc>1?'s':''):'à jour',dlc>0?'warn':'ok'],
+      ['calendrier','Calendrier & historique','Tout votre suivi, jour par jour','12 mois','info']],
+    'Conformité':[
+      ['pms','Mon PMS','Plan de maîtrise sanitaire','à jour','ok'],
+      ['coffre','Coffre-fort','Vos documents réglementaires','sécurisé','ok'],
+      ['inspecteur','Mode Inspecteur','Simulez un contrôle DDPP','★','star'],
+      ['equipe','Équipe & formations','Attestations & échéances','1 à renouveler','warn'],
+      ['dossier','Dossier de contrôle','Export PDF en 1 clic','prêt','ok']],
+    'Réseau':[
+      ['multisites','Multi-sites','Vue consolidée franchise','★','star']]
+  };
+
+  let html=`
+  <div class="card portal-hero fade">
+    <div class="ph-left">
+      <div class="ph-greet"><span class="live-dot"></span> Bilan du jour · ${dateStr}</div>
+      <div class="ph-title">Vous êtes <b>prêt pour le contrôle.</b></div>
+      <div class="ph-sub">${t.text}</div>
+      <div class="ph-cta">
+        <div class="cta primary" onclick="go('temperatures')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">${tempI}</svg>Saisir un relevé</div>
+        <div class="cta ghost" onclick="go('nettoyage')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6">${chkI}</svg>Valider le nettoyage</div>
+        <div class="cta ghost" onclick="go('dossier')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">${docI}</svg>Dossier contrôle</div>
+      </div>
+    </div>
+    <div class="ph-ring"><svg width="158" height="158" viewBox="0 0 172 172"><circle cx="86" cy="86" r="74" stroke="rgba(255,255,255,.07)" stroke-width="13" fill="none"/><circle id="ringFill" cx="86" cy="86" r="74" stroke="url(#lg2)" stroke-width="13" fill="none" stroke-linecap="round" stroke-dasharray="465" stroke-dashoffset="465"/><defs><linearGradient id="lg2" x1="0" y1="0" x2="172" y2="172"><stop stop-color="#34E0A1"/><stop offset="1" stop-color="#0FB6A8"/></linearGradient></defs></svg>
+      <div class="center"><div class="score-num"><span id="score">0</span><span>%</span></div><div class="score-lbl">Conformité</div></div></div>
+  </div>
+
+  <div class="sec-title">À faire aujourd'hui</div>
+  <div class="todo-grid">
+    ${todos.slice(0,3).map(x=>`<div class="card todo fade" onclick="go('${x[0]}')"><div class="ti" style="background:${tcol[x[1]][0]};color:${tcol[x[1]][1]}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${navIcon(x[0])}</svg></div><div><div class="tt">${x[2]}</div><div class="td">${x[3]}</div></div><svg class="ta" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></div>`).join('')}
+  </div>`;
+
+  Object.entries(groups).forEach(([sec,cards])=>{
+    html+=`<div class="sec-title">${sec}</div><div class="mod-grid">`;
+    html+=cards.map(m=>`<div class="card mod-card fade" onclick="go('${m[0]}')">${m[4]==='star'?'<span class="mod-star">★</span>':''}
+      <div class="mod-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${navIcon(m[0])}</svg></div>
+      <div><div class="mt">${m[1]}</div><div class="md">${m[2]}</div></div>
+      <div class="mf"><span class="pill ${m[4]==='star'?'info':m[4]}">${m[3]}</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--txt-faint)" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></div></div>`).join('');
+    html+=`</div>`;
+  });
+  return html;
+}
+
+function vDashboard(){
+  const t=T(); const okT=okCount(), totT=t.temps.length;
+  const ckTot=t.checks.length, seedDone=Math.round(ckTot*.6), doneSet=nettDoneSet(seedDone), ckDone=doneSet.size, dlc=t.alerts.filter(a=>a[0]==='r').length+1;
+  return `
+  <div class="hero">
+    <div class="card score-card fade">
+      <div class="ring"><svg width="172" height="172" viewBox="0 0 172 172"><circle cx="86" cy="86" r="74" stroke="rgba(255,255,255,.07)" stroke-width="13" fill="none"/><circle id="ringFill" cx="86" cy="86" r="74" stroke="url(#lg2)" stroke-width="13" fill="none" stroke-linecap="round" stroke-dasharray="465" stroke-dashoffset="465"/><defs><linearGradient id="lg2" x1="0" y1="0" x2="172" y2="172"><stop stop-color="#34E0A1"/><stop offset="1" stop-color="#0FB6A8"/></linearGradient></defs></svg>
+        <div class="center"><div class="score-num"><span id="score">0</span><span>%</span></div><div class="score-lbl">Conformité</div></div></div>
+      <div class="score-info">
+        <span class="tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Prêt pour contrôle</span>
+        <h2>Tout est sous contrôle.</h2><p>${t.text}</p>
+        <div class="score-meta"><div><b>14 j</b>série sans écart</div><div><b>il y a 2 min</b>dern. sauvegarde</div><div><b>03/06</b>dern. contrôle</div></div>
+      </div></div>
+    <div class="kpis">
+      <div class="card kpi fade"><div class="ico g">${ic('drop')}</div><div class="kpi-trend up">● conforme</div><div class="kpi-num" data-count="${okT}" data-small="/${totT}">0</div><div class="kpi-lbl">Enceintes dans les normes</div></div>
+      <div class="card kpi fade"><div class="ico b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><div class="kpi-trend up">aujourd’hui</div><div class="kpi-num" data-count="${ckDone}" data-small="/${ckTot}">0</div><div class="kpi-lbl">Tâches de nettoyage faites</div></div>
+      <div class="card kpi fade"><div class="ico a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg></div><div class="kpi-trend warn">à traiter</div><div class="kpi-num" data-count="${dlc}">0</div><div class="kpi-lbl">Alertes & échéances</div></div>
+      <div class="card kpi fade"><div class="ico r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div class="kpi-trend up">0 retard</div><div class="kpi-num" data-count="100" data-small="%">0</div><div class="kpi-lbl">Saisies réalisées à temps</div></div>
+    </div></div>
+  <div class="grid-2">
+    <div class="card panel fade">
+      <div class="panel-head"><h3><span class="dot"></span> Relevés de température · en direct</h3><span class="more" onclick="go('temperatures')">Tout voir <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></span></div>
+      ${t.temps.map(r=>{const e=effTemp(r);return `<div class="temp-row"><div class="temp-ico">${ic(r[0])}</div><div><div class="temp-name">${r[1]}</div><div class="temp-sub">${e.sub}</div></div><div class="temp-val"><div class="v ${e.status}">${e.display}</div><div class="range">cible ${r[4]}</div></div><span class="pill ${e.status}" style="margin-left:14px">${pillTxt(e.status)}</span></div>`}).join('')}
+    </div>
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div class="card panel fade">
+        <div class="panel-head"><h3><span class="dot"></span> Nettoyage du jour</h3><span class="more" id="ckCount">${ckDone} / ${ckTot}</span></div>
+        <div class="progress-meta"><span>Progression</span><span id="ckPct">${Math.round(ckDone/ckTot*100)} %</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="ckFill"></div></div>
+        ${t.checks.slice(0,6).map((c,i)=>`<div class="check ${doneSet.has(i)?'done':''}" data-i="${i}"><div class="box">${CHK}</div><div class="ck-name">${c}</div><div class="ck-time">${doneSet.has(i)?(['08:30','09:05','09:40','10:10','10:30','11:00'][i]||'fait'):'à faire'}</div></div>`).join('')}
+      </div>
+      <div class="card panel fade"><div class="panel-head"><h3><span class="dot" style="background:var(--amber)"></span> Alertes & échéances</h3></div>
+        ${t.alerts.map(a=>`<div class="alert ${a[0]}"><div class="bar"></div><div><div class="ttl">${a[1]}</div><div class="desc">${a[2]}</div><div class="when">${a[3]}</div></div></div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function vTemperatures(){
+  const t=T();
+  return `
+  <div class="view-head"><div><h2>Relevés de température</h2><div class="sub">Surveillance de la chaîne du froid et du chaud — seuils réglementaires (Arrêté du 21 déc. 2009). Saisie manuelle ou automatique par sonde connectée.</div></div>
+    <button class="btn primary" onclick="openReleve()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>Nouveau relevé</button></div>
+  <div class="datenav">
+    <button class="nv" onclick="tempNav(-1)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <span class="lbl" id="tempDateLbl">aujourd'hui · lundi 9 juin 2026</span>
+    <button class="nv" onclick="tempNav(1)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></button>
+    <button class="btn" style="padding:8px 14px" onclick="tempNav(0)">Aujourd'hui</button>
+    <span class="pill info" id="tempArch" style="display:none">Relevés archivés · lecture seule</span>
+  </div>
+  <div class="grid-3" style="margin-bottom:18px">
+    ${t.temps.map(r=>{const e=effTemp(r);return `<div class="card panel fade" style="padding:20px"><div style="display:flex;align-items:center;gap:12px;margin-bottom:14px"><div class="temp-ico">${ic(r[0])}</div><div><div class="temp-name">${r[1]}</div><div class="temp-sub">${e.sub}</div></div></div>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between"><div class="v ${e.status}" style="font-family:Sora;font-size:30px;font-weight:700">${e.display}</div><span class="pill ${e.status}">${pillTxt(e.status)}</span></div>
+      <div style="font-size:11.5px;color:var(--txt-faint);margin-top:8px">cible ${r[4]}</div>
+      <div style="font-size:10px;color:var(--txt-faint);margin-top:12px;letter-spacing:1px">14 DERNIERS JOURS</div>${spark(e.status)}</div>`}).join('')}
+  </div>
+  ${(()=>{const j=STORE.releves(current);return `<div class="card panel fade"><div class="panel-head"><h3><span class="dot"></span> Journal des saisies · horodaté & inviolable</h3><span class="more">${j.length} relevé${j.length>1?'s':''} aujourd'hui</span></div>
+    ${j.length?j.slice(0,14).map(r=>`<div class="journal-item"><span class="jt">${fmtT(r.ts)}</span><div style="flex:1"><div style="font-size:13.5px;font-weight:600">${r.enc} · <span class="v ${r.status}">${r.display}</span></div>${r.action?`<div style="font-size:12px;color:var(--amber);margin-top:3px">↳ Action corrective : ${r.action}</div>`:''}<div class="jlock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>enregistré par ${r.author} · non modifiable</div></div><span class="pill ${r.status}">${r.status==='ok'?'Conforme':'Écart'}</span></div>`).join(''):'<p style="font-size:13px;color:var(--txt-dim);line-height:1.6">Aucune saisie aujourd\'hui. Clique sur <b>« Nouveau relevé »</b> : la température sera horodatée, attribuée à l\'opérateur et conservée — un écart imposera une action corrective.</p>'}
+  </div>`})()}`;
+}
+
+function vNettoyage(){
+  const t=T();
+  return `
+  <div class="view-head"><div><h2>Plans de nettoyage & désinfection</h2><div class="sub">Check-lists par zone et fréquence, méthode <b>TACT</b> (Température · Action · Concentration · Temps), produits et fiches de données de sécurité (FDS) liées.</div></div></div>
+  <div class="tabs"><div class="tab active">Quotidien</div><div class="tab" onclick="toast('Vue hebdomadaire')">Hebdomadaire</div><div class="tab" onclick="toast('Vue mensuelle')">Mensuel</div></div>
+  <div class="grid-2">
+    <div class="card panel fade"><div class="panel-head"><h3><span class="dot"></span> Tâches du jour</h3><span class="more" id="ckCount">—</span></div>
+      <div class="progress-meta"><span>Progression</span><span id="ckPct">—</span></div><div class="progress-bar"><div class="progress-fill" id="ckFill"></div></div>
+      ${(()=>{const ds=nettDoneSet(Math.round(t.checks.length*.6));return t.checks.map((c,i)=>`<div class="check ${ds.has(i)?'done':''}" data-i="${i}"><div class="box">${CHK}</div><div><div class="ck-name">${c}</div><div class="ck-sub">Produit désinfectant agréé contact alimentaire · FDS jointe</div></div><div class="ck-time">${ds.has(i)?'fait':'à faire'}</div></div>`).join('')})()}
+    </div>
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div class="card panel fade"><div class="panel-head"><h3><span class="dot"></span> Méthode TACT</h3></div>
+        ${[['Température','Eau tiède 40–50 °C pour dissoudre les graisses'],['Action mécanique','Brossage / frottage des surfaces'],['Concentration','Dosage produit selon FDS fournisseur'],['Temps','Temps de contact respecté avant rinçage']].map(x=>`<div style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--stroke-soft)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="2.4" style="flex-shrink:0;margin-top:2px"><path d="M20 6L9 17l-5-5"/></svg><div><div style="font-size:13.5px;font-weight:600">${x[0]}</div><div style="font-size:12px;color:var(--txt-dim);margin-top:2px">${x[1]}</div></div></div>`).join('')}
+      </div>
+      <div class="card panel fade"><div class="panel-head"><h3><span class="dot"></span> Preuve & traçabilité</h3></div>
+        <p style="font-size:13px;color:var(--txt-dim);line-height:1.6">Chaque validation enregistre l'<b>opérateur</b>, l'<b>horodatage</b> et, en option, une <b>photo de preuve</b>. Historique conservé et exportable dans le dossier de contrôle.</p></div>
+    </div>
+  </div>`;
+}
+
+function vTracabilite(){
+  const t=T();
+  const seed=[{produit:'Filet de bœuf',lot:'#BV-118',fournisseur:'Metro',temp:'+2,8°C',dlc:'2026-06-12',author:'sonde auto'},{produit:'Beurre AOP',lot:'#LT-902',fournisseur:'Pomona',temp:'+3,1°C',dlc:'2026-06-24',author:'sonde auto'},{produit:'Saumon frais',lot:'#SF-2231',fournisseur:'Reynaud',temp:'+1,9°C',dlc:'2026-06-10',author:'sonde auto'}];
+  const lots=[...STORE.lots(current),...seed];
+  const temoins=STORE.temoins(current);
+  // alertes DLC calculées
+  const dlcAlerts=lots.map(l=>({...l,d:dDays(l.dlc)})).filter(l=>l.d<=2).sort((a,b)=>a.d-b.d);
+  return `
+  <div class="view-head"><div><h2>Traçabilité & DLC</h2><div class="sub">Réceptions, lots et secondes vies, plats témoins et alertes de dates limites (Règl. CE 178/2002).</div></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn" onclick="openLabel()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><path d="M7 7h.01"/></svg>Étiquette</button>
+      <button class="btn" onclick="openTemoin()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2h8M9 2v4l-3 9a4 4 0 0 0 4 5h0a4 4 0 0 0 4-5l-3-9V2"/></svg>Plat témoin</button>
+      <button class="btn primary" onclick="openReception()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>Nouvelle réception</button>
+    </div></div>
+  <div class="grid-2">
+    <div class="card panel fade"><div class="panel-head"><h3><span class="dot"></span> Réceptions & lots</h3><span class="more">${lots.length} lot${lots.length>1?'s':''}</span></div>
+      <table class="tbl"><thead><tr><th>Produit</th><th>Lot</th><th>Fournisseur</th><th>T°</th><th>DLC</th></tr></thead><tbody>
+      ${lots.map(l=>{const d=dDays(l.dlc);const cls=d<0?'bad':d<=2?'warn':'ok';return `<tr><td style="font-weight:600">${l.produit}</td><td style="color:var(--txt-dim)">${l.lot}</td><td style="color:var(--txt-dim)">${l.fournisseur}</td><td class="v ok">${l.temp}</td><td><span class="pill ${cls}">${fmtDate2(l.dlc)}</span></td></tr>`}).join('')}
+      </tbody></table></div>
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div class="card panel fade"><div class="panel-head"><h3><span class="dot" style="background:var(--red)"></span> Alertes DLC</h3></div>
+        ${dlcAlerts.length?dlcAlerts.map(l=>{const sev=l.d<0?'r':'a';const txt=l.d<0?'DLC dépassée':l.d===0?'DLC aujourd’hui':'DLC dans '+l.d+' j';return `<div class="alert ${sev}"><div class="bar"></div><div><div class="ttl">${l.produit} · ${txt}</div><div class="desc">Lot ${l.lot} — à écouler, transformer ou retirer.</div><div class="when">DLC : ${fmtDate2(l.dlc)}</div></div></div>`}).join(''):'<p style="font-size:13px;color:var(--txt-dim)">Aucune DLC critique dans les prochaines 48 h ✓</p>'}
+      </div>
+      <div class="card panel fade"><div class="panel-head"><h3><span class="dot"></span> Plats témoins</h3><span class="more">${temoins.filter(x=>x.statut==='actif').length} actif(s)</span></div>
+        ${temoins.length?temoins.slice(0,6).map(x=>{const d=dDays(x.detruire);const due=x.statut==='actif'&&d<=0;return `<div class="temoin-row"><div style="flex:1"><div style="font-size:13.5px;font-weight:600">${x.libelle}</div><div style="font-size:11.5px;color:var(--txt-faint);margin-top:2px">prélevé le ${fmtDate2(x.preleve)} · ${x.statut==='détruit'?'détruit':'à détruire le '+fmtDate2(x.detruire)+(d>0?' (J-'+d+')':'')}</div></div>${x.statut==='détruit'?'<span class="pill info">détruit</span>':due?`<button class="btn" style="padding:7px 12px" onclick="destroyTemoin('${x.id}')">Détruire</button>`:'<span class="pill ok">conservé</span>'}</div>`}).join(''):'<p style="font-size:13px;color:var(--txt-dim);line-height:1.6">Aucun plat témoin enregistré. Conservation obligatoire <b>5 jours à +3°C</b>. Clique sur « Plat témoin » pour en enregistrer un.</p>'}
+      </div>
+    </div>
+  </div>`;
+}
+
+function vPMS(){
+  return `
+  <div class="view-head"><div><h2>Mon Plan de Maîtrise Sanitaire</h2><div class="sub">Document maître obligatoire (art. 5 du Règl. CE 852/2004), personnalisé pour votre métier. Vivant, daté et exportable.</div></div>
+    <button class="btn primary" onclick="toast('PMS exporté en PDF ✓')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg>Exporter le PMS</button></div>
+  <div class="grid-3">
+    ${[
+      ['Bonnes Pratiques d\'Hygiène','Nettoyage, hygiène du personnel, lutte nuisibles (3D), maintenance & étalonnage des sondes, gestion de l\'eau et des déchets.',100,'à jour'],
+      ['Plan HACCP · 7 principes','Analyse des dangers, CCP, limites critiques, surveillance, actions correctives, vérification, enregistrements + diagrammes de fabrication.',95,'à jour'],
+      ['Traçabilité & non-conformités','Traçabilité amont/aval, procédure de retrait-rappel, gestion des écarts et des crises (TIAC).',100,'à jour']
+    ].map(b=>`<div class="card panel fade"><div class="panel-head"><h3 style="font-size:15px"><span class="dot"></span> ${b[0]}</h3></div>
+      <div class="progress-meta"><span>Complétude</span><span>${b[2]} %</span></div><div class="progress-bar"><div class="progress-fill" style="width:${b[2]}%"></div></div>
+      <p style="font-size:12.5px;color:var(--txt-dim);line-height:1.6">${b[1]}</p>
+      <div style="margin-top:14px"><span class="pill ok">${b[3]}</span></div></div>`).join('')}
+  </div>
+  <div class="card panel fade" style="margin-top:18px"><div class="panel-head"><h3><span class="dot"></span> Diagrammes de fabrication</h3></div>
+    <p style="font-size:13px;color:var(--txt-dim);line-height:1.6">Un diagramme par famille de produits (réception → stockage → préparation → cuisson → refroidissement → service), avec identification des points critiques. Généré automatiquement selon votre activité « ${T().label} ».</p></div>`;
+}
+
+function vCoffre(){
+  const docs=[
+    ['Déclaration d\'activité DDPP','Cerfa déposé · établissement enregistré','shield','ok','Valide'],
+    ['Attestation formation hygiène','14 h · décret 2011-731','cert','ok','Valide'],
+    ['Contrat 3D — nuisibles','Société Hygiène Pro · dératisation','bug','ok','Renouvelé'],
+    ['Collecte huiles usagées','Bordereaux de suivi','drop2','ok','À jour'],
+    ['FDS produits d\'entretien','Fiches de données de sécurité','flask','ok','12 fiches'],
+    ['Agrément / dérogation','Le cas échéant (Règl. 853/2004)','stamp','warn','À vérifier']
+  ];
+  const sv={shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',cert:'<circle cx="12" cy="8" r="6"/><path d="M9 13l-2 8 5-3 5 3-2-8"/>',bug:'<rect x="8" y="6" width="8" height="12" rx="4"/><path d="M19 8h-3M5 8h3M19 16h-3M5 16h3M12 2v4"/>',drop2:'<path d="M12 2s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/>',flask:'<path d="M9 2h6M10 2v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V2"/>',stamp:'<path d="M5 22h14M8 11V7a4 4 0 1 1 8 0v4M6 11h12v5H6z"/>'};
+  return `
+  <div class="view-head"><div><h2>Coffre-fort documentaire</h2><div class="sub">Tous vos documents réglementaires centralisés et sécurisés. Alertes automatiques avant expiration des contrats et agréments.</div></div>
+    <button class="btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3" transform="rotate(180 12 12)"/></svg>Importer un document</button></div>
+  <div class="doc-grid">
+    ${docs.map(d=>`<div class="card doc fade"><div class="dico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${sv[d[2]]}</svg></div>
+      <div><div class="dn">${d[0]}</div><div class="dd">${d[1]}</div></div>
+      <div class="foot"><span class="pill ${d[3]}">${d[4]}</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--txt-faint)" stroke-width="2" style="cursor:pointer"><path d="M9 18l6-6-6-6"/></svg></div></div>`).join('')}
+  </div>`;
+}
+
+let inspState={};
+function vInspecteur(){
+  const grid=[
+    ['Hygiène générale (locaux, équipements, personnel)',['Locaux propres et en bon état','Tenue & lavage des mains','Plan de travail et matériel désinfectés','Marche en avant respectée']],
+    ['Maîtrise des températures',['Relevés froid positif/négatif à jour','Cuisson ≥ 63 °C tracée','Refroidissement rapide maîtrisé','Sondes étalonnées']],
+    ['PMS documenté et appliqué',['PMS présent et à jour','Plan HACCP cohérent','Enregistrements disponibles']],
+    ['Lutte contre les nuisibles',['Contrat 3D en cours','Plan d\'appâtage & relevés','Aucune présence constatée']],
+    ['Traçabilité & non-conformités',['Traçabilité amont des lots','Étiquetage DLC conforme','Procédure de retrait-rappel']],
+    ['Formation du personnel',['Attestation formation hygiène','Personnel sensibilisé HACCP']]
+  ];
+  let html=`<div class="view-head"><div><h2>Mode Inspecteur ★</h2><div class="sub">Auto-inspection sur la <b>grille de contrôle officielle (type DDPP / Alim'confiance)</b>. Identifiez ce qui ferait baisser votre note <b>avant</b> l'arrivée de l'inspecteur.</div></div>
+    <button class="btn primary" onclick="toast('Plan d\\'action généré ✓')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Plan d'action</button></div>
+  <div class="card score-card fade" style="margin-bottom:20px">
+    <div class="ring"><svg width="172" height="172" viewBox="0 0 172 172"><circle cx="86" cy="86" r="74" stroke="rgba(255,255,255,.07)" stroke-width="13" fill="none"/><circle id="ringFill" cx="86" cy="86" r="74" stroke="url(#lg2)" stroke-width="13" fill="none" stroke-linecap="round" stroke-dasharray="465" stroke-dashoffset="465"/><defs><linearGradient id="lg2" x1="0" y1="0" x2="172" y2="172"><stop stop-color="#34E0A1"/><stop offset="1" stop-color="#0FB6A8"/></linearGradient></defs></svg>
+      <div class="center"><div class="score-num"><span id="inspScore">0</span><span>%</span></div><div class="score-lbl">Inspection-ready</div></div></div>
+    <div class="score-info"><span class="tag">Niveau estimé · Très satisfaisant</span><h2>Votre note simulée</h2><p>Basée sur la grille d'inspection. Cochez chaque point : le score se recalcule en direct, comme le ferait un inspecteur.</p></div></div>`;
+  grid.forEach((c,ci)=>{
+    html+=`<div class="insp-chapter card fade" style="padding:8px"><div class="insp-head"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--mint)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span class="cn">${c[0]}</span></div>`;
+    c[1].forEach((it,ii)=>{const id=ci+'-'+ii; inspState[id]=true;
+      html+=`<div class="insp-item"><span class="iname">${it}</span><div class="toggle"><span class="tg ok on" data-id="${id}" data-val="1">Conforme</span><span class="tg no" data-id="${id}" data-val="0">Non conf.</span></div></div>`;});
+    html+=`</div>`;
+  });
+  return html;
+}
+
+function vEquipe(){
+  const team=[['Marie L.','Gérant','Formation 14 h','ok','Valide'],['Karim B.','Cuisinier','Formation 14 h','warn','Expire 30/06'],['Sofiane M.','Commis','Sensibilisation HACCP','ok','Valide'],['Léa P.','Service','Sensibilisation HACCP','ok','Valide']];
+  return `
+  <div class="view-head"><div><h2>Équipe & formations</h2><div class="sub">Registre du personnel, attestations de formation hygiène (décret 2011-731) et suivi des échéances.</div></div>
+    <button class="btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg>Ajouter un membre</button></div>
+  <div class="card panel fade"><table class="tbl"><thead><tr><th>Membre</th><th>Poste</th><th>Formation</th><th>Statut</th></tr></thead><tbody>
+    ${team.map(m=>`<tr><td style="font-weight:600">${m[0]}</td><td style="color:var(--txt-dim)">${m[1]}</td><td style="color:var(--txt-dim)">${m[2]}</td><td><span class="pill ${m[3]}">${m[4]}</span></td></tr>`).join('')}
+  </tbody></table></div>`;
+}
+
+function vDossier(){
+  return `
+  <div class="view-head"><div><h2>Dossier de contrôle</h2><div class="sub">Générez en un clic le dossier complet à présenter à l'inspecteur : PMS à jour, 12 mois de relevés, plans de nettoyage, attestations et registres.</div></div></div>
+  <div class="card dossier-hero fade">
+    <div><div class="big-num">1 clic</div><div style="font-size:13px;color:var(--txt-dim);margin-top:6px;max-width:240px">pour générer un PDF horodaté, prêt à présenter le jour du contrôle.</div>
+      <button class="btn primary" style="margin-top:18px" onclick="generateDossier()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg>Générer le dossier (PDF)</button></div>
+    <div style="flex:1;min-width:260px;position:relative;z-index:1">
+      ${['Plan de Maîtrise Sanitaire (PMS) à jour','12 derniers mois de relevés de température','Plans de nettoyage validés & horodatés','Registre de traçabilité & DLC','Attestations de formation du personnel','Contrats 3D, FDS et agréments'].map(x=>`<div class="incl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg>${x}</div>`).join('')}
+    </div></div>
+  <div class="card panel fade" style="margin-top:18px"><div class="panel-head"><h3><span class="dot"></span> Derniers dossiers générés</h3></div>
+    <table class="tbl"><thead><tr><th>Date</th><th>Motif</th><th>Statut</th></tr></thead><tbody>
+    <tr><td>03/06/2026</td><td>Contrôle DDPP inopiné</td><td><span class="pill ok">Présenté · Très satisfaisant</span></td></tr>
+    <tr><td>01/05/2026</td><td>Archivage mensuel</td><td><span class="pill info">Archivé</span></td></tr>
+    </tbody></table></div>`;
+}
+
+function vMultisites(){
+  const sites=[['Le Comptoir · Lyon 2e',98],['Le Comptoir · Lyon 6e',95],['Le Comptoir · Villeurbanne',91],['Le Comptoir · Bron',88],['Le Comptoir · Écully',97]];
+  const avg=Math.round(sites.reduce((s,x)=>s+x[1],0)/sites.length);
+  return `
+  <div class="view-head"><div><h2>Multi-sites · Réseau ★</h2><div class="sub">Vue consolidée pour le franchiseur : conformité de chaque établissement, alertes ouvertes et benchmark inter-sites. Votre meilleur segment commercial.</div></div></div>
+  <div class="grid-3" style="margin-bottom:18px">
+    <div class="card kpi fade"><div class="ico g">${ic('drop')}</div><div class="kpi-num" data-count="${sites.length}">0</div><div class="kpi-lbl">Établissements suivis</div></div>
+    <div class="card kpi fade"><div class="ico b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 4-6"/></svg></div><div class="kpi-num" data-count="${avg}" data-small="%">0</div><div class="kpi-lbl">Conformité moyenne réseau</div></div>
+    <div class="card kpi fade"><div class="ico a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div><div class="kpi-num" data-count="4">0</div><div class="kpi-lbl">Alertes ouvertes (réseau)</div></div>
+  </div>
+  <div class="card panel fade"><div class="panel-head"><h3><span class="dot"></span> Établissements du réseau</h3></div>
+    ${sites.map(s=>{const st=s[1]>=95?'ok':s[1]>=90?'warn':'bad';return `<div class="site-row"><div class="sav">${initials(s[0])}</div><div style="flex:1"><div style="font-size:14.5px;font-weight:600">${s[0]}</div><div style="font-size:11.5px;color:var(--txt-faint);margin-top:2px">Mis à jour il y a 5 min</div></div><div class="site-mini"><div style="width:${s[1]}%"></div></div><div class="v ${st}" style="font-family:Sora;font-size:18px;font-weight:700;min-width:46px;text-align:right">${s[1]}%</div><span class="pill ${st}">${st==='ok'?'Conforme':st==='warn'?'À surveiller':'À corriger'}</span></div>`;}).join('')}
+  </div>`;
+}
+
+/* ===== CALENDRIER & HISTORIQUE ===== */
+const MONTHS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+const TODAY={y:2026,m:5,d:9};
+function fmtDate(off){const d=new Date(2026,5,9);d.setDate(d.getDate()+off);return d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});}
+function dayStat(y,m,d){
+  if(y>TODAY.y||(y===TODAY.y&&m>TODAY.m)||(y===TODAY.y&&m===TODAY.m&&d>TODAY.d))return 'future';
+  if(y===TODAY.y&&m===TODAY.m&&d===TODAY.d)return 'today';
+  if(d%19===0)return 'bad'; if(d%7===0)return 'warn'; return 'ok';
+}
+function spark(status){
+  const col=status==='warn'?'#FFB547':status==='bad'?'#FF5C6C':'#34E0A1';
+  let pts='';for(let i=0;i<14;i++){const x=(i/13*116+2);let y=16+Math.sin(i*0.85)*6+((i*7)%5-2);if(status==='warn'&&i>10)y-=6;pts+=x.toFixed(0)+','+Math.max(3,Math.min(29,y)).toFixed(0)+' ';}
+  return '<svg width="100%" height="34" viewBox="0 0 120 34" preserveAspectRatio="none" style="margin-top:6px"><polyline points="'+pts+'" fill="none" stroke="'+col+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/></svg>';
+}
+function dayDetail(d){
+  const {y,m}=calRef;const s=dayStat(y,m,d);const dateStr=d+' '+MONTHS[m]+' '+y;
+  if(s==='future')return '<div class="panel-head"><h3><span class="dot" style="background:var(--txt-faint)"></span> '+dateStr+'</h3></div><p style="font-size:13px;color:var(--txt-dim)">Jour à venir — aucune donnée enregistrée.</p>';
+  const t=T();const score=s==='warn'?89:s==='bad'?72:t.score;const sc=s==='bad'?'bad':s==='warn'?'warn':'ok';
+  const okT=t.temps.filter(x=>x[5]==='ok').length+((s==='ok'||s==='today')?1:0);
+  return '<div class="panel-head"><h3><span class="dot"></span> '+dateStr+((s==='today')?' · aujourd\'hui':'')+'</h3><span class="pill '+sc+'">'+(sc==='ok'?'Conforme':sc==='warn'?'Écart mineur':'Non-conformité')+'</span></div>'
+   +'<div style="display:flex;align-items:center;gap:16px;margin:6px 0 16px"><div class="v '+sc+'" style="font-family:Sora;font-size:38px;font-weight:800">'+score+'%</div><div style="font-size:12.5px;color:var(--txt-dim)">Score de conformité<br>de la journée</div></div>'
+   +[['Relevés de température',Math.min(okT,t.temps.length)+' / '+t.temps.length+' conformes',sc==='bad'?'bad':'ok'],
+     ['Plans de nettoyage',((s==='ok'||s==='today')?t.checks.length:t.checks.length-1)+' / '+t.checks.length+' réalisés','ok'],
+     ['Écarts & actions',(s==='ok'||s==='today')?'0':(s==='warn'?'1 · action corrective tracée':'2 · actions correctives tracées'),sc],
+     ['Saisies à temps','100 %','ok']]
+     .map(r=>'<div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--stroke-soft)"><span style="font-size:13.5px">'+r[0]+'</span><span class="pill '+r[2]+'">'+r[1]+'</span></div>').join('')
+   +'<button class="btn" style="margin-top:16px;width:100%;justify-content:center" onclick="toast(\'Journée du '+dateStr+' exportée 📄\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg>Exporter cette journée</button>';
+}
+function vCalendrier(){
+  const {y,m}=calRef;const first=(new Date(y,m,1).getDay()+6)%7;const days=new Date(y,m+1,0).getDate();
+  let okc=0,warnc=0,badc=0;
+  for(let d=1;d<=days;d++){const s=dayStat(y,m,d);if(s==='ok'||s==='today')okc++;else if(s==='warn')warnc++;else if(s==='bad')badc++;}
+  let cells='';for(let i=0;i<first;i++)cells+='<div class="cal-cell empty"></div>';
+  for(let d=1;d<=days;d++){const s=dayStat(y,m,d);cells+='<div class="cal-cell '+s+((d===calSel)?' sel':'')+'" '+((s!=='future')?'onclick="calPick(this,'+d+')"':'')+'><span class="cd">'+d+'</span>'+((s!=='future')?'<span class="cdot '+s+'"></span>':'')+'</div>';}
+  return '<div class="view-head"><div><h2>Calendrier & historique</h2><div class="sub">Tout votre historique de conformité, jour par jour. Cliquez sur une date pour revoir les relevés, le nettoyage et les écarts — et exportez n\'importe quelle période pour un contrôle.</div></div></div>'
+   +'<div class="grid-3" style="margin-bottom:18px">'
+   +'<div class="card kpi fade"><div class="ico g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div><div class="kpi-num" data-count="'+okc+'">0</div><div class="kpi-lbl">Jours conformes ce mois</div></div>'
+   +'<div class="card kpi fade"><div class="ico a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg></div><div class="kpi-num" data-count="'+warnc+'">0</div><div class="kpi-lbl">Jours avec écart mineur</div></div>'
+   +'<div class="card kpi fade"><div class="ico r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg></div><div class="kpi-num" data-count="'+badc+'">0</div><div class="kpi-lbl">Non-conformités</div></div>'
+   +'</div>'
+   +'<div class="grid-2"><div class="card panel fade">'
+   +'<div class="cal-head"><div class="cal-nav"><button onclick="calNav(-1)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg></button><button onclick="calNav(1)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg></button></div><h3 style="font-size:17px;text-transform:capitalize">'+MONTHS[m]+' '+y+'</h3><div style="display:flex;gap:12px;font-size:11px;color:var(--txt-faint)"><span><span class="cdot ok" style="display:inline-block;margin-right:4px"></span>conforme</span><span><span class="cdot warn" style="display:inline-block;margin-right:4px"></span>écart</span></div></div>'
+   +'<div class="cal-week"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>'
+   +'<div class="cal-grid">'+cells+'</div></div>'
+   +'<div class="card panel fade" id="dayDetail">'+dayDetail(calSel)+'</div></div>';
+}
+function calPick(el,d){calSel=d;document.querySelectorAll('.cal-cell').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');document.getElementById('dayDetail').innerHTML=dayDetail(d);}
+function calNav(delta){let m=calRef.m+delta,y=calRef.y;if(m<0){m=11;y--;}if(m>11){m=0;y++;}calRef={y:y,m:m};calSel=1;go('calendrier');}
+function tempNav(delta){
+  if(delta===0)tempOffset=0;else tempOffset=Math.min(0,tempOffset+delta);
+  const lbl=document.getElementById('tempDateLbl'),arch=document.getElementById('tempArch');if(!lbl)return;
+  lbl.textContent=(tempOffset===0?"aujourd'hui · ":"")+fmtDate(tempOffset);
+  if(arch)arch.style.display=tempOffset<0?'inline-block':'none';
+}
+
+const VIEWS={accueil:vAccueil,dashboard:vDashboard,calendrier:vCalendrier,temperatures:vTemperatures,nettoyage:vNettoyage,tracabilite:vTracabilite,pms:vPMS,coffre:vCoffre,inspecteur:vInspecteur,equipe:vEquipe,dossier:vDossier,multisites:vMultisites};
+
+/* ============ ROUTER ============ */
+function go(view){
+  currentView=view;
+  document.querySelectorAll('.nav-item[data-v]').forEach(n=>n.classList.toggle('active',n.dataset.v===view));
+  const c=document.getElementById('content'); c.innerHTML=VIEWS[view]();
+  // post-render
+  if(view==='accueil'){animateScore('score',T().score);}
+  if(view==='dashboard'){animateScore('score',T().score);bindChecks();animateKpis();initProgress();}
+  if(view==='nettoyage'){bindChecks();initProgress(true);}
+  if(view==='inspecteur'){bindInspection();}
+  if(['temperatures','multisites','calendrier'].includes(view))animateKpis();
+  if(view==='temperatures')tempNav(0);
+}
+
+function initProgress(all){
+  const fill=document.getElementById('ckFill');if(!fill)return;
+  const checks=document.querySelectorAll('.check');const done=document.querySelectorAll('.check.done').length;
+  const pct=Math.round(done/checks.length*100);
+  const cc=document.getElementById('ckCount'),cp=document.getElementById('ckPct');
+  if(cc)cc.textContent=done+' / '+checks.length; if(cp)cp.textContent=pct+' %';
+  setTimeout(()=>fill.style.width=pct+'%',100);
+}
+function bindChecks(){
+  document.querySelectorAll('.check').forEach(c=>c.addEventListener('click',()=>{
+    c.classList.toggle('done');const checks=document.querySelectorAll('.check');const done=document.querySelectorAll('.check.done').length;
+    const pct=Math.round(done/checks.length*100);
+    const cc=document.getElementById('ckCount'),cp=document.getElementById('ckPct'),f=document.getElementById('ckFill');
+    if(cc)cc.textContent=done+' / '+checks.length; if(cp)cp.textContent=pct+' %'; if(f)f.style.width=pct+'%';
+    const tm=c.querySelector('.ck-time'); if(tm&&c.classList.contains('done')&&(tm.textContent==='à faire'))tm.textContent=now();
+    saveNett();
+  }));
+}
+function bindInspection(){
+  function recalc(){
+    const ids=Object.keys(inspState);const ok=ids.filter(i=>inspState[i]).length;
+    animateScore('inspScore',Math.round(ok/ids.length*100),true);
+  }
+  document.querySelectorAll('.tg').forEach(t=>t.addEventListener('click',()=>{
+    const id=t.dataset.id;inspState[id]=t.dataset.val==='1';
+    document.querySelectorAll('.tg[data-id="'+id+'"]').forEach(x=>x.classList.toggle('on',x.dataset.val===t.dataset.val));
+    recalc();
+  }));
+  animateScore('inspScore',100,true);
+}
+function animateKpis(){document.querySelectorAll('.kpi-num').forEach((el,i)=>setTimeout(()=>{
+  const target=+el.dataset.count,small=el.dataset.small||'';let t0=performance.now();
+  function step(n){const p=Math.min((n-t0)/1100,1);const e=1-Math.pow(1-p,3);el.innerHTML=Math.round(target*e)+(small?'<small>'+small+'</small>':'');if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);
+},i*90));}
+function animateScore(id,score,instant){
+  const numEl=document.getElementById(id),ring=document.getElementById('ringFill');if(!numEl)return;
+  let t0=performance.now();const dur=instant?500:1400;
+  function step(now){const p=Math.min((now-t0)/dur,1);const e=1-Math.pow(1-p,3);numEl.textContent=Math.round(score*e);if(ring)ring.style.strokeDashoffset=465-465*(score*e)/100;if(p<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+
+/* ============ IDENTITÉ / PERSONNALISATION ============ */
+function applyIdentity(){
+  const t=T(),name=estName();
+  document.getElementById('estName').textContent=name;
+  document.getElementById('tradeChip').innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'+t.icon+'</svg>'+t.label;
+  document.getElementById('sideName').textContent=name.split(' ').slice(0,2).join(' ');
+  document.getElementById('sideLoc').textContent=t.loc;
+  const ini=initials(name);document.getElementById('sideAv').textContent=ini;
+  if(!logoData)document.getElementById('logoInitials').textContent=ini;
+  document.querySelectorAll('.t-btn').forEach(b=>b.classList.toggle('active',b.dataset.k===current));
+}
+function setTrade(k){current=k;document.getElementById('nameInput').value=TRADES[k].est;applyIdentity();go(currentView);}
+
+/* ============ INIT ============ */
+// nav
+let navHtml='';NAV.forEach(n=>{if(n.section){navHtml+=`<div class="nav-label" style="${n.section==='Pilotage'?'display:none':''}">${n.section}</div>`;}
+  else navHtml+=`<div class="nav-item" data-v="${n.v}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${n.i}</svg>${n.t}${n.badge?'<span class="badge" id="navBadge">2</span>':n.star?'<span class="star">★</span>':''}</div>`;});
+document.getElementById('nav').innerHTML=navHtml;
+document.querySelectorAll('.nav-item[data-v]').forEach(n=>n.addEventListener('click',()=>go(n.dataset.v)));
+
+// trades
+document.getElementById('trades').innerHTML=Object.entries(TRADES).map(([k,t])=>`<button class="t-btn" data-k="${k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${t.icon}</svg>${t.label}</button>`).join('');
+document.querySelectorAll('.t-btn').forEach(b=>b.addEventListener('click',()=>setTrade(b.dataset.k)));
+
+// name edit
+document.getElementById('nameInput').addEventListener('input',applyIdentity);
+// logo
+document.getElementById('logoInput').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{logoData=ev.target.result;document.getElementById('clientLogo').innerHTML='<img src="'+logoData+'"><span class="edit">CHANGER</span>';};r.readAsDataURL(f);});
+
+// helpers
+function now(){return new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}
+function toast(msg){let t=document.createElement('div');t.textContent=msg;t.style.cssText='position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:linear-gradient(135deg,#34E0A1,#0FB6A8);color:#04140E;font-weight:700;font-family:Sora;padding:14px 24px;border-radius:14px;box-shadow:0 16px 40px -12px rgba(52,224,161,.6);z-index:999;opacity:0;transition:.3s';document.body.appendChild(t);requestAnimationFrame(()=>{t.style.opacity=1;t.style.transform='translateX(-50%) translateY(0)';});setTimeout(()=>{t.style.opacity=0;t.style.transform='translateX(-50%) translateY(20px)';setTimeout(()=>t.remove(),300);},2200);}
+function exportDossier(e){const b=e.currentTarget,orig=b.innerHTML;b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="animation:spin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.2-8.5"/></svg> Génération…';setTimeout(()=>{b.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg> Dossier prêt ✓';toast('Dossier de contrôle généré 📄✓');setTimeout(()=>b.innerHTML=orig,2500);},1600);}
+
+// clock
+function tick(){const n=new Date();document.getElementById('clock').textContent=n.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});document.getElementById('date').textContent=n.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});}
+tick();setInterval(tick,30000);
+const st=document.createElement('style');st.textContent='@keyframes spin{to{transform:rotate(360deg)}}';document.head.appendChild(st);
+
+// PWA — service worker (offline + installable)
+if('serviceWorker' in navigator){try{navigator.serviceWorker.register('/sw.js').catch(()=>{});}catch(e){}}
+
+// GO
+applyIdentity();
+window.addEventListener('load',()=>setTimeout(()=>go('accueil'),200));
+go('accueil');
+</script>
+</body>
+</html>

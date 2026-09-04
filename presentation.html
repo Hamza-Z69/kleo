@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KLÉO — Présentation du projet</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='64' y2='64'><stop stop-color='%233CF0AC'/><stop offset='1' stop-color='%230FB6A8'/></linearGradient></defs><circle cx='32' cy='32' r='30' fill='url(%23g)'/><path d='M22 33l7 7 14-15' stroke='%2306241A' stroke-width='7' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070B0A;--panel:rgba(255,255,255,.035);--panel-strong:rgba(255,255,255,.06);
+    --stroke:rgba(255,255,255,.08);--stroke-soft:rgba(255,255,255,.05);
+    --txt:#EAF2EF;--txt-dim:#97A8A2;--txt-faint:#5F716B;
+    --mint:#34E0A1;--teal:#14C8C8;--amber:#FFB547;--red:#FF5C6C;
+    --grad:linear-gradient(135deg,#34E0A1 0%,#10B981 55%,#0FB6A8 100%);
+    --grad-soft:linear-gradient(135deg,rgba(52,224,161,.16),rgba(16,185,129,.05));
+    --r:22px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',system-ui,sans-serif;background:radial-gradient(1100px 700px at 80% -8%,rgba(16,185,129,.13),transparent 60%),radial-gradient(900px 600px at -5% 30%,rgba(20,200,200,.07),transparent 55%),var(--bg);color:var(--txt);-webkit-font-smoothing:antialiased;line-height:1.6}
+  h1,h2,h3,.brand-name,.big{font-family:'Sora',sans-serif}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 26px}
+  a{color:inherit}
+  .sec{padding:54px 0;border-top:1px solid var(--stroke-soft)}
+  .sec:first-of-type{border-top:none}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:var(--mint);font-weight:700;margin-bottom:16px}
+  .eyebrow::before{content:"";width:22px;height:2px;background:var(--grad);border-radius:2px}
+  h2.title{font-size:30px;font-weight:700;letter-spacing:-.6px;margin-bottom:14px}
+  .lead{font-size:16px;color:var(--txt-dim);max-width:720px}
+  .card{background:var(--panel);border:1px solid var(--stroke);border-radius:var(--r);backdrop-filter:blur(12px)}
+  .reveal{opacity:0;transform:translateY(22px);transition:.7s cubic-bezier(.16,1,.3,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* HERO */
+  .hero{padding:80px 0 56px;text-align:center;position:relative}
+  .brand{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:34px}
+  .brand>div{text-align:left}
+  .logo-mark{width:54px;height:54px;filter:drop-shadow(0 8px 18px rgba(52,224,161,.4));transform:translateY(-6px)}
+  .brand-name{font-size:30px;font-weight:800;letter-spacing:1px}
+  .brand-sub{font-size:10px;color:var(--txt-faint);letter-spacing:3px;text-transform:uppercase;margin-top:3px;text-align:left}
+  .hero h1{font-size:46px;font-weight:800;letter-spacing:-1.2px;line-height:1.08;margin-bottom:20px}
+  .hero h1 b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{font-size:18px;color:var(--txt-dim);max-width:660px;margin:0 auto 34px}
+  .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:11px;padding:16px 26px;border-radius:15px;font-family:'Sora';font-weight:700;font-size:15px;text-decoration:none;transition:.22s;cursor:pointer}
+  .btn svg{width:19px;height:19px}
+  .btn.primary{background:var(--grad);color:#04140E;box-shadow:0 16px 40px -12px rgba(52,224,161,.6)}
+  .btn.primary:hover{transform:translateY(-2px);box-shadow:0 22px 50px -12px rgba(52,224,161,.75)}
+  .btn.ghost{background:var(--panel-strong);border:1px solid var(--stroke);color:var(--txt)}
+  .btn.ghost:hover{border-color:rgba(52,224,161,.4)}
+  .hero-note{margin-top:18px;font-size:12.5px;color:var(--txt-faint)}
+
+  /* TL;DR box */
+  .tldr{padding:30px 32px;position:relative;overflow:hidden}
+  .tldr::after{content:"";position:absolute;inset:0;background:var(--grad-soft);opacity:.5;pointer-events:none}
+  .tldr .h{display:flex;align-items:center;gap:10px;font-family:'Sora';font-weight:700;font-size:15px;margin-bottom:14px;position:relative;z-index:1}
+  .tldr .h svg{width:20px;height:20px;color:var(--mint)}
+  .tldr p{font-size:15.5px;color:var(--txt);position:relative;z-index:1}
+  .tldr b{color:#fff}
+
+  /* lexique */
+  .lex{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:8px}
+  .lex .it{padding:16px 18px;background:var(--panel);border:1px solid var(--stroke-soft);border-radius:14px}
+  .lex .t{font-family:'Sora';font-weight:700;font-size:14px;color:var(--mint)}
+  .lex .d{font-size:13px;color:var(--txt-dim);margin-top:4px}
+
+  /* generic grids */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:14px}
+  .box{padding:22px 24px}
+  .box .bt{font-family:'Sora';font-weight:600;font-size:16px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+  .box .bt .ic{width:38px;height:38px;border-radius:11px;background:var(--grad-soft);border:1px solid rgba(52,224,161,.2);display:grid;place-items:center;flex-shrink:0}
+  .box .bt .ic svg{width:19px;height:19px;color:var(--mint)}
+  .box p{font-size:13.5px;color:var(--txt-dim)}
+  .box ul{list-style:none;margin-top:6px}
+  .box li{font-size:13.5px;color:var(--txt-dim);padding:6px 0 6px 24px;position:relative}
+  .box li::before{content:"";position:absolute;left:0;top:13px;width:7px;height:7px;border-radius:50%;background:var(--mint)}
+
+  /* stats */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:14px}
+  .stat{padding:24px;text-align:center}
+  .stat .n{font-family:'Sora';font-size:34px;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+  .stat .l{font-size:12.5px;color:var(--txt-dim);margin-top:8px}
+
+  /* steps */
+  .steps{counter-reset:s;margin-top:10px}
+  .step{display:flex;gap:18px;padding:18px 0;border-bottom:1px solid var(--stroke-soft)}
+  .step:last-child{border-bottom:none}
+  .step .num{counter-increment:s;flex-shrink:0;width:42px;height:42px;border-radius:13px;background:var(--grad);color:#04140E;font-family:'Sora';font-weight:800;font-size:18px;display:grid;place-items:center}
+  .step .num::before{content:counter(s)}
+  .step .st{font-family:'Sora';font-weight:600;font-size:16px}
+  .step .sd{font-size:13.5px;color:var(--txt-dim);margin-top:3px}
+
+  /* table */
+  table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}
+  th,td{padding:13px 16px;text-align:left}
+  thead th{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--txt-faint);border-bottom:1px solid var(--stroke)}
+  tbody tr{border-bottom:1px solid var(--stroke-soft)}
+  td.hl{color:var(--mint);font-weight:700;font-family:'Sora'}
+  .badge{display:inline-block;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;background:rgba(52,224,161,.13);color:var(--mint)}
+
+  /* roadmap */
+  .road{margin-top:10px}
+  .ph{display:flex;gap:18px;padding:16px 0}
+  .ph .dot{flex-shrink:0;width:14px;height:14px;border-radius:50%;background:var(--grad);margin-top:5px;box-shadow:0 0 0 4px rgba(52,224,161,.12);position:relative}
+  .ph .dot::after{content:"";position:absolute;left:50%;top:18px;transform:translateX(-50%);width:2px;height:46px;background:var(--stroke)}
+  .ph:last-child .dot::after{display:none}
+  .ph .pt{font-family:'Sora';font-weight:600;font-size:15.5px}
+  .ph .pp{font-size:13.5px;color:var(--txt-dim);margin-top:3px}
+  .ph .pw{font-size:11.5px;color:var(--mint);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+
+  /* CTA final */
+  .final{text-align:center;padding:60px 30px;position:relative;overflow:hidden;border-radius:26px;margin:30px 0}
+  .final::after{content:"";position:absolute;inset:0;background:var(--grad-soft);opacity:.6}
+  .final h2{font-size:30px;position:relative;z-index:1;letter-spacing:-.5px}
+  .final p{font-size:16px;color:var(--txt-dim);max-width:560px;margin:14px auto 26px;position:relative;z-index:1}
+  .final .cta-row{position:relative;z-index:1}
+
+  .disc{font-size:12px;color:var(--txt-faint);border-left:2px solid var(--stroke);padding:10px 16px;margin-top:24px;background:var(--panel)}
+  footer{text-align:center;padding:40px 0 60px;font-size:12.5px;color:var(--txt-faint)}
+  footer b{color:var(--txt-dim)}
+  footer a{color:var(--mint);text-decoration:none}
+
+  @media(max-width:760px){
+    .hero h1{font-size:33px}.hero p{font-size:16px}
+    .grid2,.grid3,.lex,.stats{grid-template-columns:1fr}
+    h2.title{font-size:25px}
+    table{font-size:13px}th,td{padding:10px}
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="brand">
+      <svg class="logo-mark" viewBox="0 0 48 48" fill="none">
+        <defs><linearGradient id="lg" x1="4" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse"><stop stop-color="#3CF0AC"/><stop offset="1" stop-color="#0FB6A8"/></linearGradient></defs>
+        <circle cx="24" cy="24" r="20" stroke="url(#lg)" stroke-width="3" stroke-linecap="round" stroke-dasharray="1.9 4.65"/>
+        <circle cx="24" cy="24" r="15" fill="url(#lg)"/>
+        <path d="M17.3 24l4.8 4.8L31.5 19.5" stroke="#06241A" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div><div class="brand-name">KLÉO</div><div class="brand-sub">Hygiène · HACCP</div></div>
+    </div>
+    <div class="eyebrow" style="justify-content:center">Présentation du projet</div>
+    <h1>La conformité hygiène d'un commerce de bouche,<br><b>tenue sur une tablette.</b></h1>
+    <p>KLÉO remplace le classeur papier et les applications d'hygiène coûteuses par une plateforme simple, personnalisée à chaque métier, qui garde un commerce <b>en règle et prêt pour le contrôle</b> — sans abonnement hors de prix.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="https://kleo-hygiene.vercel.app" target="_blank">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        Voir la plateforme (démo)
+      </a>
+      <a class="btn ghost" href="#projet">Lire la présentation</a>
+    </div>
+    <div class="hero-note">Démo interactive en ligne · change de métier, importe un logo, navigue dans tous les modules</div>
+  </div>
+</header>
+
+<main class="wrap" id="projet">
+
+  <!-- TL;DR -->
+  <section class="sec reveal" style="border-top:none">
+    <div class="card tldr">
+      <div class="h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> En 30 secondes (si tu ne connais pas le secteur)</div>
+      <p>Tout commerce qui manipule de la nourriture — restaurant, boulangerie, boucherie, traiteur… — est <b>obligé par la loi</b> de tenir un suivi d'hygiène (relevés de température, nettoyage, traçabilité). L'État <b>contrôle à l'improviste</b> et <b>publie les résultats en ligne</b>. Aujourd'hui, la plupart gèrent ça sur papier (oublis, perte) ou paient des applications chères et génériques. <b>KLÉO leur fournit une tablette clé en main</b>, personnalisée à leur métier, qui les garde en règle et génère le dossier de contrôle en 1 clic — pour <b>2× moins cher</b> que la concurrence. Et nous avons déjà un réseau de franchises pour démarrer.</p>
+    </div>
+  </section>
+
+  <!-- LEXIQUE -->
+  <section class="sec reveal">
+    <div class="eyebrow">Lexique express</div>
+    <h2 class="title">Les 5 mots à connaître</h2>
+    <p class="lead">Le secteur est rempli de sigles. Voici les seuls dont tu as besoin pour tout comprendre.</p>
+    <div class="lex">
+      <div class="it"><div class="t">HACCP / PMS</div><div class="d">La méthode (et le document) obligatoire de maîtrise de l'hygiène alimentaire. Le « cahier d'hygiène » du commerce.</div></div>
+      <div class="it"><div class="t">DDPP</div><div class="d">Le service de l'État qui inspecte les commerces alimentaires. Visites inopinées.</div></div>
+      <div class="it"><div class="t">Alim'confiance</div><div class="d">Le dispositif public qui affiche le résultat des contrôles (de « très satisfaisant » à « à corriger »). Visible par les clients.</div></div>
+      <div class="it"><div class="t">DLC</div><div class="d">Date Limite de Consommation. Son non-respect est une faute sanitaire majeure.</div></div>
+    </div>
+  </section>
+
+  <!-- PROBLÈME -->
+  <section class="sec reveal">
+    <div class="eyebrow">Le problème</div>
+    <h2 class="title">Une obligation légale… mal outillée</h2>
+    <p class="lead">Chaque commerce de bouche vit sous une contrainte permanente, et les outils actuels ne la résolvent qu'à moitié.</p>
+    <div class="grid2">
+      <div class="card box">
+        <div class="bt"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></span>Le risque est réel</div>
+        <ul>
+          <li>Contrôles <b>inopinés</b> de la DDPP, sans prévenir.</li>
+          <li>Résultats <b>publiés en ligne</b> → impact direct sur la réputation.</li>
+          <li>Sanctions possibles : avertissement, amende, <b>fermeture administrative</b>.</li>
+        </ul>
+      </div>
+      <div class="card box">
+        <div class="bt"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>Les outils actuels frustrent</div>
+        <ul>
+          <li>Le <b>papier</b> : oublis, ratures, classeurs perdus le jour du contrôle.</li>
+          <li>Les <b>apps par abonnement</b> (40–80 €/mois) : chères, génériques, froides.</li>
+          <li>Le vrai point dur : <b>l'équipe ne remplit pas</b> → carnet vide, papier ou pas.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARCHÉ -->
+  <section class="sec reveal">
+    <div class="eyebrow">Le marché</div>
+    <h2 class="title">Grand, contraint, et sous-numérisé</h2>
+    <div class="stats">
+      <div class="card stat"><div class="n">+175 000</div><div class="l">restaurants en France — sans compter boulangeries, boucheries, traiteurs…</div></div>
+      <div class="card stat"><div class="n">100 %</div><div class="l">des commerces de bouche soumis à l'obligation HACCP</div></div>
+      <div class="card stat"><div class="n">2× moins</div><div class="l">cher que les solutions du marché, c'est notre positionnement</div></div>
+    </div>
+    <div class="card box" style="margin-top:16px">
+      <p><b style="color:#fff">Le concurrent n°1, c'est le papier.</b> Une grande partie du secteur tient encore ses relevés à la main. Les acteurs numériques existants (Hygie, Octopus, Traqfood…) vendent un produit standardisé en abonnement, avec peu d'accompagnement. L'espace est là : <b>du sur-mesure perçu, un prix cassé, et de l'humain</b>.</p>
+    </div>
+  </section>
+
+  <!-- SOLUTION -->
+  <section class="sec reveal">
+    <div class="eyebrow">La solution</div>
+    <h2 class="title">KLÉO, en clair</h2>
+    <p class="lead">Une seule interface, sur une tablette, qui contient toute la vie hygiène du commerce — et qui parle le langage de son métier.</p>
+    <div class="grid3">
+      <div class="card box"><div class="bt"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 4v10.5a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0z"/></svg></span>Le quotidien</div><p>Relevés de température, plans de nettoyage, traçabilité et alertes DLC — saisis en quelques clics, même par un commis.</p></div>
+      <div class="card box"><div class="bt"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>La conformité</div><p>Le PMS (cahier d'hygiène), un coffre-fort de documents, le suivi des formations — toujours à jour, jamais perdu.</p></div>
+      <div class="card box"><div class="bt"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>La tranquillité</div><p>Un « Mode Inspecteur » qui simule un contrôle, et le <b>dossier de contrôle généré en 1 clic</b> le jour J.</p></div>
+    </div>
+    <div class="card box" style="margin-top:16px">
+      <div class="bt"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></span>Le cœur du produit : la personnalisation</div>
+      <p>Une boucherie, une boulangerie et un restaurant n'ont pas les mêmes équipements, ni les mêmes règles. KLÉO <b>s'adapte au métier</b> (seuils de température, nettoyages, allergènes, traçabilité spécifiques) et porte le <b>logo et le nom du client</b>. Côté client : « mon outil, fait pour moi ». Côté nous : <b>un seul produit paramétrable</b> — donc rentable et scalable.</p>
+    </div>
+  </section>
+
+  <!-- COMMENT ÇA MARCHE -->
+  <section class="sec reveal">
+    <div class="eyebrow">Comment ça marche</div>
+    <h2 class="title">Tout se fait à distance</h2>
+    <p class="lead">C'est ce qui rend la prospection nationale possible : aucun déplacement, tout en ligne.</p>
+    <div class="card box steps">
+      <div class="step"><div class="num"></div><div><div class="st">On paramètre son espace</div><div class="sd">À distance : son métier, ses frigos, ses procédures, son logo. C'est notre valeur ajoutée — on fait le travail pour lui.</div></div></div>
+      <div class="step"><div class="num"></div><div><div class="st">Il installe l'app sur sa tablette</div><div class="sd">Un lien à ouvrir, « ajouter à l'écran d'accueil », et il a une vraie application — sans passer par un store.</div></div></div>
+      <div class="step"><div class="num"></div><div><div class="st">L'équipe saisit au quotidien</div><div class="sd">Interface ultra simple pensée pour la cuisine : relevés, nettoyage, alertes. Rappels automatiques.</div></div></div>
+      <div class="step"><div class="num"></div><div><div class="st">Le jour du contrôle : 1 clic</div><div class="sd">Le dossier complet (PMS, 12 mois de relevés, attestations) est généré et présenté à l'inspecteur.</div></div></div>
+    </div>
+  </section>
+
+  <!-- AVANTAGE -->
+  <section class="sec reveal">
+    <div class="eyebrow">Notre avantage</div>
+    <h2 class="title">Pourquoi on peut gagner</h2>
+    <div class="grid2">
+      <div class="card box"><div class="bt"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>Le prix cassé</div><p>~500 € à l'installation + ~12 €/mois, contre des abonnements à 40–80 €/mois. <b>2× moins cher sur 3 ans</b>, tout en restant rentable.</p></div>
+      <div class="card box"><div class="bt"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9"/></svg></span>L'humain</div><p>On vient d'une agence marketing : on sait <b>vendre, accompagner et créer du contenu</b>. Les concurrents livrent une appli froide ; nous, un service.</p></div>
+      <div class="card box"><div class="bt"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14"/></svg></span>Le réseau franchises</div><p>On a déjà des franchises en portefeuille. <b>1 contrat franchiseur = 20 à 40 établissements</b> d'un coup. C'est notre porte d'entrée quasi gratuite.</p></div>
+      <div class="card box"><div class="bt"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.5L10 17l9-10"/></svg></span>Le bon format</div><p>Une web-app (PWA) : installable à distance, mise à jour pour tous en une fois, sans store ni matériel imposé. Pensée pour scaler nationalement.</p></div>
+    </div>
+  </section>
+
+  <!-- MODÈLE ÉCO -->
+  <section class="sec reveal">
+    <div class="eyebrow">Le modèle économique</div>
+    <h2 class="title">Comment on gagne de l'argent</h2>
+    <p class="lead">Un prix d'appel bas et clair, plus un petit récurrent qui finance le cloud, le support et la veille réglementaire.</p>
+    <table>
+      <thead><tr><th>Sur 3 ans, par client</th><th>On encaisse</th><th>Marge</th></tr></thead>
+      <tbody>
+        <tr><td>Concurrent (abonnement 60 €/mois)</td><td>≈ 2 160 €</td><td>confortable</td></tr>
+        <tr><td><b>KLÉO — 500 € + 12 €/mois</b></td><td class="hl">≈ 932 €</td><td><span class="badge">saine · 2× moins cher</span></td></tr>
+      </tbody>
+    </table>
+    <div class="grid3" style="margin-top:18px">
+      <div class="card stat"><div class="n">~500 €</div><div class="l">installation & paramétrage (one-shot)</div></div>
+      <div class="card stat"><div class="n">~12 €/mois</div><div class="l">maintenance, cloud & mises à jour réglementaires</div></div>
+      <div class="card stat"><div class="n">~3 000 €/mois</div><div class="l">de revenu récurrent à 100 sites — soit 3–4 franchises</div></div>
+    </div>
+    <div class="card box" style="margin-top:16px"><p><b style="color:#fff">Coûts faibles.</b> L'hébergement d'une app comme celle-ci coûte quelques dizaines d'euros par mois jusqu'à 100+ clients. La vraie ressource, c'est <b>notre temps</b> (support, accompagnement, veille). Le récurrent le couvre largement.</p></div>
+  </section>
+
+  <!-- FEUILLE DE ROUTE -->
+  <section class="sec reveal">
+    <div class="eyebrow">Feuille de route</div>
+    <h2 class="title">Le plan, étape par étape</h2>
+    <div class="card box road">
+      <div class="ph"><div class="dot"></div><div><div class="pw">Phase 0 · 4–6 semaines</div><div class="pt">Validation terrain</div><div class="pp">Interviewer 10–15 gérants + 1 franchiseur, cadrer le besoin et le prix, choisir un pilote. Aucune ligne de code avant ça.</div></div></div>
+      <div class="ph"><div class="dot"></div><div><div class="pw">Phase 1 · 6–10 semaines</div><div class="pt">MVP</div><div class="pp">Construire la version minimale (relevés, nettoyage, traçabilité, export contrôle). Soigner la simplicité de saisie.</div></div></div>
+      <div class="ph"><div class="dot"></div><div><div class="pw">Phase 2 · 8–12 semaines</div><div class="pt">Pilote</div><div class="pp">Déployer chez 3–5 établissements (gratuit/à prix coûtant), mesurer le taux de remplissage réel, récolter des témoignages.</div></div></div>
+      <div class="ph"><div class="dot"></div><div><div class="pw">Phase 3</div><div class="pt">Commercialisation</div><div class="pp">Packager les offres, attaquer les franchises via notre réseau, ajouter sondes connectées et vue multi-sites.</div></div></div>
+    </div>
+    <p class="lead" style="margin-top:14px;font-size:14px">La maquette que tu vois en ligne est déjà une avance considérable sur la Phase 1 : elle rend le projet concret pour vendre dès la Phase 0.</p>
+  </section>
+
+  <!-- L'ASK -->
+  <section class="sec reveal">
+    <div class="eyebrow">Ce que je te propose</div>
+    <h2 class="title">Pourquoi je t'en parle</h2>
+    <p class="lead">Le projet est mûr : positionnement clair, marché identifié, démo fonctionnelle, réseau de départ. Ce qui ferait la différence maintenant, c'est de le porter à deux.</p>
+    <div class="grid2">
+      <div class="card box"><div class="bt"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></span>Ce qui est déjà fait</div><ul><li>Le concept, le nom, l'identité (KLÉO).</li><li>L'étude de marché et le positionnement prix.</li><li>Une démo complète et en ligne.</li><li>Un cahier des charges fonctionnel.</li><li>Un réseau de franchises pour démarrer.</li></ul></div>
+      <div class="card box"><div class="bt"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>Là où on avance ensemble</div><ul><li>Valider le besoin avec de vrais gérants (Phase 0).</li><li>Construire le MVP et le mettre en pilote.</li><li>Structurer la commercialisation.</li><li>Définir nos rôles et la répartition.</li></ul></div>
+    </div>
+    <p class="lead" style="margin-top:16px">En clair : <b style="color:#fff">on a une vraie opportunité, un produit qui se voit, et une longueur d'avance</b>. J'aimerais en discuter avec toi pour décider comment on le porte ensemble.</p>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="reveal">
+    <div class="card final">
+      <h2>Le mieux, c'est de le voir.</h2>
+      <p>La démo est en ligne et interactive : change de métier (boucherie, boulangerie, traiteur…), importe un logo, parcours tous les modules.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="https://kleo-hygiene.vercel.app" target="_blank">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          Ouvrir la plateforme KLÉO
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="disc">
+    <b>Note de responsabilité.</b> KLÉO fournit l'outil de suivi et d'archivage de l'hygiène. Il n'a pas vocation à garantir le résultat d'un contrôle, qui dépend des pratiques réelles de l'établissement. La promesse commerciale est : « tous vos justificatifs prêts et exportables en cas de contrôle ».
+  </div>
+
+</main>
+
+<footer>
+  <b>KLÉO</b> — Votre hygiène, clé en main. · Démo : <a href="https://kleo-hygiene.vercel.app" target="_blank">kleo-hygiene.vercel.app</a><br>
+  Projet Meta-Advertising · Données hébergées en France 🇫🇷
+</footer>
+
+<script>
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
